@@ -1,0 +1,83 @@
+<style>
+
+	.checkMark {
+		position: relative;
+		float: left;
+		height: 10px;
+		width: 3px;
+	}
+
+	.arrowUp {
+		position: absolute;
+		top: 10px;
+		left: -6px;
+		width: 0; 
+		height: 0; 
+		border-left: 7px solid transparent;
+		border-right: 7px solid transparent;
+		border-bottom: 10px solid black;
+		opacity: 0;
+	}
+
+	.sliderContainer {
+		position: relative;
+		background: -webkit-linear-gradient(left, red , green); /* For Safari 5.1 to 6.0 */
+		width: 303px;
+		margin-left:15px;
+	}
+
+</style>
+
+<div class="container-fluid" style="background-color:#fff;">
+	<div class="row">
+		<div class="col-md-12" style="padding:10px;">
+
+			<div style="margin-bottom:5px;width:350px;text-align:left;">
+				<img style="margin-right:41px;" class="moodIcon" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+				<img style="margin-right:41px;" class="moodIcon" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
+				<img style="margin-right:41px;" class="moodIcon" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
+				<img style="margin-right:41px;" class="moodIcon" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
+				<img class="moodIcon" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+			</div>
+
+			<div class="sliderContainer clearFix">
+				<div class="checkMark" ng-repeat="i in createArray(100)">
+					<div class="arrowUp" ng-attr-id="{{i}}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2" style="padding:10px;">
+			<span>Angry</span>
+			<input type="number" ng-model="moodData.angry" class="form-control"/>
+		</div>
+
+		<div class="col-md-2" style="padding:10px;">
+			<span>Sad</span>
+			<input type="number" ng-model="moodData.sad" class="form-control"/>
+		</div>
+
+		<div class="col-md-2" style="padding:10px;">
+			<span>Neutral</span>
+			<input type="number" ng-model="moodData.neutral" class="form-control"/>
+		</div>
+
+		<div class="col-md-2" style="padding:10px;">
+			<span>Happy</span>
+			<input type="number" ng-model="moodData.happy" class="form-control"/>
+		</div>
+		<div class="col-md-2" style="padding:10px;">
+			<span>Excited</span>
+			<input type="number" ng-model="moodData.excited" class="form-control"/>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3" style="padding:10px;">
+			<button ng-click="generate(moodData)" class="btn btn-primary btn-block">Go!</button>
+		</div>
+	</div>
+
+</div>

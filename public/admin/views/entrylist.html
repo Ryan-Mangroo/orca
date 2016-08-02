@@ -1,0 +1,15 @@
+<!-- List -->
+<div ng-if="!entriesLoading" class="container-fluid fadeInOut" style="background-color:#EEEFF1;">
+	<a ng-href="#/entries/{{entry._id}}" ng-if="!entriesLoading" class="row entryListRow" ng-repeat="entry in entries">
+		<div class="hoverIndicator"></div>
+		<div class="col-md-1 text-left">
+			<input type="checkbox"/>	
+		</div>
+		<div class="col-md-8">
+			<span>{{ entry.message }}</span>
+		</div>
+		<div class="col-md-3">
+			<span>{{ entry.created }}</span>
+		</div>
+	</a>
+</div>

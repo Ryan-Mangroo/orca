@@ -1,0 +1,191 @@
+.companyLogoImage {
+	max-height: 75px;
+	max-width: 200px;
+}
+
+.newEntryHeader {
+	padding: 25px;
+	font-weight: 200;
+	color: #fff;
+}
+
+.newEntryFooter {
+	max-width: 700px;
+}
+
+.newEntryContainer {
+	min-height: 200px;
+	position: relative;
+	color: #777;
+	max-width: 700px;
+	background-color: #EEEFF1;
+	box-shadow: 0px 0px 100px #005bb4;
+}
+
+.moodIconContainer {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 40px;
+	height: 40px;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+.moodChoiceIcon {
+	position: absolute;
+	-webkit-transition: .2s;
+    -moz-transition: .2s;
+    -ms-transition: .2s;
+    -o-transition: .2s;
+    transition: .2s;
+	height: 40px;
+	width: 40px;
+}
+
+.moodChoiceIcon:hover {
+	cursor: pointer;
+}
+
+#angryMood {
+	left: -100px;
+}
+
+#sadMood {
+	left: -50px;
+}
+
+#happyMood {
+	left: 50px;
+}
+
+#excitedMood {
+	left: 100px;
+}
+
+.guaranteeContainer {
+	padding: 25px;
+}
+
+.adminHeader {
+	color: #fff;
+	background-color: #00274e;
+	padding: 5px 0px 5px 5px;
+	font-size: 18px;
+	border-bottom: 5px solid #003468;
+}
+
+.adminHeaderLogo {
+	position: absolute;
+	top: 3px;
+	left: 10px;
+	height: 25px;
+}
+
+.adminHeaderTitle {
+	margin-left: 5px;
+}
+
+.adminContent {
+	margin-left: 50px;
+	margin-top: 0px;
+	padding: 0px;
+}
+
+.adminUserInfo {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.adminCompanyLogoImage {
+	max-height: 25px;
+}
+
+.adminMenu {
+	width: 50px;
+	position: absolute;
+	top: 40px;
+	left: 0px;
+	bottom: 0px;
+	background-color: #004181;
+}
+
+.adminMenuOption {
+	display: inline-block;
+	-webkit-transition: .2s;
+    -moz-transition: .2s;
+    -ms-transition: .2s;
+    -o-transition: .2s;
+    transition: .2s;
+	text-align: center;
+	border-bottom: 2px solid #00274e;
+	padding: 5px 0px 5px 0px;
+	width: 50px;
+	color: #fff;
+}
+
+.adminMenuOption:hover,
+.adminMenuOption:active,
+.adminMenuOption:focus {
+	color: #fff;
+	text-decoration: none;
+	background-color: #005bb4;
+	cursor: pointer;
+}
+
+.adminMenuOptionText {
+	font-size: 10px;
+}
+
+.adminMenuOptionIcon {
+	font-size: 20px;
+}
+
+.pageHeader {
+	margin-left: 35px;
+	background-color: #EEEFF1;
+	color: #777;
+	padding: 10px;
+}
+
+.entryListRow {
+	position: relative;
+	color: #00274e;
+	display: block;
+	padding: 10px;
+	background-color: #fff;
+	margin-bottom: 1px;
+	border-left: 2px solid #fff;
+}
+
+.hoverIndicator {
+	-webkit-transition: .2s;
+    -moz-transition: .2s;
+    -ms-transition: .2s;
+    -o-transition: .2s;
+    transition: .2s;
+	background-color: #009b4d;
+	height: 41px;
+	width: 5px;
+	position: absolute;
+	top: -1px;
+	left: -2px;
+	opacity: 0;
+}
+
+.entryListRow:hover .hoverIndicator {
+	opacity: 1;
+}
+
+.grayBorderBox {
+	font-size: 20px;
+	color: #777;
+	margin-top: 15px;
+	padding: 25px;
+	border: 1px solid #EEEFF1;
+}
+
+.moodIcon {
+	height: 30px;
+	width: 30px;
+}

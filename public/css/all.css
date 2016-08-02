@@ -1,0 +1,209 @@
+a {
+	-webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+    transition: .25s;
+    color: #005bb4;
+}
+
+.thin {
+	font-weight: 300;
+}
+
+.whiteLink {
+	color: #fff;
+}
+
+.whiteLink:hover {
+	color: #b6bbc3;
+	text-decoration: none;
+}
+
+.defaultInput {
+	background-color: #fff;
+	box-shadow: none;
+	border-radius: 5px;
+	font-size: 20px;
+	border: none;
+}
+
+.whiteText {
+	color: #fff;
+}
+
+.noSpace {
+	padding: 0px;
+	margin: 0px;
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 1.25s infinite linear;
+  animation: fa-spin 1.25s infinite linear;
+}
+
+.adminLoadingIndicator {
+	text-align: center;
+	color: #d2d5da;
+	font-size: 40px;
+}
+
+.btn {
+	-webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+    transition: .25s;
+	text-transform: uppercase;
+	border-radius: 10px;
+	padding: 15px;
+}
+
+.btn-sm {
+	padding: 2px 7px 2px 7px;
+	text-transform: none;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #004181;
+	border-color: #004181;
+}
+
+.btn-primary:hover {
+	color: #fff;
+	background-color: #00274e;
+	border-color: #00274e;
+}
+
+.btn-success {
+	color: #fff;
+	background-color: #7dc35c;
+	border-color: #7dc35c;
+}
+
+
+.btn-success:hover {
+	color: #fff;
+	background-color: #63ae3f;
+	border-color: #63ae3f;
+}
+
+.btn-danger {
+	color: #fff;
+	background-color: #c36f5c;
+	border-color: #c36f5c;
+}
+
+.btn-danger:hover {
+	color: #fff;
+	background-color: #ad543f;
+	border-color: #ad543f;
+}
+
+.btn:focus, 
+.btn:active, 
+.btn.active,
+.btn:focus, 
+.btn:active, 
+.btn.active,
+.btn.disabled:hover,
+.btn:disabled:hover {
+	background-color: #777;
+	border-color: #777;
+	color: #fff;
+}
+
+/* Fade in and fade out staggered */
+.fadeInOutStagger.ng-enter {
+	transition: .05s;
+	opacity: 0;
+}
+
+.fadeInOutStagger.ng-enter-stagger {
+	transition-delay: 0.025s;
+	transition-duration: 0s;
+}
+
+.fadeInOutStagger.ng-enter-active {
+	opacity: 1;
+}
+
+.fadeInOutStagger.ng-leave {
+	transition: 0s;
+	opacity: 1;
+}
+
+.fadeInOutStagger.ng-leave-active {
+	opacity: 0;
+}
+
+/* Fade in and fade out */
+.fadeInOut.ng-enter {
+	-webkit-transition: .15s;
+	-moz-transition: .15s;
+	-ms-transition: .15s;
+	-o-transition: .15s;
+	transition: .15s;
+	opacity: 0;
+}
+
+.fadeInOut.ng-enter-active {
+	opacity: 1;
+}
+
+.fadeInOut.ng-leave {
+	-webkit-transition: 0s;
+	-moz-transition: 0s;
+	-ms-transition: 0s;
+	-o-transition: 0s;
+	transition: 0s;
+	opacity: 1;
+}
+
+.fadeInOut.ng-leave-active { 
+	opacity: 0;
+}
+
+
+/* Fade in and fade out */
+.slideDown.ng-enter {
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	-ms-transition: 1s;
+	-o-transition: 1s;
+	transition: 1s;
+
+	opacity: 0;
+	-ms-transform: scale(1, 0); /* IE 9 */
+    -webkit-transform: scale(1, 0); /* Safari */
+    transform: scale(1, 0);
+}
+
+.slideDown.ng-enter-active {
+	opacity: 1;
+	-ms-transform: scale(1, 1); /* IE 9 */
+    -webkit-transform: scale(1, 1); /* Safari */
+    transform: scale(1, 1);
+}
+
+.slideDown.ng-leave {
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	-ms-transition: 1s;
+	-o-transition: 1s;
+	transition: 1s;
+
+	opacity: 1;
+	-ms-transform: scale(1, 1); /* IE 9 */
+    -webkit-transform: scale(1, 1); /* Safari */
+    transform: scale(1, 1);
+}
+
+.slideDown.ng-leave-active {
+	opacity: 0;
+	-ms-transform: scale(1, 0); /* IE 9 */
+    -webkit-transform: scale(1, 0); /* Safari */
+    transform: scale(1, 0);
+}
+
