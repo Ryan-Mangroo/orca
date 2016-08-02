@@ -23,7 +23,7 @@ var entry = require('./modules/handlers/entry.js');
 
 		// 1. Initialize express & start the app
 		var app = initializeApp();
-		app.listen(8080);
+		app.listen(process.env.PORT || 8080);
 
 	} catch (error) {
 		log.info('| ########## STARTUP ERROR ########## | -> ' + error);
