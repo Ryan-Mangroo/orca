@@ -1,4 +1,4 @@
-function entryController($scope, $location, Entry) {
+function entryController($scope, $location, $routeParams, Entry) {
 	log.info('|entryController|');
 	$('#entryForm').hide();
 
@@ -50,6 +50,15 @@ function entryController($scope, $location, Entry) {
 		
 		// Then, show the text entry form
 		$('#entryForm').slideDown(200, function(){ console.log('done') });
+	};
+
+
+	$scope.initEntryController = function() {
+	if(!$routeParams.id) {
+		$scope.changeView('error');
+		return;
 	}
+	};
+
 
 }
