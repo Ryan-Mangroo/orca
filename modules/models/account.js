@@ -1,5 +1,5 @@
 // Config
-var cfg = require('../config/config');
+var cfg = require('../../config/config');
 
 // Mongoose
 var mongoose = require('mongoose');
@@ -15,8 +15,6 @@ var acctSchema = new Schema({
  	emailAddress: { type: String },
  	phone: { type: String },
  	accountType: { type: String },
-	_created_by: { type: Schema.Types.ObjectId, ref: 'User' },
-    _updated_by: { type: Schema.Types.ObjectId, ref: 'User' }
 }, cfg.mongoose.options);
 
 var Acct = mongoose.model('Acct', acctSchema);

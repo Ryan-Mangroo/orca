@@ -1,12 +1,12 @@
 // Config
-var cfg = require('../config/config');
+var cfg = require('../../config/config');
 
 // Misc Libs
 var bcrypt = require('bcrypt');
 var crypto = require('crypto');
 
 // Logger
-var log = require('../logger');
+var log = require('../../utils/logger');
 var widget = 'user';
 log.registerWidget(widget);
 
