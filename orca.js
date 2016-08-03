@@ -181,6 +181,30 @@ function initializeApp() {
 			res.redirect(cfg.platform.url);
 		});
 
+		app.route('/signup').get(function(req, res) {
+			log.info('|signup| Incorrect GET instead of POST', widget);
+			req.logout();
+			res.sendStatus(401);
+		}).post(auth.signupRequest);
+/*
+		app.route('/forgotPwd').get(function(req, res) {
+			log.info('|forgotPwd| Incorrect GET instead of POST', widget);
+			req.logout();
+			res.sendStatus(401);
+		}).post(auth.forgotPasswordRequest);
+
+		app.route('/resetPwd').get(function(req, res) {
+			log.info('|resetPwd| Incorrect GET instead of POST', widget);
+			req.logout();
+			res.sendStatus(401);
+		}).post(auth.resetPasswordRequest);
+
+		app.route('/verify').get(function(req, res) {
+			log.info('|verify| Incorrect GET instead of POST', widget);
+			req.logout();
+			res.sendStatus(401);
+		}).post(auth.verifyRequest);
+*/
 		// Routes for item CRUD operations
 		app.route('/newEntry').post(entry.new);
 		app.route('/getAllEntries').get(entry.getAll);
