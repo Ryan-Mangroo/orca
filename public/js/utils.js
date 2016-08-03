@@ -11,6 +11,6 @@ var log = {
 		for(var key in object) {
 			console.log('# {"' + key + '": "' + object[key] + '"}');
 		}
-		console.log('#');
+		console.log('# END OBJECT');
 	},
 };

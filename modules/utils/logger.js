@@ -82,11 +82,9 @@ exports.fatal = function(err, widget) {
 }
 
 exports.logObject = function(object) {
-	this.info('## BEGIN LOGGING OF OBJECT ##');
+	this.info('## OBJECT:');
 	for (var property in object) {
-		this.info('Key: ' + property);
-		this.info('Val: ' + object[property]);
-		this.info('');
+		this.info('# {"' + property + '": "' + object[property] + '"}');
 	}
-	this.info('## END LOGGING OF OBJECT ##');
+	this.info('## END OBJECT');
 }

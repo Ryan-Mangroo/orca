@@ -100,8 +100,8 @@ function User($http) {
 
   User.getProfile = function(onSuccess, onFail) {
     log.info('| User.getProfile |');
-    onSuccess(null);
-    //onSuccess({ firstname: 'Jesse', lastname: 'Williams' });
+    //onSuccess(null);
+    onSuccess({ firstname: 'Jesse', lastname: 'Williams' });
     return;
 
 
