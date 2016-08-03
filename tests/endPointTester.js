@@ -73,7 +73,7 @@ function testAuthentication() {
 }
 
 function logIn(emailAddress, password) {
-	console.log("Logging in with " + emailAddress + ":" + password + ' ' + cfg.platform.url + "/signup");
+	console.log("Logging in with " + emailAddress + ":" + password);
 
 	request({
 		url: cfg.platform.url + "login",
