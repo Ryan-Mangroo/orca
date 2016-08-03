@@ -63,36 +63,29 @@ exports.verifyCredentials = function(emailAddress, password, callback) {
 	}
 };
 
-/*
-function createOrg(orgName, callback) {
-	var newOrg = new Org();
-	newOrg.name = orgName;
-	newOrg.streetAddress = '';
-	newOrg.city = '';
- 	newOrg.state = '';
- 	newOrg.country = '';
- 	newOrg.zip = '';
- 	newOrg.emailAddress = '';
- 	newOrg.primaryCollection = null;
- 	newOrg.accountType = '0';
+
+function createAcct(acctName, callback) {
+	var newAcct = new Acct();
+	newAcct.name = acctName;
+	newAcct.streetAddress = '';
+	newAcct.city = '';
+ 	newAcct.state = '';
+ 	newAcct.country = '';
+ 	newAcct.zip = '';
+ 	newAcct.emailAddress = '';
+ 	newAcct.accountType = '0';
 	//newOrg._created_by = '56d67d7ee4b035e540be4bfd'; // System Account, move to config
     //newOrg._updated_by = '56d67d7ee4b035e540be4bfd';
 
-	newOrg.save(function(error, org) {
+	newAcct.save(function(error, acct) {
 		if (error) {
 			callback(error);
 		} else {
-			createCounter(org._id, 'USR', 'users', function (error) {
-				if (error) {
-					callback(error);
-				} else {
-					callback(null, org._id);
-				}
-			});
+			callback(null, org._id);
 		}
 	});
 };
-*/
+
 
 /*
 function createCounter(orgId, prefix, col, callback) {
@@ -112,21 +105,20 @@ function createCounter(orgId, prefix, col, callback) {
 }
 */
 
-/*
-function createUser(req, orgId, callback) {
+
+function createUser(req, acctId, callback) {
 	var newUser = new User();
 	newUser.firstName = req.body.firstName;
 	newUser.lastName = req.body.lastName;
 	newUser.emailAddress = req.body.newEmailAddress;
-	newUser.role = 'Admin';
 	newUser.state = 'active';
 	newUser.password = req.body.newPassword;
-	newUser._org = orgId;
+	newUser._acct = acctId;
 
-	var token = crypto.randomBytes(64).toString('hex');
-	newUser.verified = false;
-	newUser.verifyToken = token;
-	newUser.newUser = true;
+	//var token = crypto.randomBytes(64).toString('hex');
+	//newUser.verified = false;
+	//newUser.verifyToken = token;
+	//newUser.newUser = true;
 
 	//newUser._created_by = '56d67d7ee4b035e540be4bfd'; // System Account, move to config
 	//newUser._updated_by = '56d67d7ee4b035e540be4bfd';
@@ -139,21 +131,21 @@ function createUser(req, orgId, callback) {
 		}
 	});
 }
-*/
 
-/*
+
 exports.signupRequest = function(req, res) {
 	try {
-		createOrg(req.body.orgName, function (error, orgId) {
+		createAcct(req.body.acctName, function (error, acctId) {
 			if (error) {
-				log.error('|auth.createOrg| Unknown  -> ' + error, widget);
-				return utility.errorResponseJSON(res, 'Error occurred creating org');
+				log.error('|auth.createAcct| Unknown  -> ' + error, widget);
+				return utility.errorResponseJSON(res, 'Error occurred creating account');
 			} else {
-				createUser(req, orgId, function (error, user) {
+				createUser(req, acctId, function (error, user) {
 					if (error) {
 						log.error('|auth.createUser| Unknown  -> ' + error, widget);
 						return utility.errorResponseJSON(res, 'Error occurred creating user');
 					} else {
+						/*
 						NotificationTemplate.findOne({name: cfg.mailer.signupTemplate}, function (error, notificationTemplate) {
 							if (error) {
 								log.error('|auth.signupRequest.NotificationTemplate| Unknown -> ' + error, widget);
@@ -165,6 +157,8 @@ exports.signupRequest = function(req, res) {
 								return res.send(JSON.stringify({result: true}));
 							}
 						});
+						*/
+						return res.send(JSON.stringify({result: true}));
 					}
 				});
 			}
@@ -174,7 +168,7 @@ exports.signupRequest = function(req, res) {
 	    utility.errorResponseJSON(res, 'Error while processing signup request');
 	}
 };
-*/
+
 
 /*
 exports.forgotPasswordRequest = function(req, res) {

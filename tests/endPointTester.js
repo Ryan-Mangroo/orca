@@ -1,8 +1,8 @@
 // Config
 var cfg = require('../config/config');
 
-var utility = require('../lib/utility');
-var validator = require('../lib/validator');
+var utility = require('../utils/utility');
+var validator = require('../utils/validator');
 var request = require('request');
 var j = request.jar();
 var btoa = require('btoa');
@@ -28,6 +28,7 @@ function run() {
 
 		switch (testType) {
 			case 'all' : testAll(); break;
+			case 'su' : testSignUp(); break;
 			case 'auth' : testAuthentication(); break;
 			case 'fp' : testForgotPassword(); break;
 			case 'rp' : testResetPassword(); break;
@@ -72,10 +73,10 @@ function testAuthentication() {
 }
 
 function logIn(emailAddress, password) {
-	console.log("Logging in with " + emailAddress + ":" + password);
+	console.log("Logging in with " + emailAddress + ":" + password + ' ' + cfg.platform.url + "/signup");
 
 	request({
-		url: cfg.auth.url + "/login",
+		url: cfg.platform.url + "login",
 		method: "POST",
 		withCredentials: true,
 		headers: {
@@ -84,7 +85,7 @@ function logIn(emailAddress, password) {
 		jar: j
 	}, function(error, response, body) {
 		console.log("Response to logIn: " + body);
-		var cookie_string = j.getCookieString(cfg.auth.url + '/login'); 
+		var cookie_string = j.getCookieString(cfg.platform.url + '/login'); 
 		if (cookie_string) {
 			console.log(cookie_string);
 			console.log("");
@@ -111,6 +112,41 @@ function logOut(emailAddress) {
 	});
 };
 
+function testSignUp() {
+	if (process.argv.length < 4) {
+		console.log('Email Address required: node endPointTester.js su [emailAddress]');
+		process.exit();
+	}
+
+	var emailAddress = process.argv[3];
+
+	callStack.push( function () { signUp(emailAddress); } );
+	callStack.push( function () { process.exit(); } );	
+	next();
+}
+
+function signUp(emailAddress) {
+	console.log("Signing up for " + emailAddress);
+
+	var data = {};
+	data.emailAddress = emailAddress;
+	data.acctName = emailAddress + '_acct';
+	data.firstName = 'John';
+	data.lastName = 'Doe';
+	data.newPassword = 'testpass';
+
+	request({
+		url: cfg.platform.url + "signup",
+		method: "POST",
+		json: true,
+		body: data,
+		withCredentials: true,
+		jar: j
+	}, function(error, response, body) {
+		responseHandler(error, response, body);
+	});
+};
+
 function testForgotPassword() {
 	if (process.argv.length < 4) {
 		console.log('Email Address required: node endPointTester.js fp [emailAddress]');
@@ -131,7 +167,7 @@ function forgotPassword(emailAddress) {
 	data.emailAddress = emailAddress;
 
 	request({
-		url: cfg.auth.url + "/forgotPwd",
+		url: cfg.platform.url + "forgotPwd",
 		method: "POST",
 		json: true,
 		body: data,
@@ -164,7 +200,7 @@ function resetPassword(newPassword, token) {
 	data.token = token;
 
 	request({
-		url: cfg.auth.url + "/resetPwd",
+		url: cfg.platform.url + "resetPwd",
 		method: "POST",
 		json: true,
 		body: data,
