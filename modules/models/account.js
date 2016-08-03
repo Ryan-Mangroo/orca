@@ -15,6 +15,7 @@ var acctSchema = new Schema({
  	emailAddress: { type: String },
  	phone: { type: String },
  	accountType: { type: String },
+ 	_primary_box: { type: Schema.Types.ObjectId, ref: 'Box' },
 }, cfg.mongoose.options);
 
 var Acct = mongoose.model('Account', acctSchema);

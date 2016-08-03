@@ -23,6 +23,7 @@ function mainController($scope, $location, User) {
 			User.getProfile(
 			  function(userProfile){
 			  	log.object(userProfile);
+			  	log.object(userProfile.acct);
 
 			  	$scope.currentUser = userProfile;
 			  	$scope.authenticated = true;

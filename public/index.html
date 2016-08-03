@@ -35,7 +35,7 @@
 			<span><img class="headerLogoImage" src="img/logo-dark-blue.png"/></span>
 		  	<span class="headerLogoContainer"> Orca</span>
 		  	<div class="pull-right" style="margin-right:10px;font-size:25px;"><i class="fa fa-bars"></i></div>
-		  	<div class="pull-right" style="margin-right:10px;">{{ currentUser.firstName }} @ {{ currentUser.companyName }}</div>
+		  	<div class="pull-right" style="margin-right:10px;">{{ currentUser.firstName }} @ {{ currentUser.acct.name }}</div>
 		</div>
 		<!-- Desktop Header -->
 
@@ -45,7 +45,7 @@
 				<h3 class="noSpace"> Welcome back {{ currentUser.firstName }}</h3>
 			</div>
 			<div class="col-md-6 text-right">
-				<span>Form link for {{ currentUser.companyName }}:</span>
+				<span>Form link for {{ currentUser.acct.name }}:</span>
 				<a target="new" ng-href="http://{{currentUser.companyFormURL}}">{{ currentUser.companyFormURL }}</a>		
 			</div>
 		</div>
