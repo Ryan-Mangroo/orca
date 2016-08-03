@@ -86,13 +86,14 @@ function User($http) {
   var User = {};
   
   User.login = function (credentials, onSuccess, onFail) {
-    log.info('| User.login |');
-    $http({ url: '/login', method: 'POST', data: { credentials: credentials } })
+    log.info('| Request.login |');
+    $http.defaults.headers.common.Authorization = 'Basic ' + window.btoa(credentials.emailAddress + ':' + credentials.password);
+    $http({ url: '/login', method: 'POST', withCredentials: true})
       .then(function success(response) {
-        onSuccess(response.data.result);
+        var user = response.data;
+        onSuccess(user);
       },
-      function fail(response) {
-        log.error('User.login: Fail');
+      function fail(response){
         onFail();
       }
     );
@@ -102,7 +103,7 @@ function User($http) {
     log.info('| User.getProfile |');
     $http({ url: '/getUserProfile', method: 'GET', params: {} })
       .then(function success(response) {
-        onSuccess(response.data.result);
+        onSuccess(response.data);
       },
       function fail(response) {
         log.error('User.getUserProfile: Fail');

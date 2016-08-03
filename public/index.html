@@ -51,7 +51,7 @@
 		</div>
 
 		<!-- Content -->
-		<div class="adminContent fadeInOut" ng-view></div>
+		<div ng-if="authenticated" class="adminContent fadeInOut" ng-view></div>
 
 	</body>
 

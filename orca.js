@@ -62,8 +62,8 @@ function validateRequest() {
 		var error = null;
 		if (validator.checkNull(req.session.userprofile.id)) { error = 'Session User Id is Null'; } 
 		else if (!validator.checkMongoId(req.session.userprofile.id)) { error = 'Session User Id is not valid: ' + userId; } 
-		else if (validator.checkNull(req.session.userprofile.org._id)) { error = 'Session Org Id is Null'; }
-		else if (!validator.checkMongoId(req.session.userprofile.org._id)) { error = 'Session Org Id is not valid: ' + orgID; } 
+		else if (validator.checkNull(req.session.userprofile.acct._id)) { error = 'Session Acct Id is Null'; }
+		else if (!validator.checkMongoId(req.session.userprofile.acct._id)) { error = 'Session Acct Id is not valid: ' + acctID; } 
 
 		if (error) {
 			log.error('|validateRequest| ' + error, widget);

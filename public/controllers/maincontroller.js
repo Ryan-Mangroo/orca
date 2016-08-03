@@ -18,21 +18,20 @@ function mainController($scope, $location, User) {
 
 	$scope.ensureAuthenticated = function() {
 		if($scope.currentUser) {
-			log.info('ensureAuthenticated: TRUE');
-			return true;
+			$scope.authenticated = true;
 		} else {
 			User.getProfile(
 			  function(userProfile){
+			  	log.object(userProfile);
 
 			  	$scope.currentUser = userProfile;
 			  	$scope.authenticated = true;
 			  	log.info('Authenticate success!');
-			  	return true;
+				$scope.authenticated = true;
 			  },
 			  function() {
-			  	$scope.changeView('login');
-			  	log.error('Something bad happened while authenticating');
-			  	return false;
+			  	$scope.authenticated = false;
+			  	window.location = "/login.html";
 			  }
 			);
 		}

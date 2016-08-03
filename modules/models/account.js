@@ -17,6 +17,6 @@ var acctSchema = new Schema({
  	accountType: { type: String },
 }, cfg.mongoose.options);
 
-var Acct = mongoose.model('Acct', acctSchema);
+var Acct = mongoose.model('Account', acctSchema);
 
 module.exports = Acct;
