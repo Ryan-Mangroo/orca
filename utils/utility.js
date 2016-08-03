@@ -1,3 +1,4 @@
+var log = require('./logger');
 var widget = 'utility';
 log.registerWidget(widget);
 

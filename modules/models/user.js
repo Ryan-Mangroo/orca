@@ -23,7 +23,7 @@ var userSchema = new Schema({
 	_acct: { type: Schema.Types.ObjectId, ref: 'Account' },
 	phone: String,
 	number: String,
-	state: String,
+	state: String
 //	resetPwdToken: String,
 //    resetPwd: Boolean,
 //    resetPwdExpiration: Date,
