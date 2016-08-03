@@ -1,0 +1,220 @@
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-md-12">
+	<h3>How is {{ currentUser.companyName }} feeling about...</>
+</div>
+</div>
+
+	<div class="row">
+
+		<!-- TEST 1 -->
+		<div class="col-md-4">
+			<div class="homeWidgetContainer">
+				<h3 class="homeWidgetTitle text-center">Product Vision</h3>
+				<div class="moodScaleContainer1">
+					<div class="moodScale1 clearFix">
+						<div class="moodScaleSegment1" ng-repeat="i in createArray(100)">
+							<div class="moodScaleMarker1" ng-attr-id="{{'one' + i}}"></div>
+						</div>
+					</div>
+					<div style="margin-top:10px;">
+						<img style="margin-right:21px;" class="moodIcon1" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+						<img style="margin-right:21px;" class="moodIcon1" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
+						<img style="margin-right:21px;" class="moodIcon1" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
+						<img style="margin-right:21px;" class="moodIcon1" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
+						<img class="moodIcon1" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- TEST 2 -->
+		<div class="col-md-4">
+			<div class="homeWidgetContainer">
+				<h3 class="homeWidgetTitle text-center">Leadership</h3>
+				<div class="moodScaleContainer2">
+					<div class="moodScale2 clearFix">
+						<div class="moodScaleSegment2" ng-repeat="i in createArray(100)">
+							<div class="moodScaleMarker2" ng-attr-id="{{'two' + i}}"></div>
+						</div>
+					</div>
+					<div style="margin-top:10px;">
+						<img style="margin-right:21px;" class="moodIcon2" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+						<img style="margin-right:21px;" class="moodIcon2" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
+						<img style="margin-right:21px;" class="moodIcon2" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
+						<img style="margin-right:21px;" class="moodIcon2" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
+						<img class="moodIcon2" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- TEST 3 -->
+		<div class="col-md-4">
+			<div class="homeWidgetContainer">
+				<h3 class="homeWidgetTitle text-center">Code Quality</h3>
+				<div class="moodScaleContainer3">
+					<div class="moodScale3 clearFix">
+						<div class="moodScaleSegment3" ng-repeat="i in createArray(100)">
+							<div class="moodScaleMarker3" ng-attr-id="{{'three' + i}}"></div>
+						</div>
+					</div>
+					<div style="margin-top:10px;">
+						<img style="margin-right:21px;" class="moodIcon3" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+						<img style="margin-right:21px;" class="moodIcon3" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
+						<img style="margin-right:21px;" class="moodIcon3" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
+						<img style="margin-right:21px;" class="moodIcon3" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
+						<img class="moodIcon3" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- TEST 4 -->
+		<div class="col-md-4">
+			<div class="homeWidgetContainer">
+				<h3 class="homeWidgetTitle text-center">Teamwork</h3>
+				<div class="moodScaleContainer4">
+					<div class="moodScale4 clearFix">
+						<div class="moodScaleSegment4" ng-repeat="i in createArray(100)">
+							<div class="moodScaleMarker4" ng-attr-id="{{'four' + i}}"></div>
+						</div>
+					</div>
+					<div style="margin-top:10px;">
+						<img style="margin-right:21px;" class="moodIcon4" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+						<img style="margin-right:21px;" class="moodIcon4" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
+						<img style="margin-right:21px;" class="moodIcon4" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
+						<img style="margin-right:21px;" class="moodIcon4" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
+						<img class="moodIcon4" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+		<!-- TEST 5 -->
+		<div class="col-md-4">
+			<div class="homeWidgetContainer">
+				<h3 class="homeWidgetTitle text-center">Meetings</h3>
+				<div class="moodScaleContainer5">
+					<div class="moodScale5 clearFix">
+						<div class="moodScaleSegment5" ng-repeat="i in createArray(100)">
+							<div class="moodScaleMarker5" ng-attr-id="{{'five' + i}}"></div>
+						</div>
+					</div>
+					<div style="margin-top:10px;">
+						<img style="margin-right:21px;" class="moodIcon5" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+						<img style="margin-right:21px;" class="moodIcon5" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
+						<img style="margin-right:21px;" class="moodIcon5" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
+						<img style="margin-right:21px;" class="moodIcon5" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
+						<img class="moodIcon5" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+		<!-- TEST 6 -->
+		<div class="col-md-4">
+			<div class="homeWidgetContainer">
+				<h3 class="homeWidgetTitle text-center">The Future</h3>
+				<div class="moodScaleContainer6">
+					<div class="moodScale6 clearFix">
+						<div class="moodScaleSegment6" ng-repeat="i in createArray(100)">
+							<div class="moodScaleMarker6" ng-attr-id="{{'six' + i}}"></div>
+						</div>
+					</div>
+					<div style="margin-top:10px;">
+						<img style="margin-right:21px;" class="moodIcon6" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+						<img style="margin-right:21px;opacity:0;" class="moodIcon6" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
+						<img style="margin-right:21px;opacity:0;" class="moodIcon6" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
+						<img style="margin-right:21px;opacity:0;" class="moodIcon6" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
+						<img class="moodIcon6" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+		<!-- TEST 7 -->
+		<div class="col-md-4">
+			<div class="homeWidgetContainer">
+				<h3 class="homeWidgetTitle text-center">Teamwork</h3>
+				<div class="moodScaleContainer7">
+					<div class="moodScale7 clearFix">
+						<div class="moodScaleSegment7" ng-repeat="i in createArray(100)">
+							<div class="moodScaleMarker7" ng-attr-id="{{'seven' + i}}"></div>
+						</div>
+					</div>
+					<div style="margin-top:10px;">
+						<img style="margin-right:21px;left:-14px;" class="moodIcon7" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+						<img style="margin-right:21px;opacity:0;" class="moodIcon7" src="../img/sad.png"/>
+						<img style="margin-right:21px;opacity:0;" class="moodIcon7" src="../img/neutral.png"/>
+						<img style="margin-right:21px;opacity:0;" class="moodIcon7" src="../img/happy.png"/>
+						<img style="left:20px;" class="moodIcon7" src="../img/excited.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+	<div class="row">
+		<div class="col-md-2" style="padding:10px;">
+			<span>Angry</span>
+			<input type="number" ng-model="moodData.angry" class="form-control"/>
+		</div>
+
+		<div class="col-md-2" style="padding:10px;">
+			<span>Sad</span>
+			<input type="number" ng-model="moodData.sad" class="form-control"/>
+		</div>
+
+		<div class="col-md-2" style="padding:10px;">
+			<span>Neutral</span>
+			<input type="number" ng-model="moodData.neutral" class="form-control"/>
+		</div>
+
+		<div class="col-md-2" style="padding:10px;">
+			<span>Happy</span>
+			<input type="number" ng-model="moodData.happy" class="form-control"/>
+		</div>
+		<div class="col-md-2" style="padding:10px;">
+			<span>Excited</span>
+			<input type="number" ng-model="moodData.excited" class="form-control"/>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3" style="padding:10px;">
+			<button type="button" ng-click="generate(moodData)" class="btn btn-primary btn-block">Go!</button>
+			<button type="button" class="btn btn-success btn-block">Success</button>
+			<button type="button" class="btn btn-danger btn-block">Danger</button>
+		</div>
+	</div>
+
+</div>

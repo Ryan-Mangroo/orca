@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<!-- Angular, Bootstrap, jQuery, etc -->
+		<link href='https://fonts.googleapis.com/css?family=Work+Sans:200,300,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<script src="js/angular-animate.js"></script>
+		<script src="js/angular-route.js"></script>
+
+		<!-- Custom Styles -->
+		<link rel="stylesheet" type="text/css" href="css/all.css">
+		<link rel="stylesheet" type="text/css" href="css/desktop.css">
+
+		<!-- Angular app & custom scripts -->
+		<script src="js/utils.js"></script>
+		<script src="factories.js"></script>
+		<script src="maincontroller.js"></script>
+		<script src="entrycontroller.js"></script>
+		<script src="app.js"></script><!-- The main app needs to load after controllers -->
+
+		<style>
+			body {
+				font-family: 'Work Sans', sans-serif;
+				background-color: #00274e;
+				color: #fff;
+				font-weight: 300;
+			}
+		</style>
+	</head>
+
+	<body ng-app="App" ng-controller="mainController">
+
+		<!-- Header -->
+		<h2 class="text-center newEntryHeader">
+			<div><img class="companyLogoImage" ng-src="{{companyLogoURL}}"/></div>
+			<div> Share your thoughts anonymously</div>
+		</h2>
+
+		<!-- Content -->
+		<div ng-view></div>
+
+		<!-- Footer -->
+		<div class="container text-center newEntryFooter">
+			<div class="col-md-6">
+				<span class="fa fa-copyright"></span> 2016 <a href="http://www.feeler.io">Feeler.io</a>
+			</div>
+			<div class="col-md-6">
+				<span class="fa fa-lock"></span> <a href="/admin/">Admin</a>
+			</div>
+		</div>
+
+	</body>
+
+
+</html>

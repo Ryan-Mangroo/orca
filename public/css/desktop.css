@@ -1,152 +1,324 @@
-.companyLogoImage {
-	max-height: 75px;
-	max-width: 200px;
-}
-
-.newEntryHeader {
-	padding: 25px;
-	font-weight: 200;
+.header {
 	color: #fff;
-}
-
-.newEntryFooter {
-	max-width: 700px;
-}
-
-.newEntryContainer {
-	min-height: 200px;
-	position: relative;
-	color: #777;
-	max-width: 700px;
-	background-color: #EEEFF1;
-	box-shadow: 0px 0px 100px #005bb4;
-}
-
-.moodIconContainer {
-	position: relative;
-	margin-left: auto;
-	margin-right: auto;
-	width: 40px;
-	height: 40px;
-	margin-top: 25px;
-	margin-bottom: 25px;
-}
-
-.moodChoiceIcon {
-	position: absolute;
-	-webkit-transition: .2s;
-    -moz-transition: .2s;
-    -ms-transition: .2s;
-    -o-transition: .2s;
-    transition: .2s;
-	height: 40px;
-	width: 40px;
-}
-
-.moodChoiceIcon:hover {
-	cursor: pointer;
-}
-
-#angryMood {
-	left: -100px;
-}
-
-#sadMood {
-	left: -50px;
-}
-
-#happyMood {
-	left: 50px;
-}
-
-#excitedMood {
-	left: 100px;
-}
-
-.guaranteeContainer {
-	padding: 25px;
-}
-
-.adminHeader {
-	color: #fff;
-	background-color: #00274e;
+	background-color: #005bb4;
 	padding: 5px 0px 5px 5px;
 	font-size: 18px;
-	border-bottom: 5px solid #003468;
+	border-bottom: 3px solid #004181;
 }
 
-.adminHeaderLogo {
-	position: absolute;
-	top: 3px;
-	left: 10px;
-	height: 25px;
-}
-
-.adminHeaderTitle {
+.headerLogoContainer {
 	margin-left: 5px;
 }
 
-.adminContent {
-	margin-left: 50px;
-	margin-top: 0px;
-	padding: 0px;
-}
-
-.adminUserInfo {
-	margin-left: 10px;
-	margin-right: 10px;
-}
-
-.adminCompanyLogoImage {
-	max-height: 25px;
-}
-
-.adminMenu {
-	width: 50px;
-	position: absolute;
-	top: 40px;
-	left: 0px;
-	bottom: 0px;
-	background-color: #004181;
-}
-
-.adminMenuOption {
-	display: inline-block;
-	-webkit-transition: .2s;
-    -moz-transition: .2s;
-    -ms-transition: .2s;
-    -o-transition: .2s;
-    transition: .2s;
-	text-align: center;
-	border-bottom: 2px solid #00274e;
-	padding: 5px 0px 5px 0px;
-	width: 50px;
-	color: #fff;
-}
-
-.adminMenuOption:hover,
-.adminMenuOption:active,
-.adminMenuOption:focus {
-	color: #fff;
-	text-decoration: none;
-	background-color: #005bb4;
-	cursor: pointer;
-}
-
-.adminMenuOptionText {
-	font-size: 10px;
-}
-
-.adminMenuOptionIcon {
-	font-size: 20px;
+.headerLogoImage {
+	height: 25px;
 }
 
 .pageHeader {
-	margin-left: 35px;
 	background-color: #EEEFF1;
-	color: #777;
 	padding: 10px;
+	border-bottom: 3px solid #d2d5da;
 }
+
+
+/*######################### MOOD SCALE #########################*/
+.moodScaleContainer1 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 227px;
+}
+.moodScale1 {
+	position: relative;
+	background: -webkit-linear-gradient(left, #b41d00, #00b459); /* For Safari 5.1 to 6.0 */
+	width: 202px;
+	left: 15px;
+}
+.moodScaleSegment1 {
+	position: relative;
+	float: left;
+	height: 10px;
+	width: 2px;
+}
+.moodScaleMarker1 {
+	position: absolute;
+	top: -15px;
+	left: -6px;
+	width: 0; 
+	height: 0; 
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-top: 15px solid #00274E;
+	opacity: 0;
+}
+.moodIcon1 {
+	height: 25px;
+	width: 25px;
+}
+
+
+
+
+
+
+
+
+.moodScaleContainer2 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 227px;
+}
+.moodScale2 {
+	position: relative;
+	background-color: #d2d5da;
+	width: 202px;
+	left: 15px;
+}
+.moodScaleSegment2 {
+	position: relative;
+	float: left;
+	height: 10px;
+	width: 2px;
+}
+.moodScaleMarker2 {
+	position: absolute;
+	top: -15px;
+	left: -6px;
+	width: 0; 
+	height: 0; 
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-top: 15px solid #00274E;
+	opacity: 0;
+}
+.moodIcon2 {
+	height: 25px;
+	width: 25px;
+}
+
+
+
+
+
+
+
+
+.moodScaleContainer3 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 227px;
+}
+.moodScale3 {
+	position: relative;
+	background-color: #d2d5da;
+	width: 202px;
+	left: 15px;
+}
+.moodScaleSegment3 {
+	position: relative;
+	float: left;
+	height: 10px;
+	width: 2px;
+}
+.moodScaleMarker3 {
+	border: 2px solid #00274E;
+	position: absolute;
+	top: -2px;
+	left: -6px;
+	width: 8px; 
+	height: 14px; 
+	opacity: 0;
+}
+.moodIcon3 {
+	height: 25px;
+	width: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+.moodScaleContainer4 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 227px;
+}
+.moodScale4 {
+	position: relative;
+	background-color: #d2d5da;
+	width: 202px;
+	left: 15px;
+}
+.moodScaleSegment4 {
+	position: relative;
+	float: left;
+	height: 10px;
+	width: 2px;
+}
+.moodScaleMarker4 {
+	border: 2px solid #00274E;
+	background-color: #00274E;
+	position: absolute;
+	top: -2px;
+	left: -6px;
+	width: 8px; 
+	height: 14px; 
+	opacity: 0;
+}
+.moodIcon4 {
+	height: 25px;
+	width: 25px;
+}
+
+
+
+
+
+
+
+
+
+.moodScaleContainer5 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 227px;
+}
+.moodScale5 {
+	position: relative;
+	background-color: #d2d5da;
+	width: 202px;
+	left: 15px;
+}
+.moodScaleSegment5 {
+	position: relative;
+	float: left;
+	height: 20px;
+	width: 2px;
+}
+.moodScaleMarker5 {
+	border-radius: 5px;
+	border: 2px solid #00274E;
+	background-color: #00274E;
+	position: absolute;
+	top: -4px;
+	left: -6px;
+	width: 8px; 
+	height: 28px; 
+	opacity: 0;
+}
+.moodIcon5 {
+	height: 25px;
+	width: 25px;
+}
+
+
+
+
+
+
+
+
+
+.moodScaleContainer6 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 227px;
+}
+.moodScale6 {
+	position: relative;
+	background-color: #d2d5da;
+	width: 202px;
+	left: 15px;
+}
+.moodScaleSegment6 {
+	position: relative;
+	float: left;
+	height: 20px;
+	width: 2px;
+}
+.moodScaleMarker6 {
+	border-radius: 5px;
+	border: 2px solid #00274E;
+	background-color: #00274E;
+	position: absolute;
+	top: -4px;
+	left: -6px;
+	width: 8px; 
+	height: 28px; 
+	opacity: 0;
+}
+.moodIcon6 {
+	height: 25px;
+	width: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+.moodScaleContainer7 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 227px;
+}
+.moodScale7 {
+	position: relative;
+	background-color: #d2d5da;
+	width: 202px;
+	left: 15px;
+}
+.moodScaleSegment7 {
+	position: relative;
+	float: left;
+	height: 10px;
+	width: 2px;
+}
+.moodScaleMarker7 {
+	border: 2px solid #00274E;
+	background-color: #00274E;
+	position: absolute;
+	top: -2px;
+	left: -6px;
+	width: 8px; 
+	height: 14px; 
+	opacity: 0;
+}
+.moodIcon7 {
+	position: relative;
+	top: -28px;
+	height: 25px;
+	width: 25px;
+}
+
+
+
+/*######################### MOOD SCALE #########################*/
+
+
+/*######################### HOME WIDGETS #########################*/
+.homeWidgetContainer {
+	margin: 25px;
+	background-color: #EEEFF1;
+	box-shadow: 3px 3px 0px #d2d5da;
+	padding: 25px;
+}
+
+.homeWidgetTitle {
+	padding: 0px;
+	margin: 0px 0px 25px 0px;
+}
+
+/*######################### HOME WIDGETS #########################*/
+
 
 .entryListRow {
 	position: relative;
@@ -185,7 +357,3 @@
 	border: 1px solid #EEEFF1;
 }
 
-.moodIcon {
-	height: 30px;
-	width: 30px;
-}
