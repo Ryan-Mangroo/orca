@@ -18,7 +18,14 @@
     "mongoose": "4.3.6",
     "mongoose-pages": "0.0.3",
     "moment": "2.11.2",
-    "i": "*"
+    "i": "*",
+    "bunyan": "1.5.1",
+    "node-cache": "3.0.1",
+    "nodemailer": "2.0.0",
+    "nodemailer-smtp-transport": "2.0.0",
+    "validator": "5.2.0",
+    "google-libphonenumber": "1.0.17",
+    "complexity": "0.0.3"
   },
   "author": "Ryan Mangroo",
   "license": "ISC"
