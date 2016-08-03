@@ -134,7 +134,7 @@ function initializeApp() {
 		});
 
 		passport.deserializeUser(function(id, done) {
-			done(null, user.id);
+			done(null, id);
 		});
 
 		/* 
