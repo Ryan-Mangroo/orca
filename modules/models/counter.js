@@ -1,8 +1,8 @@
 // Config
-var cfg = require('../config/config');
+var cfg = require('../../config/config');
 
 // Logger
-var log = require('../utils/logger');
+var log = require('../../utils/logger');
 var widget = 'counter';
 log.registerWidget(widget);
 
