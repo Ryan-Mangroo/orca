@@ -129,7 +129,7 @@ function signUp(emailAddress) {
 	console.log("Signing up for " + emailAddress);
 
 	var data = {};
-	data.emailAddress = emailAddress;
+	data.newEmailAddress = emailAddress;
 	data.acctName = emailAddress + '_acct';
 	data.firstName = 'John';
 	data.lastName = 'Doe';

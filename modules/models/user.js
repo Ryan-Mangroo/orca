@@ -11,7 +11,7 @@ var widget = 'user';
 log.registerWidget(widget);
 
 // Mongoose
-var Counter = require('./counter');
+//var Counter = require('./counter');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -22,7 +22,6 @@ var userSchema = new Schema({
  	lastName: { type: String, required: true},
 	_acct: { type: Schema.Types.ObjectId, ref: 'Account' },
 	phone: String,
-	number: String,
 	state: String
 //	resetPwdToken: String,
 //    resetPwd: Boolean,
@@ -217,7 +216,7 @@ userSchema.pre('save', function(next) {
 		next();	
 	}
 });		
-
+/*
 // Set counter when creating a new user
 userSchema.pre('save', function(next) {
 	var user = this;
@@ -230,7 +229,7 @@ userSchema.pre('save', function(next) {
 		next();
 	}
 });	
-
+*/
 // Remove user data not needed by app
 userSchema.post('save', function(user, next) {
 	user.password = '';
