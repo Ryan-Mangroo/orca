@@ -70,7 +70,7 @@ a {
 	padding: 2px 7px 2px 7px;
 	text-transform: none;
 }
-
+/*
 .btn-primary {
 	color: #fff;
 	background-color: #005bb4;
@@ -107,7 +107,7 @@ a {
 	background-color: #811500;
 	border-color: #811500;
 }
-
+*/
 .btn:focus, 
 .btn:active, 
 .btn.active,

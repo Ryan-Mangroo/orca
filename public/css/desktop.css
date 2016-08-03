@@ -29,7 +29,7 @@
 }
 .moodScale1 {
 	position: relative;
-	background: -webkit-linear-gradient(left, #b41d00, #00b459); /* For Safari 5.1 to 6.0 */
+	background: -webkit-linear-gradient(left, #d9534f, #f0ad4e, #5cb85c); /* For Safari 5.1 to 6.0 */
 	width: 202px;
 	left: 15px;
 }
