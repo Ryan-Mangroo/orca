@@ -24,7 +24,6 @@ function entryController($scope, $location, Entry) {
 		  	log.object(singleEntry);
 
 		  	$scope.singleEntry = singleEntry;
-		  	$scope.setPageTitle("Feedback from " + singleEntry.created, "fa-file-text-o");
 		  	$scope.entriesLoading = false;
 		  },
 		  function() {
@@ -38,10 +37,12 @@ function entryController($scope, $location, Entry) {
 		$scope.singleEntry.notes.reverse();
 	};
 
-	$scope.initialize = function() {
+	$scope.initEntryController = function() {
+		if(!$scope.ensureAuthenticated) {
+			$scope.changeView('login');
+			return;
+		}
 	    var currentURL = $location.url().replace('/account/users', '');
-
-	    log.info('URL: ' + currentURL);
 
 	    if(currentURL.indexOf('/entries/') >= 0) {
 	    	log.info('Viewing One');
@@ -49,15 +50,12 @@ function entryController($scope, $location, Entry) {
 	    	log.info(entryNumber);
 	    	$scope.getOneEntry(entryNumber);
 	    } else {
-	    	$scope.setPageTitle("All Entries", "fa-list");
 			setTimeout(function(){
 				$scope.getAllEntries();
 			}, 250)
 	    }
-
-
 	};
 
-	$scope.initialize();
+	$scope.initEntryController();
 
 }

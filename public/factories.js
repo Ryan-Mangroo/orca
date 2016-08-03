@@ -80,3 +80,41 @@ function Entry($http) {
 
   return Entry;
 }
+
+
+function User($http) {
+  var User = {};
+  
+  User.login = function (credentials, onSuccess, onFail) {
+    log.info('| User.login |');
+    $http({ url: '/login', method: 'POST', data: { credentials: credentials } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('User.login: Fail');
+        onFail();
+      }
+    );
+  };
+
+  User.getProfile = function(onSuccess, onFail) {
+    log.info('| User.getProfile |');
+    onSuccess(null);
+    //onSuccess({ firstname: 'Jesse', lastname: 'Williams' });
+    return;
+
+
+    $http({ url: '/getUserProfile', method: 'GET', params: {} })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('User.getUserProfile: Fail');
+        onFail();
+      }
+    );
+  };
+
+  return User;
+}
