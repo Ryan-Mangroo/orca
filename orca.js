@@ -19,6 +19,7 @@ var auth = require('./modules/handlers/auth.js');
 var entry = require('./modules/handlers/entry.js');
 var user = require('./modules/handlers/user.js');
 var box = require('./modules/handlers/box.js');
+var message = require('./modules/handlers/message.js');
 
 var validator = require('./utils/validator');
 var utility = require('./utils/utility');
@@ -211,8 +212,10 @@ function initializeApp() {
 		app.route('/getAllEntries').get(entry.getAll);
 		app.route('/getOneEntry').get(entry.getOne);
 
-		app.route('/getBox').get(box.getBox);
+		app.route('/getBoxInfo').get(box.getInfo);
 		app.route('/createBox').post(validateRequest(), box.create);
+
+		app.route('/createMessage').post(validateRequest(), message.create);
 /*
 		app.route('/signup').get(function(req, res) {
 			log.info('|signup| Incorrect GET instead of POST', widget);

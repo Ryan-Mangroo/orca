@@ -18,7 +18,9 @@
 		<script src="../js/utils.js"></script>
 		<script src="factories.js"></script>
 		<script src="controllers/maincontroller.js"></script>
-		<script src="controllers/entrycontroller.js"></script>
+		<script src="controllers/messagecontroller.js"></script>
+		<script src="controllers/errorcontroller.js"></script>
+		<script src="controllers/submittedcontroller.js"></script>
 		<script src="app.js"></script><!-- The main app needs to load after controllers -->
 
 		<style>
@@ -34,19 +36,21 @@
 	<body ng-app="App" ng-controller="mainController">
 
 		<!-- Header -->
-		<h2 class="text-center newEntryHeader">
-			<div><img class="companyLogoImage" ng-src="{{companyLogoURL}}"/></div>
-			<div>{{boxTitle}}</div>
+		<h2 ng-if="boxLoaded" class="text-center newEntryHeader">
+			<div style="margin:0px 10px 10px 10px;"><img class="companyLogoImage" ng-src="{{boxInfo.image}}"/></div>
+			<div style="margin:10px 10px 0px 10px;">{{ boxInfo.title }}</div>
 		</h2>
 
 		<!-- Content -->
-		<div ng-view></div>
+		<div class="fadeInOut" ng-view></div>
 
 		<!-- Footer -->
 		<div class="container text-center newEntryFooter">
 			<div class="col-md-12">
-				<img style="height:15px;" src="../img/logo-white.png"/>
-				<span class="fa fa-copyright"></span> 2016 <a href="http://www.blueorca.io">Orca</a>
+				<div style="padding:25px;">
+					<img style="height:15px;" src="../img/logo-white.png"/>
+					<span class="fa fa-copyright"></span> 2016 <a href="http://www.blueorca.io">Orca</a>
+				</div>
 			</div>
 		</div>
 

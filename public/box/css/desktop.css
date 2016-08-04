@@ -1,10 +1,10 @@
 .companyLogoImage {
-	max-height: 75px;
+	max-height: 50px;
 	max-width: 200px;
 }
 
 .newEntryHeader {
-	padding: 25px;
+	padding: 0px 25px 0px 25px ;
 	font-weight: 200;
 	color: #fff;
 }
@@ -14,7 +14,7 @@
 }
 
 .newEntryContainer {
-	min-height: 200px;
+	margin-top: 25px;
 	position: relative;
 	color: #777;
 	max-width: 700px;

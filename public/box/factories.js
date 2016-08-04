@@ -1,17 +1,37 @@
-function Entry($http) {
-  var Entry = {};
+function Message($http) {
+  var Message = {};
 
-  Entry.new = function (newEntry, onSuccess, onFail) {
-    $http({ url: '/newEntry', method: 'POST', data: { newEntry: newEntry } })
+  Message.create = function (newMessage, onSuccess, onFail) {
+    $http({ url: '/createMessage', method: 'POST', data: newMessage })
       .then(function success(response) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('createEntry: Fail');
+        log.error('Message.create: Fail');
         onFail();
       }
     );
   };
 
-  return Entry;
+  return Message;
+}
+
+
+function Box($http) {
+  var Box = {};
+
+  Box.getInfo = function(boxNumber, onSuccess, onFail) {
+    log.info('|Box.getInfo|: ' + boxNumber);
+    $http({ url: '/getBoxInfo', method: 'GET', params: { boxNumber: boxNumber } })
+      .then(function success(response) {
+        onSuccess(response.data.boxInfo);
+      },
+      function fail(response) {
+        log.error('Box.getInfo: Fail');
+        onFail();
+      }
+    );
+  };
+
+  return Box;
 }

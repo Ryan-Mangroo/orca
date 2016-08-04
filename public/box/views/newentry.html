@@ -1,17 +1,19 @@
 <div class="container newEntryContainer" style="padding:0px 25px 25px 25px;">
 
-	<!-- Mood Selection -->
-	<h3 id="moodQuestion" class="text-center">Your mood?</h3>
-	<div class="moodIconContainer">
-		<img class="moodChoiceIcon" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
-		<img class="moodChoiceIcon" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
-		<img class="moodChoiceIcon" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
-		<img class="moodChoiceIcon" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
-		<img class="moodChoiceIcon" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+	<div ng-if="boxLoaded">
+		<!-- Mood Selection -->
+		<h3 id="moodQuestion" class="text-center">Your mood?</h3>
+		<div class="moodIconContainer">
+			<img class="moodChoiceIcon" ng-click="setMood('angry')" id="angryMood" src="../img/angry.png"/>
+			<img class="moodChoiceIcon" ng-click="setMood('sad')" id="sadMood" src="../img/sad.png"/>
+			<img class="moodChoiceIcon" ng-click="setMood('neutral')" id="neutralMood" src="../img/neutral.png"/>
+			<img class="moodChoiceIcon" ng-click="setMood('happy')" id="happyMood" src="../img/happy.png"/>
+			<img class="moodChoiceIcon" ng-click="setMood('excited')" id="excitedMood" src="../img/excited.png"/>
+		</div>
 	</div>
 
 	<!-- Feedback input (hidden until mood is selected) -->
-	<form name="entryForm" id="entryForm" ng-submit="createEntry(newEntry)" ng-model="newEntry" novalidate>
+	<form name="entryForm" id="entryForm" ng-submit="createMessage(newEntry.message)" ng-model="newEntry" novalidate>
 		<!-- Message Entry -->
 		<div class="col-md-12 form-group">
 			<textarea ng-model="newEntry.message" ng-attr-placeholder="{{newEntryPlaceholder}}" type="text" rows="8" class="form-control defaultInput" style="resize:vertical;"></textarea>

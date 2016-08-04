@@ -46,6 +46,36 @@ exports.create = function(req, res) {
 	}
 };
 
-exports.getBox = function(req, res) {
+exports.getInfo = function(req, res) {
+	try {
+		log.info('|box.getInfo|', widget);
 
+		var boxNumber = req.query.boxNumber;
+		var error = null;
+
+		if (validator.checkNull(boxNumber)) { error = 'Box number is null'; }
+		else if (!validator.checkAlphanumeric(boxNumber)) { error = 'Box number is invalid'; }
+
+		if (error) {
+			log.error('|box.getInfo| ' + error, widget);
+			return utility.errorResponseJSON(res, 'Error occurred getting box info');
+		}
+
+		log.info('|box.getInfo| Getting box info -> ' + boxNumber, widget);
+
+		Box.findOne({ number: boxNumber }, '-_acct')
+			.exec(
+			function (error, boxInfo) {
+				if (error) {
+					log.error('|box.getInfo.findOne| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred getting box');
+				} else {		
+					log.info('|box.getInfo| Box found -> ' + boxInfo._id);	
+					res.send(JSON.stringify({ boxInfo: boxInfo }));
+				}
+			});
+	} catch (error) {
+		log.error('|box.getInfo| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Error occurred getting box');
+	}
 };
