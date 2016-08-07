@@ -24,11 +24,11 @@ exports.create = function(req, res) {
 			return utility.errorResponseJSON(res, 'Error while creating box');
 		}
 
-		var account = req.session.userprofile.acct._id;
+		var account = req.session.userprofile.account._id;
 
 		var newBox = new Box();
 		newBox.title = title;
-		newBox._acct = account;
+		newBox._account = account;
 
 		newBox.save(function(error, box) {
     		if (error) {
@@ -63,7 +63,7 @@ exports.getInfo = function(req, res) {
 
 		log.info('|box.getInfo| Getting box info -> ' + boxNumber, widget);
 
-		Box.findOne({ number: boxNumber }, '-_acct')
+		Box.findOne({ number: boxNumber }, '-_account')
 			.exec(
 			function (error, boxInfo) {
 				if (error) {

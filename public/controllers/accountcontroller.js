@@ -1,4 +1,19 @@
 function accountController($scope, $location) {
 	log.info('|accountController|');
-	$scope.setPageTitle('Account & Billing', 'fa-credit-card');
+	$scope.allowEditCompany = false;
+
+	$scope.editCompany = function() {
+		$scope.allowEditCompany = true;
+	};
+
+
+	$scope.saveCompany = function() {
+		$scope.allowEditCompany = false;
+	};
+
+	$scope.cancelSaveCompany = function() {
+		$scope.allowEditCompany = false;
+	};
+
+
 }

@@ -3,7 +3,7 @@ var cfg = require('../../config/config');
 
 // Mongoose
 var User = require('../models/user');
-var Acct = require('../models/account');
+var Account = require('../models/account');
 
 // Custom modules
 //var mailer = require('workwoo-utils').mailer;

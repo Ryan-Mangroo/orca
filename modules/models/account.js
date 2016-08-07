@@ -5,19 +5,17 @@ var cfg = require('../../config/config');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var acctSchema = new Schema({
+var accountSchema = new Schema({
 	name: { type: String, required: true, unique: true },
-	streetAddress: { type: String },
  	city: { type: String },
  	state: { type: String },
  	country: { type: String },
- 	zip: { type: String },
- 	emailAddress: { type: String },
+ 	email: { type: String },
  	phone: { type: String },
  	accountType: { type: String },
  	_primary_box: { type: Schema.Types.ObjectId, ref: 'Box' },
 }, cfg.mongoose.options);
 
-var Acct = mongoose.model('Account', acctSchema);
+var Account = mongoose.model('Account', accountSchema);
 
-module.exports = Acct;
+module.exports = Account;

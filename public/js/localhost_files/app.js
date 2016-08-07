@@ -5,7 +5,7 @@ App.controller('mainController', mainController);
 App.controller('homeController', homeController);
 App.controller('loginController', loginController);
 App.controller('messageController', messageController);
-App.controller('accountController', accountController);
+App.controller('settingsController', settingsController);
 App.controller('supportController', supportController);
 
 // Factories
@@ -23,6 +23,6 @@ App.config(function($routeProvider) {
 	$routeProvider.when('/login', { templateUrl : 'views/login.html', controller: loginController});
 	$routeProvider.when('/messages', { templateUrl : 'views/messagelist.html', controller: messageController});
 	$routeProvider.when('/messages/:message', { templateUrl : 'views/entry.html', controller: messageController});
-	$routeProvider.when('/account', { templateUrl : 'views/account.html', controller: accountController});
+	$routeProvider.when('/settings', { templateUrl : 'views/settings.html', controller: settingsController});
 	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});
 });

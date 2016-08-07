@@ -11,7 +11,7 @@ var boxSchema = new Schema({
 	title: { type: String },
 	number: { type: String },
 	token: { type: String },
-	_acct: { type: Schema.Types.ObjectId, ref: 'Account' }
+	_account: { type: Schema.Types.ObjectId, ref: 'Account' }
 }, cfg.mongoose.options);
 
 boxSchema.pre('save', function(next) {

@@ -1,9 +1,9 @@
 function homeController($scope, $location, Homepage) {
 	log.info('|homeController|');
+
 	$scope.homeKeywords = [];
 
 	$scope.moodScaleStyle = function(value){
-		var value = value + 12;
 		var backgroundColor = '';
 		if(value < 25) {
 			backgroundColor = '#d9534f';
@@ -29,9 +29,11 @@ function homeController($scope, $location, Homepage) {
 		);
 	};
 
+
 	$scope.initHomeController = function() {
 		$scope.loadHomeKeywords();
 	};
+
 
 	$scope.initHomeController();
 

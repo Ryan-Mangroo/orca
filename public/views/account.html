@@ -1,0 +1,107 @@
+<!-- Page Title -->
+<div class="container-fluid pageTitle">
+	<div class="col-md-6">
+		<h4 class="noSpace">Your Account</h4>
+	</div>
+</div>
+
+<div class="container-fluid noSpace" style="margin-top:10px;">
+	<!-- Logo -->
+	<div class="col-md-2">
+		<div class="grayContainer accountLogoContainer">
+			<div class="grayBorderBox text-center">
+				<img class="accountLogo" ng-src="{{ currentUser.account.logo }}"/>
+			</div>
+			<button type="button" style="margin-top:10px;" class="btn btn-primary btn-block btn-sm">Change Logo</button>
+		</div>
+	</div>
+
+	<!-- Main Link & basic info -->
+	<div class="col-md-10">
+		<div class="mainBoxLink">
+			<span>Main message box for your employees:</span>
+			<a style="font-weight:bold;"  class="whiteLink" ng-href="http://localhost:1337/box/#/view/{{currentUser.account._primary_box.number}}">localhost:1337/box/{{ currentUser.account._primary_box.number }}</a>
+			<button type="button" style="margin:0px;" class="btn btn-sm btn-warning pull-right">Re-generate link</button>
+		</div>
+
+		<!-- Company info -->
+		<div class="col-md-6" style="font-size:16px;">
+			<h3>Company Information</h3>
+			<form>
+				<!-- Company Name -->
+				<div>
+					<label>Name: </label>
+					<span class="fadeInOut" ng-if="!allowEditCompany"> {{ currentUser.account.name }}</span>
+					<div class="form-group">
+						<input ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="currentUser.account.name"/>
+					</div>
+				</div>
+
+				<!-- Company HQ -->
+				<div>
+					<label>HQ: </label>
+					<span class="fadeInOut" ng-if="!allowEditCompany"> {{ currentUser.account.city }} {{ currentUser.account.state }}</span>
+					<div class="form-group">
+						<input ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="currentUser.account.city"/>
+					</div>
+				</div>
+
+				<!-- Company Email -->
+				<div>
+					<label>Billing Email: </label>
+					<span class="fadeInOut" ng-if="!allowEditCompany"> {{ currentUser.account.email }}</span>
+					<div class="form-group">
+						<input ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="currentUser.account.email"/>
+					</div>
+				</div>
+
+				<!-- Company Phone -->
+				<div>
+					<label>Billing Phone: </label>
+					<span class="fadeInOut" ng-if="!allowEditCompany"> {{ currentUser.account.phone }}</span>
+					<div class="form-group">
+						<input ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="currentUser.account.phone"/>
+					</div>
+				</div>
+			</form>
+
+			<!-- Edit Company Buttons -->
+			<div>
+				<button ng-if="!allowEditCompany" type="button" ng-click="editCompany()" class="fadeInOut btn btn-primary btn-sm">Change Company Info</button>
+				<button ng-if="allowEditCompany" type="button" ng-click="saveCompany()" class="fadeInOut btn btn-success btn-sm">Save Changes</button>
+				<button ng-if="allowEditCompany" type="button" ng-click="cancelSaveCompany()" class="fadeInOut btn btn-primary btn-sm">Cancel</button>
+			</div>
+
+		</div>
+
+		<!-- Personal info -->
+		<div class="col-md-6" style="font-size:16px;">
+			<h3>Personal Information</h3>
+			<div>
+				<label>First Name:</label>
+				<span> {{ currentUser.firstName }}</span>
+			</div>
+			<div>
+				<label>last Name:</label>
+				<span> {{ currentUser.lastName }}</span>
+			</div>
+			<div>
+				<label>Email:</label>
+				<span> {{ currentUser.emailAddress }}</span>
+			</div>
+			<div>
+				<label>Mobile:</label>
+				<span> {{ currentUser.phone }}</span>
+			</div>
+			<div>
+				<button type="button" class="btn btn-primary btn-sm">Change My Info</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Plan & Usage -->
+<div class="container-fluid noSpace text-center" style="margin-top:10px;">
+	<h2>[ PLAN & USAGE HERE ]</h2>
+</div>

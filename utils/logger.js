@@ -81,7 +81,7 @@ exports.fatal = function(err, widget) {
 	}
 }
 
-exports.logObject = function(object) {
+exports.object = function(object) {
 	this.info('## OBJECT:');
 	for (var property in object) {
 		this.info('# {"' + property + '": "' + object[property] + '"}');

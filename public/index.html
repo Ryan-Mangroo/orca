@@ -9,6 +9,7 @@
 		<script src="js/angular.min.js"></script>
 		<script src="js/angular-animate.js"></script>
 		<script src="js/angular-route.js"></script>
+		<script src="js/moment.min.js"></script>
 
 		<!-- Custom Styles -->
 		<link rel="stylesheet" type="text/css" href="css/all.css">
@@ -17,11 +18,11 @@
 		<!-- Angular app & custom scripts -->
 		<script src="js/utils.js"></script>
 		<script src="factories.js"></script>
+		<script src="directives.js"></script>
 		<script src="controllers/maincontroller.js"></script>
 		<script src="controllers/homecontroller.js"></script>
 		<script src="controllers/logincontroller.js"></script>
-		<script src="controllers/entrycontroller.js"></script>
-		<script src="controllers/settingscontroller.js"></script>
+		<script src="controllers/messagecontroller.js"></script>
 		<script src="controllers/accountcontroller.js"></script>
 		<script src="controllers/supportcontroller.js"></script>
 		<script src="app.js"></script><!-- The main app needs to load after controllers -->
@@ -32,23 +33,23 @@
 
 		<!-- Desktop Header -->
 		<div class="container-fluid header">
-			<span><img class="headerLogoImage" src="img/logo-dark-blue.png"/></span>
-		  	<span class="headerLogoContainer"> Orca</span>
-		  	<div class="pull-right" style="margin-right:10px;font-size:25px;"><i class="fa fa-bars"></i></div>
-		  	<div class="pull-right" style="margin-right:10px;">{{ currentUser.firstName }} @ {{ currentUser.acct.name }}</div>
+			<span><a href="#/"><img class="headerLogoImage" src="img/logo-dark-blue.png"/></a></span>
+		  	<span class="headerLogoContainer"> <a class="whiteLink" href="#/">Orca</a></span>
+
+
+			<div class="dropdown pull-right">
+				<span class="fa fa-bars whiteLink userMenuIcon dropdown-toggle" type="button" data-toggle="dropdown"></span>
+				<ul class="dropdown-menu userMenu">
+					<li><a href="#/home"><i class="fa fa-home"></i> Current Mood</a></li>
+					<li><a href="#/account"><i class="fa fa-cog"></i> Account</a></li>
+					<li><a href="#/support"><i class="fa fa-question"></i> Get Help</a></li>
+					<li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+				</ul>
+			</div>
+
+		  	<div class="pull-right" style="margin-right:10px;">{{ currentUser.firstName }} @ {{ currentUser.account.name }}</div>
 		</div>
 		<!-- Desktop Header -->
-
-		<!-- Page Title & Icon -->
-		<div class="container-fluid pageHeader">
-			<div class="col-md-6">
-				<h3 class="noSpace"> Welcome back {{ currentUser.firstName }}</h3>
-			</div>
-			<div class="col-md-6 text-right">
-				<span>Form link for {{ currentUser.acct.name }}:</span>
-				<a target="new" ng-href="http://{{currentUser.companyFormURL}}">{{ currentUser.companyFormURL }}</a>		
-			</div>
-		</div>
 
 		<!-- Content -->
 		<div ng-if="authenticated" class="adminContent fadeInOut" ng-view></div>

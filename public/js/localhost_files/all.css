@@ -1,12 +1,38 @@
 body {
 	font-family: 'Work Sans', sans-serif;
 	background-color: #fff;
-	color: #555;
+	color: #00274E;
 	font-weight: 300;
+}
+
+a {
+	-webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+    transition: .25s;
+    color: #005bb4;
 }
 
 .thin {
 	font-weight: 300;
+}
+
+.whiteLink {
+	color: #fff;
+}
+
+.whiteLink:hover {
+	color: #b6bbc3;
+	text-decoration: none;
+}
+
+.defaultInput {
+	background-color: #fff;
+	box-shadow: none;
+	border-radius: 5px;
+	font-size: 20px;
+	border: none;
 }
 
 .whiteText {
@@ -18,44 +44,17 @@ body {
 	margin: 0px;
 }
 
-.badge {
-	border-radius: 8px;
+.fa-spin {
+  -webkit-animation: fa-spin 1.25s infinite linear;
+  animation: fa-spin 1.25s infinite linear;
 }
 
-
-/*######################### LINKS #########################*/
-a {
-	-webkit-transition: .25s;
-    -moz-transition: .25s;
-    -ms-transition: .25s;
-    -o-transition: .25s;
-    transition: .25s;
-    color: #005bb4;
+.adminLoadingIndicator {
+	text-align: center;
+	color: #d2d5da;
+	font-size: 40px;
 }
 
-.whiteLink {
-	color: #fff;
-}
-
-.whiteLink:hover {
-	color: #b6bbc3;
-	text-decoration: none;
-}
-/*######################### LINKS #########################*/
-
-
-/*######################### INPUTS #########################*/
-.defaultInput {
-	background-color: #fff;
-	box-shadow: none;
-	border-radius: 5px;
-	font-size: 20px;
-	border: none;
-}
-/*######################### INPUTS #########################*/
-
-
-/*######################### BUTTONS #########################*/
 .btn {
 	-webkit-transition: .25s;
     -moz-transition: .25s;
@@ -68,10 +67,7 @@ a {
 }
 
 .btn-sm {
-	margin: 0px;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	border-radius: 5px;
+	padding: 2px 7px 2px 7px;
 	text-transform: none;
 }
 /*
@@ -123,20 +119,6 @@ a {
 	background-color: #777;
 	border-color: #777;
 	color: #fff;
-}
-/*######################### BUTTONS #########################*/
-
-
-/*######################### ANIMATIONS #########################*/
-.fa-spin {
-  -webkit-animation: fa-spin 1.25s infinite linear;
-  animation: fa-spin 1.25s infinite linear;
-}
-
-.adminLoadingIndicator {
-	text-align: center;
-	color: #d2d5da;
-	font-size: 40px;
 }
 
 /* Fade in and fade out staggered */
@@ -231,4 +213,4 @@ a {
     -webkit-transform: scale(1, 0); /* Safari */
     transform: scale(1, 0);
 }
-/*######################### ANIMATIONS #########################*/
+

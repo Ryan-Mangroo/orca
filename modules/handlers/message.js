@@ -51,3 +51,55 @@ exports.create = function(req, res) {
 	    utility.errorResponseJSON(res, 'Error while creating message');
 	}
 };
+
+exports.getAll = function(req, res) {
+	try {
+		log.info('|message.getAll|', widget);
+
+		// TODO: Scrub request body
+		//var accountID = req.session.userprofile.org._id;
+		
+		Message.find()
+			.exec(
+			function (error, messages) {
+				if (error) {
+					log.error('|message.getAll| Unknown -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Unknown error getting messages');
+				} else {
+
+					log.info('Messages found: ' + messages.length, widget);
+
+					res.send(JSON.stringify({ result: messages }));
+				}
+			});
+	} catch (error) {
+		log.error('|message.getAll| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Unknown error getting messages');
+	}
+};
+
+
+exports.delete = function(req, res) {
+	try {
+		log.info('|message.delete|', widget);
+
+		// TODO: Scrub request body
+		var messageIDs = req.body.messages;
+		log.info('|message.delete| Deleting messages: ' + messageIDs, widget);
+
+		var query = { _id: { $in: messageIDs } };			
+    	Message.remove(query, function(error) {
+    		if (error) {
+				log.error('|message.delete.remove| Unknown  -> ' + error, widget);
+				utility.errorResponseJSON(res, 'Error occurred deleting messages');
+			} else {			
+				res.send(JSON.stringify({result: true}));
+			}
+    	});
+
+	} catch (error) {
+		log.error('|message.delete| -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Error occurred deleting messages');
+	}
+};
+

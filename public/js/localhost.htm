@@ -1,0 +1,109 @@
+
+<!-- saved from url=(0024)http://localhost:1337/#/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+		<!-- Angular, Bootstrap, jQuery, etc -->
+		<link href="./localhost_files/css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="./localhost_files/bootstrap.min.css">
+		<link rel="stylesheet" href="./localhost_files/font-awesome.min.css">
+		<script src="./localhost_files/jquery.min.js"></script>
+		<script src="./localhost_files/bootstrap.min.js"></script>
+		<script src="./localhost_files/angular.min.js"></script>
+		<script src="./localhost_files/angular-animate.js"></script>
+		<script src="./localhost_files/angular-route.js"></script>
+		<script src="./localhost_files/moment.min.js"></script>
+
+		<!-- Custom Styles -->
+		<link rel="stylesheet" type="text/css" href="./localhost_files/all.css">
+		<link rel="stylesheet" type="text/css" href="./localhost_files/desktop.css">
+
+		<!-- Angular app & custom scripts -->
+		<script src="./localhost_files/utils.js"></script>
+		<script src="./localhost_files/factories.js"></script>
+		<script src="./localhost_files/directives.js"></script>
+		<script src="./localhost_files/maincontroller.js"></script>
+		<script src="./localhost_files/homecontroller.js"></script>
+		<script src="./localhost_files/logincontroller.js"></script>
+		<script src="./localhost_files/messagecontroller.js"></script>
+		<script src="./localhost_files/settingscontroller.js"></script>
+		<script src="./localhost_files/accountcontroller.js"></script>
+		<script src="./localhost_files/supportcontroller.js"></script>
+		<script src="./localhost_files/app.js"></script><!-- The main app needs to load after controllers -->
+
+	</head>
+
+	<body ng-app="App" ng-controller="mainController" class="ng-scope">
+
+		<!-- Desktop Header -->
+		<div class="container-fluid header">
+			<span><a href="http://localhost:1337/#/"><img class="headerLogoImage" src="./localhost_files/logo-dark-blue.png"></a></span>
+		  	<span class="headerLogoContainer"> <a class="whiteLink" href="http://localhost:1337/#/">Orca</a></span>
+		  	<div class="pull-right" style="margin-right:10px;font-size:25px;"><i class="fa fa-bars"></i></div>
+		  	<div class="pull-right ng-binding" style="margin-right:10px;">Jesse @ ACME</div>
+		</div>
+		<!-- Desktop Header -->
+
+		<!-- Page Title -->
+		<div class="container-fluid pageHeader">
+			<div class="col-md-12">
+				<h4 class="noSpace ng-binding"> Welcome back Jesse, here's the current mood at ACME...</h4>
+			</div>
+		</div>
+
+		<!-- Content -->
+		<!-- ngIf: authenticated --><!-- ngView: --><div ng-if="authenticated" class="adminContent fadeInOut ng-scope" ng-view="" style=""><div class="container-fluid ng-scope">
+
+	<!-- The Different Moods -->
+	<div class="row">
+		<div class="col-md-2">&nbsp;</div><!-- Spacer -->
+		<div class="col-md-10">
+			<div style="margin-bottom:10px;">
+				<img style="margin-right:240px;" class="moodIcon" src="./localhost_files/angry.png">
+				<img style="margin-right:240px;" class="moodIcon" src="./localhost_files/sad.png">
+				<img style="margin-right:240px;" class="moodIcon" src="./localhost_files/neutral.png">
+				<img style="margin-right:240px;" class="moodIcon" src="./localhost_files/happy.png">
+				<img style="" class="moodIcon" src="./localhost_files/excited.png">
+			</div>
+		</div>
+	</div>
+
+	<!-- Create a row for each homepage keyword -->
+	<!-- ngRepeat: keyword in homeKeywords --><div ng-repeat="keyword in homeKeywords" class="row ng-scope">
+		<div class="col-md-2 text-right">
+			<h3 class="homeKeywordTitle ng-binding">Leadership</h3>
+		</div>
+		<div class="col-md-10">
+			<div class="progress" style="background-color: #EEEFF1;box-shadow:none;">
+				<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ng-style="moodScaleStyle(keyword.value)" style="width: 14%; background-color: rgb(217, 83, 79);">
+					<span class="sr-only"></span>
+				</div>
+			</div>
+		</div>
+	</div><!-- end ngRepeat: keyword in homeKeywords --><div ng-repeat="keyword in homeKeywords" class="row ng-scope">
+		<div class="col-md-2 text-right">
+			<h3 class="homeKeywordTitle ng-binding">Product</h3>
+		</div>
+		<div class="col-md-10">
+			<div class="progress" style="background-color: #EEEFF1;box-shadow:none;">
+				<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ng-style="moodScaleStyle(keyword.value)" style="width: 54.25%; background-color: rgb(166, 179, 85);">
+					<span class="sr-only"></span>
+				</div>
+			</div>
+		</div>
+	</div><!-- end ngRepeat: keyword in homeKeywords --><div ng-repeat="keyword in homeKeywords" class="row ng-scope">
+		<div class="col-md-2 text-right">
+			<h3 class="homeKeywordTitle ng-binding">Code Quality</h3>
+		</div>
+		<div class="col-md-10">
+			<div class="progress" style="background-color: #EEEFF1;box-shadow:none;">
+				<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ng-style="moodScaleStyle(keyword.value)" style="width: 12.25%; background-color: rgb(217, 83, 79);">
+					<span class="sr-only"></span>
+				</div>
+			</div>
+		</div>
+	</div><!-- end ngRepeat: keyword in homeKeywords -->
+
+</div></div><!-- end ngIf: authenticated -->
+
+	
+
+</body></html>

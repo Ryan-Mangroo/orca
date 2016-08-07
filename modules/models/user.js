@@ -16,11 +16,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-	emailAddress: { type: String, required: true, unique: true },
+	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
  	firstName: { type: String, required: true },
  	lastName: { type: String, required: true},
-	_acct: { type: Schema.Types.ObjectId, ref: 'Account' },
+	_account: { type: Schema.Types.ObjectId, ref: 'Account' },
 	phone: String,
 	state: String
 //	resetPwdToken: String,
@@ -32,32 +32,41 @@ var userSchema = new Schema({
 }, cfg.mongoose.options);
 
 
-userSchema.statics.authenticate = function(emailAddress, password, callback) {
+userSchema.statics.authenticate = function(email, password, callback) {
 	log.info('|User.authenticate|', widget);
-	this.findOne({ 'emailAddress': emailAddress })
-		.populate('_acct')
+	
+	var accountPopulation = {
+		path: '_account',
+		model: 'Account',
+		populate: {
+			path: '_primary_box',
+			model: 'Box'
+		}
+	};
+
+	this.findOne({ 'email': email })
+		.populate(accountPopulation)
 		.exec( function (error, user) {
 			if (error) { 
 				return callback(error);
 			}
 			if (!user) { 
-				log.error('|User.authenticate| User not found -> ' + emailAddress, widget);
+				log.error('|User.authenticate| User not found -> ' + email, widget);
 				return callback(null, false);
 			}
-			
 			bcrypt.compare(password, user.password, function(error, isMatch) {
 				if (error) {
 					log.error(error, widget);
 					return callback(error);
 				}
 				if (isMatch) {
-					log.info('|User.authenticate| Credentials match for -> ' + emailAddress, widget);
+					log.info('|User.authenticate| Credentials match for -> ' + email, widget);
 					if (user.verified == false) {
 						return callback('User is not verified');
 					}
 					return callback(null, user);
 				} else {
-					log.error('|User.authenticate| Credentials do not match for -> ' + emailAddress, widget);
+					log.error('|User.authenticate| Credentials do not match for -> ' + email, widget);
 					return callback(null, false);
 				}
 			});

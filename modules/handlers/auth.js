@@ -5,7 +5,7 @@ var crypto = require('crypto');
 
 // Mongoose
 var User = require('../models/user');
-var Acct = require('../models/account');
+var Account = require('../models/account');
 var Counter = require('../models/counter');
 //var NotificationTemplate = require('workwoo-utils').notificationTemplate;
 
@@ -17,11 +17,11 @@ var log = require('../../utils/logger');
 var widget = 'auth';
 log.registerWidget(widget);
 
-exports.verifyCredentials = function(emailAddress, password, callback) {
+exports.verifyCredentials = function(email, password, callback) {
 	try {
 		var errors = {};
-		if (validator.checkNull(emailAddress)) { errors.emailAddress = 'Email Address is Null'; } 
-		else if (!validator.checkEmail(emailAddress)) { errors.emailAddress = 'Email Address is not valid: ' + emailAddress; } 
+		if (validator.checkNull(email)) { errors.email = 'Email Address is Null'; } 
+		else if (!validator.checkEmail(email)) { errors.email = 'Email is not valid: ' + email; } 
 		
 		if (validator.checkNull(password)) { errors.password = 'Password is Null'; }
 
@@ -30,26 +30,26 @@ exports.verifyCredentials = function(emailAddress, password, callback) {
 			return callback('Error while verifying credentials');		
 		}
 
-		log.info('|auth.verifyCredentials| Email -> ' + emailAddress, widget);
+		log.info('|auth.verifyCredentials| Email -> ' + email, widget);
 
-		User.authenticate(emailAddress, password, function(error, user){
+		User.authenticate(email, password, function(error, user){
 			if (error) {
 				log.error('|auth.verifyCredentials.authenticate| Unknown -> ' + error, widget);
 				return callback(error);
 			}
 			if (!user) {
-				log.error('|auth.verifyCredentials.authenticate| User not found or password incorrect -> ' + emailAddress, widget);
+				log.error('|auth.verifyCredentials.authenticate| User not found or password incorrect -> ' + email, widget);
 				return callback(null, false);
 			}
 
-			log.info('|auth.verifyCredentials.authenticate| User credentials verified -> ' + emailAddress, widget);
+			log.info('|auth.verifyCredentials.authenticate| User credentials verified -> ' + email, widget);
 			
 			var userSession = {
 				firstName: user.firstName,
 				lastName: user.lastName,
-				emailAddress: user.emailAddress,
+				email: user.email,
 				id: user.id,
-				acct: user._acct,
+				account: user._account,
 				number: user.number,
 				phone: user.phone
 			};
@@ -64,24 +64,22 @@ exports.verifyCredentials = function(emailAddress, password, callback) {
 };
 
 
-function createAcct(acctName, callback) {
-	var newAcct = new Acct();
-	newAcct.name = acctName;
-	newAcct.streetAddress = '';
-	newAcct.city = '';
- 	newAcct.state = '';
- 	newAcct.country = '';
- 	newAcct.zip = '';
- 	newAcct.emailAddress = '';
- 	newAcct.accountType = '0';
-	//newOrg._created_by = '56d67d7ee4b035e540be4bfd'; // System Account, move to config
-    //newOrg._updated_by = '56d67d7ee4b035e540be4bfd';
+function createAccount(accountName, callback) {
+	var newAccount = new Account();
+	newAccount.name = accountName;
+	newAccount.streetAddress = '';
+	newAccount.city = '';
+ 	newAccount.state = '';
+ 	newAccount.country = '';
+ 	newAccount.zip = '';
+ 	newAccount.email = '';
+ 	newAccount.accountType = '0';
 
-	newAcct.save(function(error, acct) {
+	newAccount.save(function(error, account) {
 		if (error) {
 			callback(error);
 		} else {
-			callback(null, acct._id);
+			callback(null, account._id);
 		}
 	});
 };
@@ -106,14 +104,14 @@ function createCounter(orgId, prefix, col, callback) {
 */
 
 
-function createUser(req, acctId, callback) {
+function createUser(req, acccountID, callback) {
 	var newUser = new User();
 	newUser.firstName = req.body.firstName;
 	newUser.lastName = req.body.lastName;
-	newUser.emailAddress = req.body.newEmailAddress;
+	newUser.email = req.body.newEmail;
 	newUser.state = 'active';
 	newUser.password = req.body.newPassword;
-	newUser._acct = acctId;
+	newUser._account = acccountID;
 
 	//var token = crypto.randomBytes(64).toString('hex');
 	//newUser.verified = false;
@@ -135,14 +133,14 @@ function createUser(req, acctId, callback) {
 
 exports.signupRequest = function(req, res) {
 	try {
-		createAcct(req.body.acctName, function (error, acctId) {
+		createAccount(req.body.accountName, function (error, accountID) {
 			if (error) {
-				log.error('|auth.createAcct| Unknown  -> ' + error, widget);
+				log.error('|auth.signupRequest.createAccount| Unknown  -> ' + error, widget);
 				return utility.errorResponseJSON(res, 'Error occurred creating account');
 			} else {
-				createUser(req, acctId, function (error, user) {
+				createUser(req, accountID, function (error, user) {
 					if (error) {
-						log.error('|auth.createUser| Unknown  -> ' + error, widget);
+						log.error('|auth.signupRequest.createUser| Unknown  -> ' + error, widget);
 						return utility.errorResponseJSON(res, 'Error occurred creating user');
 					} else {
 						/*
@@ -153,12 +151,12 @@ exports.signupRequest = function(req, res) {
 							} else {
 								notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.tokenPlaceholder, user.verifyToken);
 								notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.hostNamePlaceholder, cfg.hostname);
-								mailer.sendMail(notificationTemplate, {to: user.emailAddress}, user._id);								
+								mailer.sendMail(notificationTemplate, {to: user.email}, user._id);								
 								return res.send(JSON.stringify({result: true}));
 							}
 						});
 						*/
-						return res.send(JSON.stringify({result: true}));
+						return res.send(JSON.stringify({ result: true }));
 					}
 				});
 			}
@@ -294,7 +292,7 @@ exports.verifyRequest = function(req, res) {
 				return utility.errorResponseJSON(res, 'Error while verifying user');
 			}
 
-			if (!user.emailAddress) { 
+			if (!user.email) { 
 				log.error('|auth.verifyRequest.verify| User not found for token -> ' + token, widget);
 				return utility.errorResponseJSON(res, 'Error while verifying user');
 			}
