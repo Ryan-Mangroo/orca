@@ -12,9 +12,8 @@ App.factory('Box', Box);
 
 App.config(function($routeProvider) {
 	$routeProvider.when('/', { templateUrl : 'views/error.html', controller: 'errorController'});
-	$routeProvider.when('/view', { templateUrl : 'views/error.html', controller: 'errorController'});
-	$routeProvider.when('/view/:number', { templateUrl: 'views/newentry.html', controller: 'messageController'});
+	$routeProvider.when('/:number', { templateUrl: 'views/newentry.html', controller: 'messageController'});
 	$routeProvider.when('/submitted', { templateUrl : 'views/newentrysubmitted.html', controller: 'submittedController'});
-	$routeProvider.when('/error', { templateUrl : 'views/error.html', controller: 'errorController'});
+	$routeProvider.when('/view/error/', { templateUrl : 'views/error.html', controller: 'errorController'});
 
 });

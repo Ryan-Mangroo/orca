@@ -10,7 +10,7 @@
 	color: #777;
 	padding: 20px;
 	background-color: #EEEFF1;
-	box-shadow: 2px 2px 0px #d2d5da;
+	border-bottom: 2px solid #d2d5da;
 }
 
 .grayBorderBox {
@@ -170,10 +170,23 @@
 	min-width: 200px;
 }
 
-.mainBoxLink {
+.accountSectionHeading {
 	font-size: 16px;
 	padding:10px 10px 15px 15px;
 	color: #fff;
 	background-color: #005bb4;
+}
+
+.accountSection {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 15px;
+}
+
+.accountSectionContainer {
+	background-color: #EEEFF1;
+	border-bottom: 2px solid #d2d5da;
+	margin: 0px;
+	padding: 0px;
 }
 /*######################### ACCOUNT #########################*/

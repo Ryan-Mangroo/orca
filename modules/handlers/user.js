@@ -3,7 +3,6 @@ var cfg = require('../../config/config');
 
 // Mongoose
 var User = require('../models/user');
-var Account = require('../models/account');
 
 // Custom modules
 //var mailer = require('workwoo-utils').mailer;
@@ -12,6 +11,112 @@ var validator = require('../../utils/validator');
 var log = require('../../utils/logger');
 var widget = 'user-management';
 log.registerWidget(widget);
+
+
+exports.update = function(req, res) {
+	try {
+		// TODO: Scrub incoming 
+		var userID = req.body._id;
+		log.info('|user.update| Updating user  -> ' + userID, widget);
+
+		User.findById(userID)
+    		.exec(
+    		function(error, user) {
+	    		if (error) {
+					log.error('|user.update.findById| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred updating user');
+				} else {			
+					user.firstName = req.body.firstName;
+			 		user.lastName = req.body.lastName;
+					user.email = req.body.email;
+					user.phone = req.body.phone;
+					user.role = req.body.role;
+
+			    	user.save(function(error){
+						if (error) {
+							log.error('|user.update.save| Unknown  -> ' + error, widget);
+							utility.errorResponseJSON(res, 'Error occurred updating user');
+						} else {
+							// Repopulate the account & primary box info
+							var accountPopulation = {
+								path: '_account',
+								model: 'Account',
+								populate: {
+									path: '_primary_box',
+									model: 'Box'
+								}
+							};
+							user.populate(accountPopulation, function(error) {
+								if(error) {
+									log.error('|user.update.save.populate| Unknown  -> ' + error, widget);
+									utility.errorResponseJSON(res, 'Error occurred populating primary box');
+								} else {
+									log.info('|user.update| Success  -> ' + user._id, widget);
+
+									// Reset session profile and return
+									req.session.userprofile.firstName = user.firstName;
+									req.session.userprofile.lastName = user.lastName;
+									req.session.userprofile.email = user.email;
+									req.session.userprofile.id = user._id;
+									req.session.userprofile.account = user._account;
+									req.session.userprofile.phone = user.phone;
+									req.session.userprofile.role = user.role;
+
+									res.send(JSON.stringify({ result: req.session.userprofile }));
+								}
+							});
+						} 
+			    	});
+				}
+	    	});
+	} catch (error) {
+		log.error('|user.update| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error while updating user');
+	}
+};
+
+
+exports.changePassword = function(req, res) {
+	try {
+		log.info('|user.changePassword|', widget);
+
+		var userID = req.session.userprofile.id;
+		var currentPassword = req.body.current;
+		var newPassword = req.body.new;
+
+		var errors = {};
+		if (validator.checkNull(currentPassword)) { errors.currentPassword = 'Current Password is Null'; } 
+		if (validator.checkNull(newPassword)) { errors.newPassword = 'New Password is Null'; } 
+
+		if (!validator.checkEmptyObject(errors)) {
+			log.error('|user.changePassword| ' + JSON.stringify(errors), widget);
+			return utility.errorResponseJSON(res, 'Error occurred changing password');
+		}
+
+		var passwordComplexityResult = validator.checkPasswordComplexity(newPassword);
+
+		for (var option in passwordComplexityResult) {
+			if (!passwordComplexityResult[option]) {
+				log.error('|user.changePassword| Password complexity check failed: ' + JSON.stringify(passwordComplexityResult), widget);
+				return utility.errorResponseJSON(res, 'New Password failed complexity check');
+			}
+		}
+
+		User.changePassword(userID, currentPassword, newPassword, function (error, user) {
+			if (error) {
+				log.error('|user.changePassword| Unknown  -> ' + error, widget);
+				utility.errorResponseJSON(res, 'Error occurred changing password');
+			} else {
+				res.send(JSON.stringify({ result: true }));
+			}
+		});
+		
+	} catch (error) {
+		log.error('|user.changePassword| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Error occurred changing password');
+	}
+};
+
 
 /*
 exports.setIsNewUser = function(req, res) {
@@ -79,48 +184,6 @@ exports.create = function(req, res) {
 };
 */
 
-/*
-
-exports.update = function(req, res) {
-	try {
-		log.info('|user.update|', widget);
-
-		var validationResult = validateUserRequest(req, false);
-
-		if (validationResult.hasErrors) {
-			log.error('|auth.update| ' + JSON.stringify(validationResult.errors), widget);
-			return utility.errorResponseJSON(res, 'Error occurred updating user');
-		}
-
-		var userId = req.body.user._id;
-			
-    	User.findById(userId, '-password -resetPwdToken -resetPwd -resetPwdExpiration -verifyToken -verified')
-    		.exec(
-    		function(error, user) {
-	    		if (error) {
-					log.error('|user.update.findById| Unknown  -> ' + error, widget);
-					utility.errorResponseJSON(res, 'Error occurred updating user');
-				} else {			
-					user.firstName = req.body.user.firstName;
-			 		user.lastName = req.body.user.lastName;
-					user.emailAddress = req.body.user.emailAddress;
-					user.phone = req.body.user.phone;
-					user.role = req.body.user.role;
-					user.state = req.body.user.state;
-			    	user._updated_by = req.session.userprofile.id;
-
-			    	user.save(function(error, user) {
-						res.send(JSON.stringify(user));
-			    	});
-				}
-	    	});
-
-	} catch (error) {
-		log.error('|user.update| Unknown -> ' + error, widget);
-		utility.errorResponseJSON(res, 'Error occurred updating user');
-	}
-};
-*/
 
 /*
 
@@ -193,6 +256,7 @@ exports.getUser = function(req, res) {
 	}
 };
 */
+
 
 /*
 exports.getAll = function(req, res) {
@@ -277,120 +341,7 @@ var validateOrg = function(obj) {
 };
 */
 
-/*
-exports.updateMyAccount = function(req, res) {
-	try {
-		log.info('|user.updateMyAccount|', widget);
 
-		var validationResult = validateUserRequest(req, true);
-
-		if (validationResult.hasErrors) {
-			log.error('|auth.updateMyAccount| ' + JSON.stringify(validationResult.errors), widget);
-			return utility.errorResponseJSON(res, 'Error occurred updating my account');
-		}
-
-		var userId = req.session.userprofile.id;
-		User.findById(userId, function(error, user) {
-    		if (error) {
-				log.error('|user.updateMyAccount.user.findById| Unknown  -> ' + error, widget);
-				utility.errorResponseJSON(res, 'Error occurred updating my account');
-			} else {			
-				user.firstName = req.body.user.firstName;
-		 		user.lastName = req.body.user.lastName;
-				user.emailAddress = req.body.user.emailAddress;
-				user.phone = req.body.user.phone;
-
-		    	user._updated_by = userId;
-
-		    	user.save(function(error, user) {
-		    		if (error) {
-		    			log.error('|user.updateMyAccount.user.save| Unknown  -> ' + error, widget);
-						utility.errorResponseJSON(res, 'Error occurred updating my account');
-		    		} else {
-		    			var orgID = req.session.userprofile.org._id;
-		    			Org.findById(orgID, function(error, org) {
-			    			if (error) {
-								log.error('|user.updateMyAccount.org.findById| Unknown  -> ' + error, widget);
-								utility.errorResponseJSON(res, 'Error occurred updating my account');
-							} else {
-								org.name = req.body.org.name;
-								org.emailAddress = req.body.org.emailAddress;
-								org.phone = req.body.org.phone;
-								org.streetAddress = req.body.org.street;
-								org.city = req.body.org.city;
-								org.state = req.body.org.state;
-								org.zip = req.body.org.zip;
-								org.country = req.body.org.country;
-								org._updated_by = userId;
-								
-								org.save(function(error, org) {
-									if (error) {
-										log.error('|user.updateMyAccount.org.save| Unknown  -> ' + error, widget);
-										utility.errorResponseJSON(res, 'Error occurred updating my account');
-									} else {
-										req.session.userprofile.firstName = user.firstName;
-										req.session.userprofile.lastName = user.lastName;
-										req.session.userprofile.emailAddress = user.emailAddress;
-										req.session.userprofile.phone = user.phone;
-										req.session.userprofile.org = org;
-										res.send(JSON.stringify({result: true}));
-									}
-								});
-							}
-			    		});
-		    		}
-		    	});
-			}
-    	});
-	} catch (error) {
-		log.error('|user.updateMyAccount| Unknown -> ' + error, widget);
-		utility.errorResponseJSON(res, 'Error occurred updating my account');
-	}
-};
-*/
-
-/*
-exports.changePassword = function(req, res) {
-	try {
-		log.info('|user.changePassword|', widget);
-
-		var userId = req.session.userprofile.id;
-		var currentPassword = req.body.user.currentPassword;
-		var newPassword = req.body.user.newPassword;
-
-		var errors = {};
-		if (validator.checkNull(currentPassword)) { errors.currentPassword = 'Current Password is Null'; } 
-		if (validator.checkNull(newPassword)) { errors.newPassword = 'New Password is Null'; } 
-
-		if (!validator.checkEmptyObject(errors)) {
-			log.error('|user.changePassword| ' + JSON.stringify(errors), widget);
-			return utility.errorResponseJSON(res, 'Error occurred changing password');
-		}
-
-		var passwordComplexityResult = validator.checkPasswordComplexity(newPassword);
-
-		for (var option in passwordComplexityResult) {
-			if (!passwordComplexityResult[option]) {
-				log.error('|user.changePassword| Password complexity check failed: ' + JSON.stringify(passwordComplexityResult), widget);
-				return utility.errorResponseJSON(res, 'New Password failed complexity check');
-			}
-		}
-
-		User.changePassword(userId, currentPassword, newPassword, function (error, user) {
-			if (error) {
-				log.error('|user.changePassword| Unknown  -> ' + error, widget);
-				utility.errorResponseJSON(res, 'Error occurred changing password');
-			} else {
-				res.send(JSON.stringify({result: true}));
-			}
-		});
-		
-	} catch (error) {
-		log.error('|user.changePassword| Unknown -> ' + error, widget);
-		utility.errorResponseJSON(res, 'Error occurred changing password');
-	}
-};
-*/
 
 exports.getUserProfile = function(req, res) {
 	try {

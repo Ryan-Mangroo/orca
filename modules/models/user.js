@@ -22,7 +22,8 @@ var userSchema = new Schema({
  	lastName: { type: String, required: true},
 	_account: { type: Schema.Types.ObjectId, ref: 'Account' },
 	phone: String,
-	state: String
+	state: String,
+	role: String
 //	resetPwdToken: String,
 //    resetPwd: Boolean,
 //    resetPwdExpiration: Date,
@@ -30,7 +31,6 @@ var userSchema = new Schema({
 //    verifyToken: String,
 //    newUser: Boolean,
 }, cfg.mongoose.options);
-
 
 userSchema.statics.authenticate = function(email, password, callback) {
 	log.info('|User.authenticate|', widget);
@@ -73,6 +73,54 @@ userSchema.statics.authenticate = function(email, password, callback) {
 		}
 	);
 };
+
+
+userSchema.statics.changePassword = function(userID, currentPassword, newPassword, callback) {
+	log.info('|User.changePassword|', widget);
+
+	this.findById(userID)
+		.exec(
+		function(err, user) {
+			if (err) { return callback(err); }
+
+			if (!user) { 
+				log.error('|User.changePassword| User not found -> ' + userID, widget);
+				return callback(null, false);
+			}
+
+			bcrypt.compare(currentPassword, user.password, function(err, isMatch) {
+				if (err) {
+					log.error(err, widget);
+					return callback(err);
+				}
+
+				if (isMatch) {
+					if (user.verified == false) {
+						return callback('User not verified');
+					}
+
+					bcrypt.genSalt(10, function(err, salt) {
+				    	bcrypt.hash(newPassword, salt, function(err, hash) {
+				    		user.password = hash;
+				    		user.resetPwdToken = '';
+							user.resetPwd = false;
+							user.resetPwdExpiration = '';
+							user.save(function (err) {
+								if (err) { return callback(err); }
+					  			log.info('|User.changePassword| Password change successful', widget);
+					  			return callback(null, user);
+							});				
+				    	});
+					});
+				} else {
+					log.error('|User.authenticate| Credentials do not match for -> ' + userID, widget);
+					return callback(null, false);
+				}
+			});
+		});
+};
+
+
 /*
 userSchema.statics.forgotPassword = function(emailAddress, callback) {
 	log.info('|User.forgotPassword|', widget);
@@ -128,53 +176,6 @@ userSchema.statics.resetPassword = function(token, newPassword, callback) {
 			  			return callback(null, user);
 					});				
 		    	});
-			});
-		});
-};
-*/
-
-/*
-userSchema.statics.changePassword = function(userId, currentPassword, newPassword, callback) {
-	log.info('|User.changePassword|', widget);
-
-	this.findById(userId)
-		.exec(
-		function(err, user) {
-			if (err) { return callback(err); }
-
-			if (!user) { 
-				log.error('|User.changePassword| User not found -> ' + userId, widget);
-				return callback(null, false);
-			}
-
-			bcrypt.compare(currentPassword, user.password, function(err, isMatch) {
-				if (err) {
-					log.error(err, widget);
-					return callback(err);
-				}
-
-				if (isMatch) {
-					if (user.verified == false) {
-						return callback('User is not verified');
-					}
-
-					bcrypt.genSalt(10, function(err, salt) {
-				    	bcrypt.hash(newPassword, salt, function(err, hash) {
-				    		user.password = hash;
-				    		user.resetPwdToken = '';
-							user.resetPwd = false;
-							user.resetPwdExpiration = '';
-							user.save(function (err) {
-								if (err) { return callback(err); }
-					  			log.info('|User.changePassword| Password change successful', widget);
-					  			return callback(null, user);
-							});				
-				    	});
-					});
-				} else {
-					log.error('|User.authenticate| Credentials do not match for -> ' + userId, widget);
-					return callback(null, false);
-				}
 			});
 		});
 };

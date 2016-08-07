@@ -5,103 +5,229 @@
 	</div>
 </div>
 
-<div class="container-fluid noSpace" style="margin-top:10px;">
+<!-- Alerts Include -->
+<span ng-include="'views/includes/alerts.html'"></span>
+
+<div class="container-fluid noSpace" style="margin-top:10px;padding-right:10px;">
 	<!-- Logo -->
-	<div class="col-md-2">
+	<div class="col-md-2" ng-style="computeSectionStyle('logo')">
 		<div class="grayContainer accountLogoContainer">
 			<div class="grayBorderBox text-center">
 				<img class="accountLogo" ng-src="{{ currentUser.account.logo }}"/>
 			</div>
-			<button type="button" style="margin-top:10px;" class="btn btn-primary btn-block btn-sm">Change Logo</button>
+			<button ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" type="button" style="margin-top:10px;" class="btn btn-primary btn-block btn-sm">Change Logo</button>
 		</div>
 	</div>
 
 	<!-- Main Link & basic info -->
-	<div class="col-md-10">
-		<div class="mainBoxLink">
-			<span>Main message box for your employees:</span>
-			<a style="font-weight:bold;"  class="whiteLink" ng-href="http://localhost:1337/box/#/view/{{currentUser.account._primary_box.number}}">localhost:1337/box/{{ currentUser.account._primary_box.number }}</a>
-			<button type="button" style="margin:0px;" class="btn btn-sm btn-warning pull-right">Re-generate link</button>
+	<div class="col-md-10 accountSectionContainer">
+		<div ng-style="computeSectionStyle('mainBoxLink')">
+			<div class="accountSectionHeading">
+				<span>Main message box for your employees:</span>
+				<a style="font-weight:bold;"  class="whiteLink" ng-href="http://localhost:1337/box/#/{{currentUser.account._primary_box.number}}?t={{currentUser.account._primary_box.token}}">localhost:1337/box/{{ currentUser.account._primary_box.number }}?t={{currentUser.account._primary_box.token}}</a>
+				<button ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" type="button" style="margin:0px 10px 0px 0px;" class="btn btn-sm btn-warning pull-right">Re-generate link</button>
+			</div>
 		</div>
 
 		<!-- Company info -->
-		<div class="col-md-6" style="font-size:16px;">
-			<h3>Company Information</h3>
-			<form>
-				<!-- Company Name -->
-				<div>
-					<label>Name: </label>
-					<span class="fadeInOut" ng-if="!allowEditCompany"> {{ currentUser.account.name }}</span>
-					<div class="form-group">
-						<input ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="currentUser.account.name"/>
+		<div class="col-md-6">
+			<div class="accountSection" ng-style="computeSectionStyle('company')">
+
+				<h3 class="noSpace" style="margin-bottom:10px;">Company Information</h3>
+				<form ng-model="companyInfo" style="font-size:16px;">
+					<!-- Company Name -->
+					<div>
+						<label>Name: </label>
+						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.name }}</span>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.name"/>
+						</div>
+					</div>
+					<!-- Company HQ -->
+					<div ng-if="!allowEditCompany" class="fadeInOut">
+						<label>HQ: </label>
+						<span> {{ companyInfo.city }} {{ companyInfo.state }}, {{ companyInfo.country }}</span>
+						<div class="form-group"></div><!-- Spacer -->
+					</div>
+					<div ng-if="allowEditCompany" class="fadeInOut">
+						<label>City:</label>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.city"/>
+						</div>
+					</div>
+					<div ng-if="allowEditCompany" class="fadeInOut">
+						<label>State:</label>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.state"/>
+						</div>
+					</div>
+					<div ng-if="allowEditCompany" class="fadeInOut">
+						<label>Country:</label>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.country"/>
+						</div>
+					</div>
+					<!-- Company Email -->
+					<div>
+						<label>Billing Email: </label>
+						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.email }}</span>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.email"/>
+						</div>
+					</div>
+					<!-- Company Phone -->
+					<div>
+						<label>Billing Phone: </label>
+						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.phone }}</span>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.phone"/>
+						</div>
+					</div>
+				</form>
+
+				<!-- Edit Company Buttons -->
+				<div class="row fadeInOut" ng-if="!allowEditCompany">
+					<div class="col-md-6">
+						<button ng-disabled="allowEditPersonal || allowEditPassword" type="button" ng-click="editCompanyInfo()" class="btn btn-primary btn-block">Update Company Info</button>
 					</div>
 				</div>
 
-				<!-- Company HQ -->
-				<div>
-					<label>HQ: </label>
-					<span class="fadeInOut" ng-if="!allowEditCompany"> {{ currentUser.account.city }} {{ currentUser.account.state }}</span>
-					<div class="form-group">
-						<input ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="currentUser.account.city"/>
+				<div class="row fadeInOut" ng-if="allowEditCompany">
+					<div class="col-md-6">
+						<button ng-disabled="companySubmitting" type="button" ng-click="cancelSaveCompany()" class="btn btn-primary btn-block">Cancel</button>
 					</div>
-				</div>
-
-				<!-- Company Email -->
-				<div>
-					<label>Billing Email: </label>
-					<span class="fadeInOut" ng-if="!allowEditCompany"> {{ currentUser.account.email }}</span>
-					<div class="form-group">
-						<input ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="currentUser.account.email"/>
+					<div class="col-md-6">
+						<button ng-disabled="companySubmitting" type="button" ng-click="saveCompany(companyInfo)" class="btn btn-success btn-block">
+							<span ng-if="!companySubmitting">Save Changes</span>
+							<span ng-if="companySubmitting"><i class="fa fa-refresh fa-spin"></i> Saving</span>
+						</button>
 					</div>
-				</div>
-
-				<!-- Company Phone -->
-				<div>
-					<label>Billing Phone: </label>
-					<span class="fadeInOut" ng-if="!allowEditCompany"> {{ currentUser.account.phone }}</span>
-					<div class="form-group">
-						<input ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="currentUser.account.phone"/>
 					</div>
-				</div>
-			</form>
-
-			<!-- Edit Company Buttons -->
-			<div>
-				<button ng-if="!allowEditCompany" type="button" ng-click="editCompany()" class="fadeInOut btn btn-primary btn-sm">Change Company Info</button>
-				<button ng-if="allowEditCompany" type="button" ng-click="saveCompany()" class="fadeInOut btn btn-success btn-sm">Save Changes</button>
-				<button ng-if="allowEditCompany" type="button" ng-click="cancelSaveCompany()" class="fadeInOut btn btn-primary btn-sm">Cancel</button>
 			</div>
-
 		</div>
 
+
 		<!-- Personal info -->
-		<div class="col-md-6" style="font-size:16px;">
-			<h3>Personal Information</h3>
-			<div>
-				<label>First Name:</label>
-				<span> {{ currentUser.firstName }}</span>
-			</div>
-			<div>
-				<label>last Name:</label>
-				<span> {{ currentUser.lastName }}</span>
-			</div>
-			<div>
-				<label>Email:</label>
-				<span> {{ currentUser.emailAddress }}</span>
-			</div>
-			<div>
-				<label>Mobile:</label>
-				<span> {{ currentUser.phone }}</span>
-			</div>
-			<div>
-				<button type="button" class="btn btn-primary btn-sm">Change My Info</button>
+		<div class="col-md-6">
+			<div class="accountSection" ng-style="computeSectionStyle('personal')">
+
+				<h3 class="noSpace" style="margin-bottom:10px;">Your Personal Information</h3>
+				<form ng-if="!allowEditPassword" ng-model="personalInfo" style="font-size:16px;">
+					<!-- Name -->
+					<div ng-if="!allowEditPersonal" class="fadeInOut">
+						<label>Name: </label>
+						<span ng-if="!allowEditPersonal"> {{ personalInfo.firstName }} {{ personalInfo.lastName }}</span>
+						<div class="form-group"></div><!-- Spacer -->
+					</div>
+					<div ng-if="allowEditPersonal" class="fadeInOut">
+						<label>First Name: </label>
+						<div class="form-group">
+							<input ng-disabled="personalSubmitting" ng-if="allowEditPersonal" type="text" class="form-control" ng-model="personalInfo.firstName"/>
+						</div>
+					</div>
+					<div ng-if="allowEditPersonal" class="fadeInOut">
+						<label>Last Name: </label>
+						<div class="form-group">
+							<input ng-disabled="personalSubmitting" ng-if="allowEditPersonal" type="text" class="form-control" ng-model="personalInfo.lastName"/>
+						</div>
+					</div>
+					<!-- Role -->
+					<div ng-if="!allowEditPersonal" class="fadeInOut">
+						<label>Role: </label>
+						<span class="fadeInOut" ng-if="!allowEditPersonal"> {{ personalInfo.role }}</span>
+						<div class="form-group">
+							<input ng-disabled="personalSubmitting" ng-if="allowEditPersonal" type="text" class="fadeInOut form-control" ng-model="personalInfo.role"/>
+						</div>
+					</div>
+					<!-- Personal Email -->
+					<div>
+						<label>Email: </label>
+						<span class="fadeInOut" ng-if="!allowEditPersonal"> {{ personalInfo.email }}</span>
+						<div class="form-group">
+							<input ng-disabled="personalSubmitting" ng-if="allowEditPersonal" type="text" class="fadeInOut form-control" ng-model="personalInfo.email"/>
+						</div>
+					</div>
+					<!-- Personal Phone -->
+					<div>
+						<label>Mobile: </label>
+						<span class="fadeInOut" ng-if="!allowEditPersonal"> {{ personalInfo.phone }}</span>
+						<div class="form-group">
+							<input ng-disabled="personalSubmitting" ng-if="allowEditPersonal" type="text" class="fadeInOut form-control" ng-model="personalInfo.phone"/>
+						</div>
+					</div>
+				</form>
+
+				<form ng-if="allowEditPassword" ng-model="passwordInfo" style="font-size:16px;">
+					<!-- Current password -->
+					<div>
+						<label>Current password: </label>
+						<div class="form-group">
+							<input ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-model="passwordInfo.current" autocomplete="off"/>
+						</div>
+					</div>
+					<!-- New password -->
+					<div>
+						<label>New password: </label>
+						<div class="form-group">
+							<input ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-model="passwordInfo.new" autocomplete="new-password"/>
+						</div>
+					</div>
+					<!-- Confirm new password -->
+					<div>
+						<label>Confirm new password: </label>
+						<div class="form-group">
+							<input ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-model="passwordInfo.newConfirm" autocomplete="new-password"/>
+						</div>
+					</div>
+				</form>
+
+				<!-- Edit Personal Info Buttons -->
+				<div class="row fadeInOut" ng-if="!allowEditPersonal && !allowEditPassword">
+					<div class="col-md-6 fadeInOut">
+						<button ng-disabled="allowEditCompany" type="button" ng-click="editPersonalInfo()" class="btn btn-primary btn-block">Update Personal Info</button>
+					</div>
+					<div class="col-md-6 fadeInOut">
+						<button ng-disabled="allowEditCompany" type="button" ng-click="editPassword()" class="btn btn-default btn-block"><i class="fa fa-lock"></i> Change My Password</button>
+					</div>
+				</div>
+
+				<!-- Cancel & Save (Personal Info) -->
+				<div class="row fadeInOut" ng-if="allowEditPersonal">
+					<div class="col-md-6 fadeInOut">
+						<button ng-disabled="personalSubmitting" type="button" ng-click="cancelSavePersonal()" class="btn btn-primary btn-block">Cancel</button>
+					</div>
+					<div class="col-md-6 fadeInOut">
+						<button ng-disabled="personalSubmitting" type="button" ng-click="savePersonal(personalInfo)" class="btn btn-success btn-block">
+							<span ng-if="!personalSubmitting">Save Changes</span>
+							<span ng-if="personalSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving</span>
+						</button>
+					</div>
+				</div>
+
+				<!-- Cancel & Save (Password) -->
+				<div class="row fadeInOut" ng-if="allowEditPassword">
+					<div class="col-md-6 fadeInOut">
+						<button ng-disabled="passwordSubmitting" type="button" ng-click="cancelEditPassword()" class="btn btn-primary btn-block">Cancel</button>
+					</div>
+					<div class="col-md-6 fadeInOut">
+						<button ng-disabled="passwordSubmitting" type="button" ng-click="savePassword(passwordInfo)" class="btn btn-success btn-block">
+							<span ng-if="!passwordSubmitting">Update Password</span>
+							<span ng-if="passwordSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving</span>
+						</button>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
-</div>
 
+	<div class="col-md-2"></div><!-- Spacer -->
 
-<!-- Plan & Usage -->
-<div class="container-fluid noSpace text-center" style="margin-top:10px;">
-	<h2>[ PLAN & USAGE HERE ]</h2>
+	<div class="col-md-10 accountSectionContainer" style="margin-top:15px;">
+		<div class="accountSectionHeading">
+			Your plan & Usage
+		</div>
+		<h2>[ PLAN & USAGE HERE ]</h2>
+	</div>
+
 </div>

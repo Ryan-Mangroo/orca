@@ -1,4 +1,4 @@
-function messageController($scope, $location, Message, Box) {
+function messageController($scope, $location, $routeParams, Message, Box) {
 	log.info('|messageController|');
 	$('#entryForm').hide();
 
@@ -10,25 +10,27 @@ function messageController($scope, $location, Message, Box) {
 		'excited': 5
 	};
 	$scope.selectedMood = null;
-
 	$scope.newEntrySubmitting = false;
 	$scope.showEntryForm = false;
-
 	$scope.newEntryPlaceholder = 'Your feedback...';
 
-	$scope.loadBoxInfo = function(boxNumber) {
-		log.info('Loading box info for: ' + boxNumber);
-
-		Box.getInfo(boxNumber,
+	$scope.loadBoxInfo = function(boxNumber, token) {
+		log.info('Loading box info for: ' + boxNumber + ', t: ' + token);
+		Box.getInfo(boxNumber, token,
 		  function(boxInfo){
+		  	if(boxInfo.error) {
+		  		$scope.setBoxLoaded(false);
+		  		$scope.setBoxInfo(null);
+		  		$scope.changeView('view/error');
+		  	} else {
+		  		$scope.setBoxLoaded(true);
+		  		$scope.setBoxInfo(boxInfo);
+		  	}
 
-		  	$scope.setBoxLoaded(true);
-		  	$scope.setBoxInfo(boxInfo);
-
-		  	log.object(boxInfo);
 		  },
 		  function() {
 		  	log.error('Something bad happened while loading box info');
+		  	$scope.changeView('view/error');
 		  }
 		);
 	};
@@ -46,7 +48,7 @@ function messageController($scope, $location, Message, Box) {
 		  	log.info('Success');
 		  	log.object(createdMessage);
 		  	$scope.newEntrySubmitting = false;
-		  	$scope.changeView('submitted');
+		  	$scope.changeView('view/submitted');
 		  },
 		  function() {
 		  	log.error('Something bad happened creating the message');
@@ -76,16 +78,37 @@ function messageController($scope, $location, Message, Box) {
 
 
 	$scope.initMessageController = function() {
+		$scope.setBoxLoaded(false);
 		var currentURL = $location.url();
-		var boxNumber = currentURL.slice(currentURL.indexOf('/view/') + 6, currentURL.length);
+		var tokenIndex = currentURL.indexOf('?t=');
 
-		if(!boxNumber) {
-			$scope.changeView('error');
-		} else {
-			log.info('Found: ' + boxNumber);
-			$scope.loadBoxInfo(boxNumber);
+		// If no token is given, redirect to error
+		if(tokenIndex < 0) {
+			$scope.changeView('view/error');
+			return;
 		}
 
+		// Grab the token. If null, redirect to error
+		var token = $routeParams.t;
+		if(token.length == 0) {
+			$scope.changeView('view/error');
+			return;
+		}
+
+		// If no box number is given, redirect to error
+		var boxNumber = currentURL.slice(0, tokenIndex).slice(1);// Also remove the slash
+		if(boxNumber. length == 0) {
+			$scope.changeView('view/error');
+			return;
+		}
+
+		// One last check to ensure that the box number is numeric
+
+
+
+
+		// Only now that we have a box number and token, can we see if it's valid.
+		$scope.loadBoxInfo(boxNumber, token);
 	};
 
 	$scope.initMessageController();

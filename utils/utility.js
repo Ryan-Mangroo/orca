@@ -10,5 +10,5 @@ exports.errorResponseJSON = function(/* Obj */ response, /* String */ message) {
 		error: true,
 		message: message
 	}
-	response.send(JSON.stringify(info));
+	response.send(JSON.stringify({ result: info }));
 };

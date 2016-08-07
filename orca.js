@@ -17,6 +17,7 @@ var mongoose = require('mongoose');
 // Custom modules
 var auth = require('./modules/handlers/auth.js');
 var user = require('./modules/handlers/user.js');
+var account = require('./modules/handlers/account.js');
 var box = require('./modules/handlers/box.js');
 var message = require('./modules/handlers/message.js');
 var homepage = require('./modules/handlers/homepage.js');
@@ -207,14 +208,21 @@ function initializeApp() {
 			res.sendStatus(401);
 		}).post(auth.verifyRequest);
 */
-		// Routes for item CRUD operations
+		// Box & Message
 		app.route('/getBoxInfo').get(box.getInfo);
 		app.route('/createBox').post(validateRequest(), box.create);
-
 		app.route('/createMessage').post(validateRequest(), message.create);
 		app.route('/getAllMessages').get(validateRequest(), message.getAll);
 		app.route('/deleteMessages').post(validateRequest(), message.delete);
+
+		// Prediction
 		app.route('/getHomeKeywords').get(validateRequest(), homepage.getKeywords);
+
+		// Account related
+		app.route('/updateAccount').post(validateRequest(), account.update);
+		app.route('/updateUser').post(validateRequest(), user.update);
+		app.route('/changeUserPassword').post(validateRequest(), user.changePassword);
+		
 /*
 		app.route('/signup').get(function(req, res) {
 			log.info('|signup| Incorrect GET instead of POST', widget);

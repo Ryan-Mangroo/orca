@@ -19,12 +19,10 @@ function Message($http) {
 
 function Box($http) {
   var Box = {};
-
-  Box.getInfo = function(boxNumber, onSuccess, onFail) {
-    log.info('|Box.getInfo|: ' + boxNumber);
-    $http({ url: '/getBoxInfo', method: 'GET', params: { boxNumber: boxNumber } })
+  Box.getInfo = function(boxNumber, token, onSuccess, onFail) {
+    $http({ url: '/getBoxInfo', method: 'GET', params: { boxNumber: boxNumber, token: token } })
       .then(function success(response) {
-        onSuccess(response.data.boxInfo);
+        onSuccess(response.data.result);
       },
       function fail(response) {
         log.error('Box.getInfo: Fail');

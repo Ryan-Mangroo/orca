@@ -12,6 +12,7 @@ App.controller('supportController', supportController);
 App.factory('Message', Message);
 App.factory('User', User);
 App.factory('Homepage', Homepage);
+App.factory('Account', Account);
 
 // Directives
 App.directive('dateTimePicker', dateTimePicker);

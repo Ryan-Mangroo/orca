@@ -50,8 +50,8 @@ exports.verifyCredentials = function(email, password, callback) {
 				email: user.email,
 				id: user.id,
 				account: user._account,
-				number: user.number,
-				phone: user.phone
+				phone: user.phone,
+				role: user.role
 			};
 
 			return callback(null, userSession);

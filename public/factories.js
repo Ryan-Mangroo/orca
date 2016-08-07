@@ -85,3 +85,47 @@ function Homepage($http) {
 
   return Homepage;
 }
+
+
+/* ######################### ACCOUNT ######################### */
+function Account($http) {
+  var Account = {};
+
+  Account.updateCompany = function (updatedCompanyInfo, onSuccess, onFail) {
+    $http({ url: '/updateAccount', method: 'POST', data: updatedCompanyInfo })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Account.updateCompany: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Account.updateUser = function (updatedUserInfo, onSuccess, onFail) {
+    $http({ url: '/updateUser', method: 'POST', data: updatedUserInfo })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Account.updateUser: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Account.changeUserPassword = function (passwordInfo, onSuccess, onFail) {
+    $http({ url: '/changeUserPassword', method: 'POST', data: passwordInfo })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Account.changePassword: Fail');
+        onFail();
+      }
+    );
+  };
+
+  return Account;
+}

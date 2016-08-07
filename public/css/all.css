@@ -45,12 +45,10 @@ a {
 
 
 /*######################### INPUTS #########################*/
-.defaultInput {
-	background-color: #fff;
+.form-control {
+	border-radius: 0px;
 	box-shadow: none;
-	border-radius: 5px;
-	font-size: 20px;
-	border: none;
+	border-color: #d2d5da;
 }
 /*######################### INPUTS #########################*/
 
@@ -62,9 +60,8 @@ a {
     -ms-transition: .25s;
     -o-transition: .25s;
     transition: .25s;
-	text-transform: uppercase;
-	border-radius: 10px;
-	padding: 15px;
+	border-radius: 5px;
+	padding: 5px 10px 5px 10px;
 }
 
 .btn-sm {
@@ -125,6 +122,17 @@ a {
 	color: #fff;
 }
 /*######################### BUTTONS #########################*/
+
+
+/*######################### ALERTS #########################*/
+
+.alert {
+	font-size: 18px;
+	border-radius: 0px;
+	margin-bottom: 0px;
+}
+
+/*######################### ALERTS #########################*/
 
 
 /*######################### ANIMATIONS #########################*/
@@ -190,7 +198,6 @@ a {
 	opacity: 0;
 }
 
-
 /* Fade in and fade out */
 .slideDown.ng-enter {
 	-webkit-transition: 1s;
@@ -232,3 +239,16 @@ a {
     transform: scale(1, 0);
 }
 /*######################### ANIMATIONS #########################*/
+
+
+/*######################### MODALS #########################*/
+
+.modal-content {
+	border-radius: 0px;
+}
+
+.modal-header, .modal-footer {
+	border:none;
+}
+
+/*######################### MODALS #########################*/
