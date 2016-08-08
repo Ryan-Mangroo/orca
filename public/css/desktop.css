@@ -169,14 +169,35 @@
 
 
 /*######################### MESSAGE LIST #########################*/
+
+.entryListRowHeader {
+	position: relative;
+	color: #fff;
+	display: block;
+	padding: 10px;
+	background-color: #004181;
+	border-left: 3px solid #004181;
+}
+
 .entryListRow {
+	-webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+    transition: .25s;
 	position: relative;
 	color: #00274e;
 	display: block;
 	padding: 10px;
 	background-color: #fff;
+	border-left: 3px solid #fff;
 	border-bottom: 1px solid #EEEFF1;
 }
+
+.entryListRow:hover {
+	border-left: 3px solid #005bb4;
+}
+
 /*######################### MESSAGE LIST #########################*/
 
 

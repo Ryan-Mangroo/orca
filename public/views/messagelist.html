@@ -16,6 +16,19 @@
 		</div>
 	</div>
 
+	<div ng-if="!messagesLoading" class="row entryListRowHeader">
+		<div class="col-md-1">
+			<input type="checkbox" ng-checked="selectedMessages.indexOf(message._id) > -1" ng-click="toggleSelectedMessage(message._id)"/>
+		</div>
+		<div class="col-md-3">
+			<span>Received</span>
+		</div>
+		<div class="col-md-1"></div><!-- Spacer -->
+		<div class="col-md-7">Content</div>
+
+	</div>
+
+
 	<div ng-repeat="message in messages" ng-if="!messagesLoading" class="row entryListRow">
 		<div class="col-md-1 text-left">
 			<input type="checkbox" ng-checked="selectedMessages.indexOf(message._id) > -1" ng-click="toggleSelectedMessage(message._id)"/>	
