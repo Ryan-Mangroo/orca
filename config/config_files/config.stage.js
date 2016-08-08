@@ -1,10 +1,10 @@
 var config = require('./config.global');
 
 config.env = 'stage';
-config.hostname = 'appstage.workwoo.com';
+config.hostname = 'orca-stage.workwoo.com';
 
 //Platform app
 config.platform = {};
-config.platform.url = 'http://appstage.workwoo.com/';
+config.platform.url = 'http://orca-stage.workwoo.com/';
 
 module.exports = config;

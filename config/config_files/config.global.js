@@ -1,11 +1,11 @@
 var config = module.exports = {};
 
 config.env = 'development';
-config.hostname = 'app.workwoo.com';
+config.hostname = 'orca.workwoo.com';
 
 //Platform app
 config.platform = {};
-config.platform.url = 'http://app.workwoo.com/';
+config.platform.url = 'http://orca.workwoo.com/';
 config.platform.port = 1337;
 
 //mongo database
