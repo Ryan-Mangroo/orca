@@ -14,7 +14,7 @@ log.registerWidget(widget);
 exports.update = function(req, res) {
 	try {
 		// TODO: Scrub incoming 
-		var accountID = req.body._id;
+		var accountID = req.session.userprofile.account._id;
 		log.info('|account.update| Updating account  -> ' + accountID, widget);
 
 		Account.findById(accountID)

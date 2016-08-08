@@ -8,8 +8,6 @@ function mainController($scope, $location, User) {
 	$scope.infoAlertVisible = false;
 	$scope.infoAlertText = null;
 
-
-
 	$scope.authenticated = false;
 	$scope.currentUser = null;
 	$scope.moodMap = {

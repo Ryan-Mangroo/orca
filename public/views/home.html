@@ -4,7 +4,23 @@
 		<h4 class="noSpace">Welcome back {{ currentUser.firstName }}, here's the current mood at {{ currentUser.account.name }}</h4>
 	</div>
 	<div class="col-md-6 text-right">
-		<a class="btn btn-sm btn-success" href="#/messages"><span class="badge">4</span> New messages today</a>
+		<a class="btn btn-sm btn-success" href="#/messages">Today's New Messages <span class="badge">4</span></a>
+	</div>
+</div>
+
+<!-- Alerts Include -->
+<span ng-include="'views/includes/alerts.html'"></span>
+
+<div class="container-fluid noSpace">
+	<div class="col-md-6">
+		<div class="fadeInOut" ng-if="!allowEditKeywordSummary" style="margin-top: 10px;">
+			<button type="button" onclick="alert('TODO')" class="btn btn-default">Over the past month <i class="fa fa-caret-down"></i></button>
+		</div>
+	</div>
+	<div class="col-md-6 text-right">
+		<div style="margin-top: 10px;">
+			<button type="button" ng-click="toggleEditKeywordSummary()" class="btn btn-default"><i class="fa fa-cog"></i> Page Settings</button>
+		</div>
 	</div>
 </div>
 
@@ -23,18 +39,47 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- Create a row for each homepage keyword -->
-	<div ng-repeat="keyword in homeKeywords" class="row">
-		<div class="col-md-2 text-right">
-			<div style="margin:10px 5px 10px 5px;">
-				<h3 class="noSpace homeKeywordTitle">{{ keyword.title }}</h3>
+	<form ng-model="editableHomeKeywords">
+		<div ng-repeat="keyword in homeKeywords track by $index" class="row fadeInOutStagger">
+			<div class="col-md-2 text-right">
+				<!-- Remove row button -->
+				<div ng-if="allowEditKeywordSummary" ng-click="removeSummaryKeyword($index)" class="removeKeywordIcon fadeInOut"><i class="fa fa-remove"></i></div>
+
+				<div style="margin:10px 5px 10px 5px;">
+					<h3 ng-if="!allowEditKeywordSummary" class="noSpace fadeInOut homeKeywordTitle">{{ keyword.title }}</h3>
+					<input ng-if="allowEditKeywordSummary" type="text" ng-model="editableHomeKeywords[$index].title" class="fadeInOut form-control"/>
+				</div>
+			</div>
+			<div class="col-md-10">
+				<div class="progress homeKeywordValueBar" style="margin:10px 5px 10px 5px;">
+					<div ng-attr-id="{{$index}}_keyword_bar" class="progress-bar progress-bar-warning" role="progressbar" ng-style="{'background':getMoodscaleColor(keyword.value)}"></span></div>
+				</div>
 			</div>
 		</div>
+	</form>
 
-		<div class="col-md-10">
-			<div class="progress homeKeywordValueBar" style="margin:10px 5px 10px 5px;">
-				<div class="progress-bar progress-bar-warning" role="progressbar" ng-style="moodScaleStyle(keyword.value)"></div>
-			</div>
+	<div ng-if="homeKeywords.length == 0 && allowEditKeywordSummary" class="row fadeInOutStagger text-center">
+		<div class="col-md-12" style="padding: 10px 0px 10px 0px;">
+			<h4>Oh no! You've removed all keywords! What are you going to look at now?</h4>
 		</div>
 	</div>
+
+	<!-- Control buttons for editing -->
+	<div ng-if="allowEditKeywordSummary" class="row fadeInOut">
+		<div class="col-md-2">
+			<button type="button" ng-click="addSummaryKeyword()" class="btn btn-primary btn-block"><i class="fa fa-plus"></i> Add Keyword</button>
+		</div>
+
+		<div class="col-md-6"></div><!-- Spacer -->
+
+		<div class="col-md-2">
+			<button type="button" ng-click="toggleEditKeywordSummary()" class="btn btn-primary btn-block">Cancel</button>
+		</div>
+		<div class="col-md-2">
+			<button type="button" ng-click="saveKeywordSummary(editableHomeKeywords)" class="btn btn-success btn-block">Save Changes</button>
+		</div>
+	</div>
+
 </div>

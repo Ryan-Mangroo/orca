@@ -71,13 +71,25 @@ function User($http) {
 /* ######################### HOMEPAGE ######################### */
 function Homepage($http) {
   var Homepage = {};
-  Homepage.getKeywords = function(onSuccess, onFail) {
-    $http({ url: '/getHomeKeywords', method: 'GET', params: {} })
+  Homepage.getKeywordSummary = function(onSuccess, onFail) {
+    $http({ url: '/getKeywordSummary', method: 'GET', params: {} })
       .then(function success(response) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Homepage.getKeywords: Fail');
+        log.error('Homepage.getKeywordSummary: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Homepage.updateKeywordSummary = function(keywordList, homepageID, onSuccess, onFail) {
+    $http({ url: '/updateKeywordSummary', method: 'POST', data: { keywordList: keywordList, homepageID: homepageID } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Homepage.updateKeywordSummary: Fail');
         onFail();
       }
     );

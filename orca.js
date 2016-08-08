@@ -215,8 +215,9 @@ function initializeApp() {
 		app.route('/getAllMessages').get(validateRequest(), message.getAll);
 		app.route('/deleteMessages').post(validateRequest(), message.delete);
 
-		// Prediction
-		app.route('/getHomeKeywords').get(validateRequest(), homepage.getKeywords);
+		// Prediction & Reports
+		app.route('/getKeywordSummary').get(validateRequest(), homepage.getKeywordSummary);
+		app.route('/updateKeywordSummary').post(validateRequest(), homepage.updateKeywordSummary);
 
 		// Account related
 		app.route('/updateAccount').post(validateRequest(), account.update);

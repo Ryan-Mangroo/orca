@@ -144,6 +144,27 @@
     display: flex;
     justify-content: space-around;
 }
+
+.removeKeywordIcon {
+	-webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+    transition: .25s;
+	font-size: 30px;
+	position: absolute;
+	top: 10px;
+	left: -20px;
+	color: #d9534f;
+}
+
+.removeKeywordIcon:hover {
+	cursor: pointer;
+	color: #b6bbc3;
+}
+
+
+
 /*######################### HOMEPAGE #########################*/
 
 
@@ -161,20 +182,25 @@
 
 /*######################### ACCOUNT #########################*/
 .accountLogo {
+	margin-top: 25px;
 	max-height: 100px;
 	max-width: 100px;
 }
 
 .accountLogoContainer {
-	height: 210px;
-	min-width: 200px;
+	border: 1px solid #d2d5da;
+	margin-bottom: 55px;
+	height: 150px;
+	text-align: center;
+	padding: 10px;
+	background-color: #fff;
 }
 
 .accountSectionHeading {
 	font-size: 16px;
 	padding:10px 10px 15px 15px;
 	color: #fff;
-	background-color: #005bb4;
+	background-color: #004181;
 }
 
 .accountSection {
@@ -189,4 +215,63 @@
 	margin: 0px;
 	padding: 0px;
 }
+
+.planDetailsContainer {
+	margin: 0px;
+	font-size: 18px;
+	background-color: #004181;
+	color: #fff;
+	padding: 10px 0px 20px 10px;
+}
+
+.currentPlanPriceTitle, .currentPlanTitle {
+	font-size: 25px;
+}
+
+.currentPlanPriceMain {
+	position: relative;
+	font-size: 70px;
+}
+
+.currentPlanPriceSub {
+	color: #91cf91;
+	font-size: 25px;
+}
+
+.currentPlanPriceSymbol {
+	position: relative;
+	top: -30px;
+	color: #91cf91;
+	font-size: 18px;
+}
+
+.currentPlanDetailContainer {
+	margin:10px;
+}
+
+.currentPlanDetail {
+	color: #b6bbc3;
+}
+
+.usageBase, .usageGreen, .usageYellow, .usageRed {
+	stroke none;
+}
+
+.usageBase {
+	fill: #d2d5da;
+}
+
+.usageGreen {
+	fill: #5cb85c;
+}
+
+.usageYellow {
+	fill: #f0ad4e;
+}
+
+.usageRed {
+	fill: #d9534f;
+}
+
+
 /*######################### ACCOUNT #########################*/

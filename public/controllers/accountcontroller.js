@@ -16,7 +16,7 @@ function accountController($scope, $location, Account) {
 		var disabled = true;
 		var isFocused = false;
 
-		if(sectionName == 'logo' || sectionName == 'mainBoxLink') {
+		if(sectionName == 'logo' || sectionName == 'mainBoxLink' || sectionName == 'planDetails') {
 			disabled = ($scope.allowEditCompany || $scope.allowEditPersonal);
 		} else if(sectionName == 'company') {
 			isFocused = $scope.allowEditCompany;
@@ -75,7 +75,8 @@ function accountController($scope, $location, Account) {
 		  	}
 		  },
 		  function() {
-		  	log.error('Something bad happened trying to update password');
+			$scope.clearAlerts();
+			$scope.toggleAlert('danger', true, 'Something bad happened trying to update your password.');
 		  	$scope.passwordSubmitting = false;
 		  }
 		);
@@ -158,6 +159,40 @@ function accountController($scope, $location, Account) {
 		};
 	};
 
+	$scope.loadUsageCharts = function() {
+		$scope.setChartData('#chartUsers', 4, 5);
+		$scope.setChartData('#chartInboxes', 1, 5);
+		$scope.setChartData('#chartMessages', 27, 100);
+	};
+
+	$scope.setChartData = function(chartID, used, available) {
+		
+		// Determine the percentage used
+		var sliceClassName = 'usageBase';
+		var percentUsed = (100 * used)/available;
+		var percentRemaining = 100 - percentUsed;
+
+		if(percentUsed <= 50) {
+			sliceClassName = 'usageGreen';
+		} else if(percentUsed > 50 && percentUsed <= 75) {
+			sliceClassName = 'usageYellow';
+		} else if(percentUsed > 75) {
+			sliceClassName = 'usagered';
+		}
+
+		var seriesData = {
+			series: [
+				{ value: percentUsed, className: sliceClassName, },
+				{ value: percentRemaining, className: 'usageBase'}
+			]
+		};
+		
+		var options = { showLabel: false };
+		new Chartist.Pie(chartID, seriesData, options);
+		
+	};
+
+	$scope.loadUsageCharts();
 	$scope.setCompanyInfo();
 	$scope.setPersonalInfo();
 }

@@ -8,29 +8,35 @@
 <!-- Alerts Include -->
 <span ng-include="'views/includes/alerts.html'"></span>
 
-<div class="container-fluid noSpace" style="margin-top:10px;padding-right:10px;">
-	<!-- Logo -->
-	<div class="col-md-2" ng-style="computeSectionStyle('logo')">
-		<div class="grayContainer accountLogoContainer">
-			<div class="grayBorderBox text-center">
-				<img class="accountLogo" ng-src="{{ currentUser.account.logo }}"/>
-			</div>
-			<button ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" type="button" style="margin-top:10px;" class="btn btn-primary btn-block btn-sm">Change Logo</button>
-		</div>
-	</div>
-
+<div class="container-fluid noSpace" style="margin-top:10px;padding: 0px 10px 0px 10px;">
 	<!-- Main Link & basic info -->
-	<div class="col-md-10 accountSectionContainer">
+	<div class="col-md-12 accountSectionContainer">
 		<div ng-style="computeSectionStyle('mainBoxLink')">
 			<div class="accountSectionHeading">
-				<span>Main message box for your employees:</span>
+				<span>Main form link for {{ currentUser.account.name }}:</span>
 				<a style="font-weight:bold;"  class="whiteLink" ng-href="http://localhost:1337/box/#/{{currentUser.account._primary_box.number}}?t={{currentUser.account._primary_box.token}}">localhost:1337/box/{{ currentUser.account._primary_box.number }}?t={{currentUser.account._primary_box.token}}</a>
-				<button ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" type="button" style="margin:0px 10px 0px 0px;" class="btn btn-sm btn-warning pull-right">Re-generate link</button>
+				<button ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" type="button" style="margin:0px 10px 0px 0px;" onclick="alert('TODO')" class="btn btn-sm btn-default pull-right">Re-generate link</button>
+			</div>
+		</div>
+		<!-- Logo -->
+		<div class="col-md-2">
+			<div class="accountSection" ng-style="computeSectionStyle('logo')">
+				<!-- Logo Image -->
+				<div class="accountLogoContainer">
+					<img class="accountLogo" ng-src="{{ currentUser.account.logo }}"/>
+				</div>
+			
+				<!-- Edit Logo Buttons -->
+				<div class="row">
+					<div class="col-md-12">
+						<button ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" onclick="alert('TODO')" type="button" class="btn btn-default btn-block">Change Logo</button>
+					</div>
+				</div>
 			</div>
 		</div>
 
 		<!-- Company info -->
-		<div class="col-md-6">
+		<div class="col-md-5">
 			<div class="accountSection" ng-style="computeSectionStyle('company')">
 
 				<h3 class="noSpace" style="margin-bottom:10px;">Company Information</h3>
@@ -88,13 +94,13 @@
 				<!-- Edit Company Buttons -->
 				<div class="row fadeInOut" ng-if="!allowEditCompany">
 					<div class="col-md-6">
-						<button ng-disabled="allowEditPersonal || allowEditPassword" type="button" ng-click="editCompanyInfo()" class="btn btn-primary btn-block">Update Company Info</button>
+						<button ng-disabled="allowEditPersonal || allowEditPassword" type="button" ng-click="editCompanyInfo()" class="btn btn-default btn-block">Update Company Info</button>
 					</div>
 				</div>
 
 				<div class="row fadeInOut" ng-if="allowEditCompany">
 					<div class="col-md-6">
-						<button ng-disabled="companySubmitting" type="button" ng-click="cancelSaveCompany()" class="btn btn-primary btn-block">Cancel</button>
+						<button ng-disabled="companySubmitting" type="button" ng-click="cancelSaveCompany()" class="btn btn-default btn-block">Cancel</button>
 					</div>
 					<div class="col-md-6">
 						<button ng-disabled="companySubmitting" type="button" ng-click="saveCompany(companyInfo)" class="btn btn-success btn-block">
@@ -108,7 +114,7 @@
 
 
 		<!-- Personal info -->
-		<div class="col-md-6">
+		<div class="col-md-5">
 			<div class="accountSection" ng-style="computeSectionStyle('personal')">
 
 				<h3 class="noSpace" style="margin-bottom:10px;">Your Personal Information</h3>
@@ -184,7 +190,7 @@
 				<!-- Edit Personal Info Buttons -->
 				<div class="row fadeInOut" ng-if="!allowEditPersonal && !allowEditPassword">
 					<div class="col-md-6 fadeInOut">
-						<button ng-disabled="allowEditCompany" type="button" ng-click="editPersonalInfo()" class="btn btn-primary btn-block">Update Personal Info</button>
+						<button ng-disabled="allowEditCompany" type="button" ng-click="editPersonalInfo()" class="btn btn-default btn-block">Update Personal Info</button>
 					</div>
 					<div class="col-md-6 fadeInOut">
 						<button ng-disabled="allowEditCompany" type="button" ng-click="editPassword()" class="btn btn-default btn-block"><i class="fa fa-lock"></i> Change My Password</button>
@@ -194,7 +200,7 @@
 				<!-- Cancel & Save (Personal Info) -->
 				<div class="row fadeInOut" ng-if="allowEditPersonal">
 					<div class="col-md-6 fadeInOut">
-						<button ng-disabled="personalSubmitting" type="button" ng-click="cancelSavePersonal()" class="btn btn-primary btn-block">Cancel</button>
+						<button ng-disabled="personalSubmitting" type="button" ng-click="cancelSavePersonal()" class="btn btn-default btn-block">Cancel</button>
 					</div>
 					<div class="col-md-6 fadeInOut">
 						<button ng-disabled="personalSubmitting" type="button" ng-click="savePersonal(personalInfo)" class="btn btn-success btn-block">
@@ -207,7 +213,7 @@
 				<!-- Cancel & Save (Password) -->
 				<div class="row fadeInOut" ng-if="allowEditPassword">
 					<div class="col-md-6 fadeInOut">
-						<button ng-disabled="passwordSubmitting" type="button" ng-click="cancelEditPassword()" class="btn btn-primary btn-block">Cancel</button>
+						<button ng-disabled="passwordSubmitting" type="button" ng-click="cancelEditPassword()" class="btn btn-default btn-block">Cancel</button>
 					</div>
 					<div class="col-md-6 fadeInOut">
 						<button ng-disabled="passwordSubmitting" type="button" ng-click="savePassword(passwordInfo)" class="btn btn-success btn-block">
@@ -220,14 +226,90 @@
 			</div>
 		</div>
 	</div>
+</div>
 
-	<div class="col-md-2"></div><!-- Spacer -->
+<div class="container-fluid noSpace accountSectionContainer" style="padding:10px;margin:10px 10px 0px 10px;">
 
-	<div class="col-md-10 accountSectionContainer" style="margin-top:15px;">
-		<div class="accountSectionHeading">
-			Your plan & Usage
+	<div class="col-md-6" ng-style="computeSectionStyle('planDetails')">
+		
+		<!-- Plan Details -->
+		<div class="row planDetailsContainer">
+			<!-- Price -->
+			<div class="col-md-3 text-center">
+				<div class="currentPlanTitle">Team Plan</div>
+				<div class="currentPlanPriceMain"><span class="currentPlanPriceSymbol">$</span>99</div>
+				<div class="currentPlanPriceSub">Per Month</div>
+			</div>
+			<!-- Features 1 -->
+			<div class="col-md-5">
+				<div class="currentPlanDetailContainer">
+					<span class="currentPlanDetail">Users </span>
+					<span>5</span>
+				</div>
+				<div class="currentPlanDetailContainer">
+					<span class="currentPlanDetail">Inboxes </span>
+					<span>5</span>
+				</div>
+				<div class="currentPlanDetailContainer">
+					<span class="currentPlanDetail">Messages </span>
+					<span>1500/Month</span>
+				</div>
+				<div class="currentPlanDetailContainer">
+					<span class="currentPlanDetail">Mood insights </span>
+					<span>Unlimited</span>
+				</div>
+				<div class="currentPlanDetailContainer">
+					<span class="currentPlanDetail">SSL </span>
+					<span>Encrypted</span>
+				</div>
+			</div>
+			<!-- Features 1 -->
+			<div class="col-md-4">
+				<a href="#/upgrade" type="button" style="padding: 10px 0px 10px 0px;" class="btn btn-success btn-block btn-lg">Upgrade your plan!</a>
+			</div>
+
 		</div>
-		<h2>[ PLAN & USAGE HERE ]</h2>
+	</div>
+
+	<!-- Usage Details -->
+	<div class="col-md-6" ng-style="computeSectionStyle('planDetails')">
+		
+		<div class="row">
+			<div class="col-md-6">
+				<h3 class="noSpace">Usage</h3>
+			</div>
+
+			<div class="col-md-6 text-right">
+				<span>Your monthly limits will reset on 12/12/2016</span>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 20px;">
+			<div class="col-md-4 text-center">
+				<div id="chartUsers" class="ct-chart ct-perfect-fourth"></div>
+				<div>4 Users</div>
+			</div>
+
+			<div class="col-md-4 text-center">
+				<div id="chartInboxes" class="ct-chart ct-perfect-fourth"></div>
+				<div> 1 Inbox</div>
+			</div>
+
+			<div class="col-md-4 text-center">
+				<div id="chartMessages" class="ct-chart ct-perfect-fourth"></div>
+				<div>27 Messages</div>
+			</div>
+
+		</div>
+
 	</div>
 
 </div>
+
+
+
+
+
+
+
+

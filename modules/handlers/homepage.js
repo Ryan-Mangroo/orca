@@ -11,36 +11,65 @@ var log = require('../../utils/logger');
 var widget = 'homepage';
 log.registerWidget(widget);
 
-exports.getKeywords = function(req, res) {
+exports.getKeywordSummary = function(req, res) {
 	try {
-		log.info('|homepage.getHomeKeywords|', widget);
-
-		var accountID = req.session.userprofile.account._id;
-		
+		log.info('|homepage.getKeywordSummary|', widget);
+		var accountID = req.session.userprofile.account._id;		
 		Homepage.findOne({ _account: accountID })
 			.exec(
 			function (error, homepage) {
 				if (error) {
-					log.error('|homepage.getHomeKeywords| Unknown -> ' + error, widget);
-					utility.errorResponseJSON(res, 'Unknown error getting homepage keywords');
+					log.error('|homepage.getKeywordSummary| Unknown -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Unknown error getting summary keywords');
 				} else {
-					log.info('Homepage found: ' + homepage._id, widget);
-					log.info('Getting keyword predictions', widget);
-
 					var keywordData = [];
-					for(var i=0; i<homepage.keywords.length; i++) {
-						var moodValue = getMoodValue(homepage.keywords[i]);
-						var singleKeyword = { title: homepage.keywords[i], value: moodValue };
+					for(var i=0; i<homepage.summaryKeywords.length; i++) {
+						var moodValue = getMoodValue(homepage.summaryKeywords[i]);
+						var singleKeyword = { title: homepage.summaryKeywords[i], value: moodValue };
 						keywordData.push(singleKeyword);
 					}
-
-
-					res.send(JSON.stringify({ result: keywordData }));
+					res.send(JSON.stringify({ result: { keywordData: keywordData, homepageID: homepage._id }}));
 				}
 			});
 	} catch (error) {
-		log.error('|homepage.getHomeKeywords| Unknown -> ' + error, widget);
-		utility.errorResponseJSON(res, 'Unknown error getting homepage keywords');
+		log.error('|homepage.getKeywordSummary| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Unknown error getting summary keywords');
+	}
+};
+
+
+exports.updateKeywordSummary = function(req, res) {
+	try {
+		log.info('|homepage.updateKeywordSummary|', widget);
+		// TODO: Scrub incoming 
+		var accountID = req.session.userprofile.account._id;
+		var homepageID = req.body.homepageID;
+		log.info('|homepage.updateKeywordSummary| Updating homepage  -> ' + accountID, widget);
+
+		Homepage.findOne({ _account: accountID, _id: homepageID })
+    		.exec(
+    		function(error, homepage) {
+	    		if (error) {
+					log.error('|homepage.updateKeywordSummary.findById| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred updating homepage');
+				} else if(!homepage) {
+					log.error('|homepage.updateKeywordSummary.findById| Homepage not found -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Homepage not found');
+				} else {			
+					homepage.summaryKeywords = req.body.keywordList;
+			    	homepage.save(function(error){
+						if (error) {
+							log.error('|homepage.updateKeywordSummary.save| Unknown  -> ' + error, widget);
+							utility.errorResponseJSON(res, 'Error occurred updating');
+						} else {
+							res.send(JSON.stringify({ result: true }));
+						}
+			    	});
+				}
+	    	});
+	} catch (error) {
+		log.error('|homepage.updateKeywordSummary| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error while updating homepage');
 	}
 };
 
@@ -50,8 +79,8 @@ function getMoodValue(inputString) {
 	var moodValue = 50;
 	moodValue -= predictions['1']/2, 10;
 	moodValue -= predictions['2']/4, 10;
-	moodValue += predictions['3']/4, 10;
-	moodValue += predictions['4']/2, 10;
+	moodValue += predictions['4']/4, 10;
+	moodValue += predictions['5']/2, 10;
 	return moodValue;
 }
 

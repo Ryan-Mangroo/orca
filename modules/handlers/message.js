@@ -56,8 +56,8 @@ exports.getAll = function(req, res) {
 	try {
 		log.info('|message.getAll|', widget);
 
-		// TODO: Scrub request body
-		//var accountID = req.session.userprofile.org._id;
+		// TODO: Scrub request body... Need to get messages by the box account
+		var accountID = req.session.userprofile.account._id;	
 		
 		Message.find()
 			.exec(

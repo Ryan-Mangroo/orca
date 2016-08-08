@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var homepageSchema = new Schema({
-	keywords: { type: [String] },
+	summaryKeywords: { type: [String] },
 	_account: { type: Schema.Types.ObjectId, ref: 'Account' }
 }, cfg.mongoose.options);
 
