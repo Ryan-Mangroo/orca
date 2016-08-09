@@ -96,7 +96,6 @@ function initializeMongoose() {
 		db.once('open', function() {
 		  log.info('|initializeMongoose| -> Successful connection made to mongoDB', widget);
 		});
-
 	} catch (error) {
 		log.error('|initializeMongoose| Unknown -> ' + error, widget);
 		process.exit(0);
@@ -213,6 +212,7 @@ function initializeApp() {
 		app.route('/createBox').post(validateRequest(), box.create);
 		app.route('/createMessage').post(validateRequest(), message.create);
 		app.route('/getAllMessages').get(validateRequest(), message.getAll);
+		app.route('/getOneMessage').get(validateRequest(), message.getOne);
 		app.route('/deleteMessages').post(validateRequest(), message.delete);
 
 		// Prediction & Reports

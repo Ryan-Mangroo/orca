@@ -52,6 +52,45 @@ exports.create = function(req, res) {
 	}
 };
 
+
+exports.getOne = function(req, res) {
+	try {
+		log.info('|message.getOne|', widget);
+		var messageID = req.query.messageID;
+
+		var error = null;
+		if (validator.checkNull(messageID)) {
+			error = 'Message ID is null';
+		}
+
+		if (error) {
+			log.error('|message.getOne| ' + error, widget);
+			return utility.errorResponseJSON(res, 'Error occurred getting message');
+		}
+
+		log.info('|message.getOne| Getting message -> ' + messageID);
+
+		Message.findById(messageID)
+			.exec(
+			function (error, message) {
+				if (error) {
+					log.error('|message.getOne.findById| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred getting message');
+				} else if(!message) {
+					log.info('|message.getOne| Message ID not found -> ' + messageID);	
+					utility.errorResponseJSON(res, 'Message ID not found');
+				} else {		
+					log.info('|message.getOne| Message found -> ' + message._id);	
+					res.send(JSON.stringify({ result: message }));
+				}
+			});
+	} catch (error) {
+		log.error('|message.getOne| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Error occurred getting message');
+	}
+};
+
+
 exports.getAll = function(req, res) {
 	try {
 		log.info('|message.getAll|', widget);

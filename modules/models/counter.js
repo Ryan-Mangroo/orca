@@ -12,20 +12,15 @@ var Schema = mongoose.Schema;
 
 var counterSchema = new Schema({
 	seq: { type: Number, default: 100 },
- 	prefix: { type: String },
  	collectionName: { type: String, required: true },
 }, cfg.mongoose.options);
-
-counterSchema.virtual('autonumber').get(function () {
-	return this.prefix + this.seq;
-});
 
 counterSchema.statics.increment = function(collectionName, callback) {
 	try {
 		this.findOneAndUpdate({collectionName: collectionName}, {$inc: { seq: 1} }, {new: true}, function(error, counter)	{
         	if(error)
             	return callback(error);
-        	callback(null, counter.autonumber);
+        	callback(null, counter.seq);
     	});
 
 	} catch (error) {

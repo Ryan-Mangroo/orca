@@ -17,8 +17,8 @@ function messageController($scope, $location, Message) {
 		);
 	};
 
-	$scope.getOneMessage = function(messageNumber) {
-		Message.getOne(messageNumber,
+	$scope.getOneMessage = function(messageID) {
+		Message.getOne(messageID,
 		  function(singleMessage){
 
 		  	log.info('Success');
@@ -33,16 +33,29 @@ function messageController($scope, $location, Message) {
 		);
 	};
 
+	$scope.deleteSingleMessage = function(messageID) {
+	    Message.delete([messageID],
+	      function(){
+	        // Success
+	        log.info('Delete success');
+	        $scope.clearAlerts();
+			$scope.toggleAlert('success', true, 'Message deleted');
+	        $scope.changeView('messages');
+	      },
+	      function() {
+	        // Fail
+	        log.info('Delete single fail');
+	      }
+	    );
+	};
+
 	$scope.deleteMessages = function() {
-        var deletedMessageCount = $scope.selectedMessages.length;
         log.info('Messages being deleted: ' + deletedMessageCount);
         log.info('Selected Messages: [ ' + $scope.selectedMessages + ' ]');
-
 	    Message.delete($scope.selectedMessages,
 	      function(){
 	        // Success
 	        log.info('Delete success');
-	        var deletedMessageCount = $scope.selectedMessages.length;
 
 	        for(var i=0; i<$scope.messages.length; i++) {
 	        	var messageID = $scope.messages[i]._id;
@@ -60,6 +73,10 @@ function messageController($scope, $location, Message) {
 	        log.info('Delete fail');
 	      }
 	    );
+	};
+
+	$scope.archiveSingleMessage = function(messageID) {
+		log.info('Archiving message: ' + messageID);
 	};
 
 
@@ -84,9 +101,9 @@ function messageController($scope, $location, Message) {
 
 	    if(currentURL.indexOf('/messages/') >= 0) {
 	    	log.info('Viewing one message');
-	    	var messageNumber = currentURL.slice(9,currentURL.length);
-	    	log.info(messageNumber);
-	    	$scope.getOneMessage(messageNumber);
+	    	var messageID = currentURL.slice(10,currentURL.length);
+	    	log.info(messageID);
+	    	$scope.getOneMessage(messageID);
 	    } else {
 			$scope.getAllMessages();
 

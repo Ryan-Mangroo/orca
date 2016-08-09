@@ -1,29 +1,27 @@
+<!-- Page Title -->
+<div class="container-fluid pageTitle">
+	<div class="col-md-6">
+		<h4 class="noSpace">
+			<img class="moodIcon" ng-src="{{'img/' + moodMap[singleMessage.mood] + '.png'}}"/>
+			<span>Message received {{ formattedDateTime(singleMessage.updated_at) }}</span>
+			</h4>
+	</div>
+	<div class="col-md-6 text-right">
+		<button type="button" class="btn btn-primary btn-sm" ng-click="archiveSingleMessage(singleMessage._id)"><i class="fa fa-archive"></i> Archive Message</button>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="deleteSingleMessage(singleMessage._id)"><i class="fa fa-trash"></i> Delete Message</button>
+	</div>
+</div>
 
-<div class="container-fluid">	
-	<div class="row">
-		<div class="col-md-9">
-			<div class="grayBorderBox">
-				<span>{{ singleEntry.message }}</span>
-			</div>
-			<div class="pull-right" style="margin-top:10px;">
-				<button class="btn btn-danger btn-sm" type="button">Delete this entry</button>
-			</div>
+<div class="container-fluid noSpace">
+	<div class="col-md-8">
+		<div class="singleMessageContent">
+			<span>{{ singleMessage.content }}</span>
 		</div>
-		<div class="col-md-3">
-			<div class="grayBorderBox">
-				<textarea style="resize:vertical;border-radius:0px;margin-bottom:10px;border:1px solid #EEEFF1;background-color:#fffeec;font-size:16px;" class="form-control defaultInput" placeholder="Leave your comment" rows="6"></textarea>
-				<button type="button" ng-click="leaveComment()" class="btn btn-sm btn-block btn-success">Leave Comment</button>
-				<div class="text-center" style="margin-top:10px;">
-					
-					<div ng-if="singleEntry.notes.length == 0" style="font-size:15px;">( No comments yet )</div>
+	</div>
 
-					<div class="text-left" style="margin-bottom:2px;padding:10px;background-color:#fffeec;border-left: 5px solid #fffaa0;font-weight:200;font-size:14px;" ng-repeat="note in singleEntry.notes">
-						<div>{{ note.author }}:</div>
-						<div>{{ note.note }}</div>
-					</div>
-
-				</div>
-			</div>
+	<div class="col-md-4">
+		<div class="singleMessageFeedback">
+			<h4 class="noSpace">Comment on this message</h4>
 		</div>
 	</div>
 </div>

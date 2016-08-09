@@ -12,8 +12,8 @@ function Message($http) {
       }
     );
   };
-  Message.getOne = function(messageNumber, onSuccess, onFail) {
-    $http({ url: '/getOneMessage', method: 'GET', params: { messageNumber: messageNumber } })
+  Message.getOne = function(messageID, onSuccess, onFail) {
+    $http({ url: '/getOneMessage', method: 'GET', params: { messageID: messageID } })
       .then(function success(response) {
         onSuccess(response.data.result);
       },

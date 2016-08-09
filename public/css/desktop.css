@@ -201,6 +201,27 @@
 /*######################### MESSAGE LIST #########################*/
 
 
+/*######################### SINGLE MESSAGE #########################*/
+
+.singleMessageContent {
+	border: 1px solid #EEEFF1;
+	margin: 15px 15px 15px 0px;
+	padding: 10px;
+	min-height: 200px;
+}
+
+.singleMessageFeedback {
+	border-bottom: 2px solid #d2d5da;
+	background-color: #EEEFF1;
+	margin: 15px 15px 15px 0px;
+	padding: 10px;
+	min-height: 200px;
+}
+
+
+/*######################### SINGLE MESSAGE #########################*/
+
+
 /*######################### ACCOUNT #########################*/
 .accountLogo {
 	margin-top: 25px;

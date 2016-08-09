@@ -4,9 +4,9 @@ var cfg = require('../../config/config');
 // Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Counter = require('../models/counter');
 
 var messageSchema = new Schema({
-	number: { type: String },
 	mood: { type: Number },
 	content: { type: String },
 	_box: { type: Schema.Types.ObjectId, ref: 'Message' }
@@ -15,3 +15,5 @@ var messageSchema = new Schema({
 var Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;
+
+
