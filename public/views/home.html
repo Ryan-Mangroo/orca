@@ -28,8 +28,8 @@
 <div class="container homeKeywordListContainer">
 	<!-- The Different Moods -->
 	<div class="row">
-		<div class="col-md-2">&nbsp;</div><!-- Spacer -->
-		<div class="col-md-10">
+		<div class="col-md-3">&nbsp;</div><!-- Spacer -->
+		<div class="col-md-9">
 			<div class="homeMoodIconContainer">
 				<img class="moodIcon" id="homepageHappy" src="../img/angry.png"/>
 				<img class="moodIcon" id="homepageSad" src="../img/sad.png"/>
@@ -43,7 +43,7 @@
 	<!-- Create a row for each homepage keyword -->
 	<form ng-model="editableHomeKeywords">
 		<div ng-repeat="keyword in homeKeywords track by $index" class="row fadeInOutStagger">
-			<div class="col-md-2 text-right">
+			<div class="col-md-3 text-right">
 				<!-- Remove row button -->
 				<div ng-if="allowEditKeywordSummary" ng-click="removeSummaryKeyword($index)" class="removeKeywordIcon fadeInOut"><i class="fa fa-remove"></i></div>
 
@@ -52,7 +52,7 @@
 					<input ng-if="allowEditKeywordSummary" type="text" ng-model="editableHomeKeywords[$index].title" class="fadeInOut form-control"/>
 				</div>
 			</div>
-			<div class="col-md-10">
+			<div class="col-md-9">
 				<div class="progress homeKeywordValueBar" style="margin:10px 5px 10px 5px;">
 					<div ng-attr-id="{{$index}}_keyword_bar" class="progress-bar progress-bar-warning" role="progressbar" ng-style="{'background':getMoodscaleColor(keyword.value)}"></span></div>
 				</div>
