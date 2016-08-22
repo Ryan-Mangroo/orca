@@ -8,6 +8,8 @@ function mainController($scope, $location, $routeParams) {
 	};
 
 	$scope.setBoxInfo = function(boxInfo) {
+		log.object(boxInfo);
+
 		$scope.boxInfo = boxInfo;
 	};
 

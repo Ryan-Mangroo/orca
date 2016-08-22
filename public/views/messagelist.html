@@ -1,9 +1,12 @@
 <!-- Page Title -->
 <div class="container-fluid pageTitle">
 	<div class="col-md-6">
-		<h4 class="noSpace">Today's Messages</h4>
+		<h4 class="noSpace">{{ listTitle }}</h4>
 	</div>
 </div>
+
+<!-- Alerts Include -->
+<span ng-include="'views/includes/alerts.html'"></span>
 
 <!-- List -->
 <div ng-if="!messagesLoading" class="container-fluid fadeInOut">
@@ -11,7 +14,7 @@
 	<!-- Column Header -->
 	<div ng-if="!messagesLoading" class="row entryListRowHeader">
 		<div class="col-md-1">
-			<input type="checkbox" ng-checked="selectedMessages.indexOf(message._id) > -1" ng-click="toggleSelectedMessage(message._id)"/>
+			<input type="checkbox" ng-click="toggleAll(message._id)"/>
 		</div>
 		<div class="col-md-7">Content</div>
 		<div class="col-md-3">
@@ -35,7 +38,13 @@
 			<input type="checkbox" ng-checked="selectedMessages.indexOf(message._id) > -1" ng-click="toggleSelectedMessage(message._id)"/>	
 		</div>
 		<div class="col-md-7">
-			<a ng-href="#/messages/{{ message._id }}">{{ message.content }}</a>
+			
+			<div class="ellipsis">
+            	<div class="itemCardContent">
+            		<a ng-href="#/messages/{{ message._id }}">{{ message.content }}</a>
+            	</div>
+			</div>
+
 		</div>
 		<div class="col-md-3">
 			<span>{{ formattedDateTime(message.updated_at) }}</span>
@@ -52,7 +61,7 @@
 				<button ng-click="deleteMessages()" ng-disabled="selectedMessages.length == 0" type="button" class="btn btn-danger">
 					<span class="fa fa-trash-o"></span> Delete
 				</button>
-				<button ng-click="deleteMessages()" ng-disabled="selectedMessages.length == 0" type="button" class="btn btn-primary">
+				<button ng-click="archiveMessages()" ng-disabled="selectedMessages.length == 0" type="button" class="btn btn-primary">
 					<span class="fa fa-archive"></span> Archive
 				</button>
 			</div>

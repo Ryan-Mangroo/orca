@@ -45,8 +45,6 @@ function messageController($scope, $location, $routeParams, Message, Box) {
 
 		Message.create(newMessage,
 		  function(createdMessage){
-		  	log.info('Success');
-		  	log.object(createdMessage);
 		  	$scope.newEntrySubmitting = false;
 		  	$scope.changeView('view/submitted');
 		  },
@@ -84,21 +82,21 @@ function messageController($scope, $location, $routeParams, Message, Box) {
 
 		// If no token is given, redirect to error
 		if(tokenIndex < 0) {
-			$scope.changeView('view/error');
+			$scope.changeView('error');
 			return;
 		}
 
 		// Grab the token. If null, redirect to error
 		var token = $routeParams.t;
 		if(token.length == 0) {
-			$scope.changeView('view/error');
+			$scope.changeView('error');
 			return;
 		}
 
 		// If no box number is given, redirect to error
 		var boxNumber = currentURL.slice(0, tokenIndex).slice(1);// Also remove the slash
 		if(boxNumber. length == 0) {
-			$scope.changeView('view/error');
+			$scope.changeView('error');
 			return;
 		}
 

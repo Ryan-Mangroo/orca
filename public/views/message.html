@@ -21,7 +21,24 @@
 
 	<div class="col-md-4">
 		<div class="singleMessageFeedback">
-			<h4 class="noSpace">Comment on this message</h4>
+			<h4>Comment on this message</h4>
+			<textarea style="resize:vertical;" ng-model="newComment" type="text" class="form-control defaultInput" rows="5"></textarea>
+			<div class="text-right" style="margin-top:10px;">
+				<button type="button" ng-click="addComment(newComment)" class="btn btn-warning">Post comment</button>
+			</div>
+			<div class="commentListContainer">
+
+			<div ng-if="!singleMessage.comments || singleMessage.comments.length == 0" class="text-center">
+			<h4>-- No comments --</h4>
+			</div>
+
+				<div class="commentListItem fadeInOut" ng-repeat="comment in singleMessage.comments">
+					<div class="text-right">{{ formattedDateTime(comment._created_at) }} by {{ comment._created_by.firstName }}</div>
+					<div>{{ comment.comment }}</div>
+				</div>
+			</div>
+
+
 		</div>
 	</div>
 </div>

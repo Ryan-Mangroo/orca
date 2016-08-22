@@ -34,6 +34,18 @@ function Message($http) {
       }
     );
   };
+  Message.addComment = function (messageID, commentText, onSuccess, onFail) {
+    $http({ url: '/addComment', method: 'POST', data: { messageID: messageID, commentText: commentText } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Message.addComment: Fail');
+        onFail();
+      }
+    );
+  };
+
   return Message;
 }
 

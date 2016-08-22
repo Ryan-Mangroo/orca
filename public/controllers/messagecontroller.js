@@ -4,6 +4,21 @@ function messageController($scope, $location, Message) {
 	$scope.messages = [];
 	$scope.messagesLoading = true;
 	$scope.selectedMessages = [];
+	$scope.listTitle = 'All Feedback'
+	$scope.newComment = null;
+	$scope.selectAll = true; // used by the "Select all" checkbox, to toggle back and forth between T/F
+
+	$scope.toggleAll = function() {
+		if ($scope.selectAll) {
+			for (var i=0; i<$scope.messages.length; i++) {
+				var messageID = $scope.messages[i]._id;
+				$scope.selectedMessages.push(messageID);
+			}
+		} else {
+			$scope.selectedMessages = [];
+		}
+		$scope.selectAll = !$scope.selectAll; // The opposite action will happen on next click
+	};
 
 	$scope.getAllMessages = function() {
 		Message.getAll(null,
@@ -50,29 +65,46 @@ function messageController($scope, $location, Message) {
 	};
 
 	$scope.deleteMessages = function() {
-        log.info('Messages being deleted: ' + deletedMessageCount);
         log.info('Selected Messages: [ ' + $scope.selectedMessages + ' ]');
 	    Message.delete($scope.selectedMessages,
 	      function(){
 	        // Success
 	        log.info('Delete success');
-
+		    var remainingMessages = [];
 	        for(var i=0; i<$scope.messages.length; i++) {
 	        	var messageID = $scope.messages[i]._id;
-	        	var messageIndex = $scope.selectedMessages.indexOf(messageID);
-	        	log.info(messageID);
-
-	        	if(messageIndex >= 0) {
-	        		log.info('Needs deleting');
-	        		$scope.messages.splice(i, 1);
+	        	if($scope.selectedMessages.indexOf(messageID) < 0) {
+	        		remainingMessages.push($scope.messages[i]);
 	        	}
 	        }
+
+	        if($scope.selectedMessages.length == 1) {
+	        	$scope.toggleAlert('success', true, 'Message deleted');
+	        } else {
+	        	$scope.toggleAlert('success', true, $scope.selectedMessages.length + ' messages deleted');
+	        }
+	        $scope.selectedMessages = [];
+	        $scope.messages = remainingMessages;
 	      },
 	      function() {
 	        // Fail
 	        log.info('Delete fail');
 	      }
 	    );
+	};
+
+	$scope.addComment = function(commentText) {
+		log.info(commentText);
+		log.info($scope.singleMessage._id);
+		Message.addComment($scope.singleMessage._id, commentText,
+		  function(result){
+		  	$scope.newComment = null;
+		  	$scope.singleMessage = result;
+		  },
+		  function() {
+		  	log.info('FAIL');
+		  }
+		);
 	};
 
 	$scope.archiveSingleMessage = function(messageID) {

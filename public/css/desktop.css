@@ -204,18 +204,27 @@
 /*######################### SINGLE MESSAGE #########################*/
 
 .singleMessageContent {
-	border: 1px solid #EEEFF1;
+	border: 1px solid #d2d5da;
 	margin: 15px 15px 15px 0px;
 	padding: 10px;
 	min-height: 200px;
 }
 
 .singleMessageFeedback {
-	border-bottom: 2px solid #d2d5da;
-	background-color: #EEEFF1;
+	border: 1px solid #d2d5da;	
 	margin: 15px 15px 15px 0px;
-	padding: 10px;
+	padding: 25px;
 	min-height: 200px;
+}
+
+.commentListContainer {
+	margin: 10px 0px 10px 0px;
+}
+
+.commentListItem {
+	background-color: #fefce1;
+	padding: 10px;
+	margin-bottom: 5px;
 }
 
 

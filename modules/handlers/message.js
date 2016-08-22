@@ -67,10 +67,9 @@ exports.getOne = function(req, res) {
 			log.error('|message.getOne| ' + error, widget);
 			return utility.errorResponseJSON(res, 'Error occurred getting message');
 		}
-
 		log.info('|message.getOne| Getting message -> ' + messageID);
-
 		Message.findById(messageID)
+			.populate('comments._created_by', '-password')
 			.exec(
 			function (error, message) {
 				if (error) {
@@ -81,6 +80,8 @@ exports.getOne = function(req, res) {
 					utility.errorResponseJSON(res, 'Message ID not found');
 				} else {		
 					log.info('|message.getOne| Message found -> ' + message._id);	
+
+					message.comments.reverse();
 					res.send(JSON.stringify({ result: message }));
 				}
 			});
@@ -105,9 +106,7 @@ exports.getAll = function(req, res) {
 					log.error('|message.getAll| Unknown -> ' + error, widget);
 					utility.errorResponseJSON(res, 'Unknown error getting messages');
 				} else {
-
 					log.info('Messages found: ' + messages.length, widget);
-
 					res.send(JSON.stringify({ result: messages }));
 				}
 			});
@@ -139,6 +138,67 @@ exports.delete = function(req, res) {
 	} catch (error) {
 		log.error('|message.delete| -> ' + error, widget);
 		utility.errorResponseJSON(res, 'Error occurred deleting messages');
+	}
+};
+
+exports.addComment = function(req, res) {
+	try {
+		log.info('|message.addComment|', widget);
+		var messageID = req.body.messageID;
+		var commentText = req.body.commentText;
+
+		var error = null;
+		if (validator.checkNull(messageID)) {
+			error = 'Message ID is null';
+		}
+
+		if (validator.checkNull(commentText)) {
+			error += 'Comment is null';
+		}
+
+		if (error) {
+			log.error('|message.addComment| ' + error, widget);
+			return utility.errorResponseJSON(res, 'Error occurred getting message');
+		}
+
+		log.info('|message.addComment| Commenting message -> ' + messageID);
+
+		Message.findById(messageID)
+			.exec(
+			function (error, message) {
+				if (error) {
+					log.error('|message.addComment.findById| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred getting message');
+				} else if(!message) {
+					log.info('|message.addComment| Message ID not found -> ' + messageID);	
+					utility.errorResponseJSON(res, 'Message ID not found');
+				} else {		
+					log.info('|message.addComment| Message found -> ' + message._id);
+
+					var newComment = {
+						comment: commentText,
+						_created_by: req.session.userprofile.id
+					};
+
+					message.comments.push(newComment);
+					message.save(function(error, updatedMessage){
+						if(error) {
+							log.info('|message.addComment| Error saving new comment -> ' + messageID);	
+							utility.errorResponseJSON(res, 'Error saving comment');
+						} else {
+							message.populate('comments._created_by', '-password', function(error){
+								log.info('Comment success', widget);
+								updatedMessage.comments.reverse();
+								res.send(JSON.stringify({ result: updatedMessage }));
+							});
+						}
+					});
+				}
+			});
+
+	} catch (error) {
+		log.error('|message.addComment| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Error occurred getting message');
 	}
 };
 
