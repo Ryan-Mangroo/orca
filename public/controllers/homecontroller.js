@@ -10,17 +10,14 @@ function homeController($scope, $location, $route, Homepage) {
 	$scope.getMoodscaleColor = function(value){
 		var value = value + 20;
 		var backgroundColor = '';
-
 		if($scope.allowEditKeywordSummary) {
 			backgroundColor = '#d2d5da';
-		} else if(value < 25) {
-			backgroundColor = '#d9534f';
-		} else if(value >= 25 && value < 50) {
+		} else if(value < 33) {
+			backgroundColor = '#d16d5f';
+		} else if(value >= 33 && value < 50) {
 			backgroundColor = '#f0ad4e';
-		} else if(value >= 50 && value < 75) {
-			backgroundColor = '#A6B355';
-		} else if(value >= 75) {
-			backgroundColor = '#5cb85c';
+		}else if(value >= 50) {
+			backgroundColor = '#5fd16d';
 		}
 		return backgroundColor;
 	}

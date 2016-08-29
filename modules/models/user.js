@@ -45,7 +45,7 @@ userSchema.statics.authenticate = function(email, password, callback) {
 	};
 
 	this.findOne({ 'email': email })
-		.populate(accountPopulation, '-password')
+		.populate(accountPopulation)
 		.exec( function (error, user) {
 			if (error) { 
 				return callback(error);

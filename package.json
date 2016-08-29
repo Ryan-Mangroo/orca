@@ -25,7 +25,8 @@
     "nodemailer-smtp-transport": "2.0.0",
     "validator": "5.2.0",
     "google-libphonenumber": "1.0.17",
-    "complexity": "0.0.3"
+    "complexity": "0.0.3",
+    "aws-sdk": "2.5.2"
   },
   "author": "Ryan Mangroo",
   "license": "ISC"

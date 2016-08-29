@@ -1,7 +1,7 @@
 body {
 	font-family: 'Work Sans', sans-serif;
 	background-color: #fff;
-	color: #555;
+	color: #a0aeae;
 	font-weight: 300;
 }
 
@@ -30,7 +30,11 @@ a {
     -ms-transition: .25s;
     -o-transition: .25s;
     transition: .25s;
-    color: #005bb4;
+    color: #3AB7C6;
+}
+
+a:hover {
+	color: #a0aeae;
 }
 
 .whiteLink {
@@ -53,62 +57,27 @@ a {
 /*######################### INPUTS #########################*/
 
 
-/*######################### BUTTONS #########################*/
+/*######################### BUTTONS & BADGES #########################*/
 .btn {
 	-webkit-transition: .25s;
     -moz-transition: .25s;
     -ms-transition: .25s;
     -o-transition: .25s;
     transition: .25s;
-	border-radius: 5px;
+	border-radius: 0px;
 	padding: 5px 10px 5px 10px;
+	border-width: 1px;
+	box-shadow: 1px 1px 0px #d2d5da;
+	border-radius: 5px;
 }
 
 .btn-sm {
 	margin: 0px;
 	padding-top: 3px;
 	padding-bottom: 3px;
-	border-radius: 5px;
 	text-transform: none;
 }
-/*
-.btn-primary {
-	color: #fff;
-	background-color: #005bb4;
-	border-color: #005bb4;
-}
 
-.btn-primary:hover {
-	color: #fff;
-	background-color: #004181;
-	border-color: #004181;
-}
-
-.btn-success {
-	color: #fff;
-	background-color: #00b459;
-	border-color: #00b459;
-}
-
-
-.btn-success:hover {
-	color: #fff;
-	background-color: #008140;
-	border-color: #008140;
-}
-
-.btn-danger {
-	color: #fff;
-	background-color: #b41d00;
-	border-color: #b41d00;
-}
-
-.btn-danger:hover {
-	color: #fff;
-	background-color: #811500;
-	border-color: #811500;
-}
-*/
 .btn:focus, 
 .btn:active, 
 .btn.active,
@@ -117,9 +86,55 @@ a {
 .btn.active,
 .btn.disabled:hover,
 .btn:disabled:hover {
-	background-color: #777;
-	border-color: #777;
+	color: #a0aeae;
+	background-color: #d2d5da;
+	border-color: #d2d5da;
+}
+
+.btn-default {
+	color: #a0aeae;
+	background-color: #f2f4f4;
+	border-color: #f2f4f4;
+}
+
+.btn-default:hover {
+	color: #a0aeae;
+	background-color: #d2d5da;
+	border-color: #d2d5da;
+}
+
+.btn-primary {
 	color: #fff;
+	background-color: #3AB7C6;
+	border-color: #3AB7C6;
+}
+
+.btn-primary:hover {
+	color: #fff;
+	background-color: #2e939f;
+	border-color: #2e939f;
+}
+
+.btn-success {
+	color: #fff;
+	background-color: #5fd16d;
+	border-color: #5fd16d;
+}
+
+.btn-success:hover {
+	color: #fff;
+	background-color: #33b142;
+	border-color: #33b142;
+}
+
+.btn-danger {
+	color: #fff;
+	background-color: #d16d5f;
+	border-color: #d16d5f;
+}
+
+.badgeDark {
+	background-color: #3AB7C6;
 }
 /*######################### BUTTONS #########################*/
 

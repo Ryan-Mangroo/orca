@@ -11,8 +11,9 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
 
-// Mongoose
+// Database & Storage
 var mongoose = require('mongoose');
+var aws = require('aws-sdk');
 
 // Custom modules
 var auth = require('./modules/handlers/auth.js');
