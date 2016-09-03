@@ -11,13 +11,13 @@ function homeController($scope, $location, $route, Homepage) {
 		var value = value + 20;
 		var backgroundColor = '';
 		if($scope.allowEditKeywordSummary) {
-			backgroundColor = '#d2d5da';
+			backgroundColor = '#a1a9ac';
 		} else if(value < 33) {
-			backgroundColor = '#d16d5f';
+			backgroundColor = '#df7d56';
 		} else if(value >= 33 && value < 50) {
-			backgroundColor = '#f0ad4e';
+			backgroundColor = '#dfc256';
 		}else if(value >= 50) {
-			backgroundColor = '#5fd16d';
+			backgroundColor = '#56df7d';
 		}
 		return backgroundColor;
 	}

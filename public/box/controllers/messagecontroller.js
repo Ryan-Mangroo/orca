@@ -3,7 +3,7 @@ function messageController($scope, $location, $routeParams, Message, Box) {
 	$('#entryForm').hide();
 
 	$scope.selectableMoods = {
-		'angry': 1,
+		'mad': 1,
 		'sad': 2,
 		'neutral': 3,
 		'happy': 4,

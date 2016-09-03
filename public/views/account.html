@@ -3,21 +3,19 @@
 	<div class="col-md-6">
 		<h4 class="noSpace">Your Account</h4>
 	</div>
+	<div class="col-md-6 text-right">
+		<span>Feedback form for your employees: </span>
+		<a style="font-weight:bold;" ng-href="http://localhost:1337/box/#/{{currentUser.account._primary_box.number}}?t={{currentUser.account._primary_box.token}}">localhost:1337/box/{{ currentUser.account._primary_box.number }}?t={{currentUser.account._primary_box.token}}</a>
+		<button style="margin-left:10px;" ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" type="button" style="margin:0px 10px 0px 0px;" onclick="alert('TODO')" class="btn btn-sm btn-primary">Re-generate</button>
+	</div>
 </div>
 
 <!-- Alerts Include -->
 <span ng-include="'views/includes/alerts.html'"></span>
 
-<div class="container-fluid noSpace" style="margin-top:10px;padding: 0px 10px 0px 10px;">
+<div class="container-fluid" style="margin-top:10px;padding: 0px 10px 0px 10px;">
 	<!-- Main Link & basic info -->
-	<div class="col-md-12 accountSectionContainer">
-		<div ng-style="computeSectionStyle('mainBoxLink')">
-			<div class="accountSectionHeading">
-				<span>Main form link for {{ currentUser.account.name }}:</span>
-				<a style="font-weight:bold;"  class="whiteLink" ng-href="http://localhost:1337/box/#/{{currentUser.account._primary_box.number}}?t={{currentUser.account._primary_box.token}}">localhost:1337/box/{{ currentUser.account._primary_box.number }}?t={{currentUser.account._primary_box.token}}</a>
-				<button ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" type="button" style="margin:0px 10px 0px 0px;" onclick="alert('TODO')" class="btn btn-sm btn-default pull-right">Re-generate link</button>
-			</div>
-		</div>
+	<div class="col-md-12">
 		<!-- Logo -->
 		<div class="col-md-2">
 			<div class="accountSection" ng-style="computeSectionStyle('logo')">
@@ -228,7 +226,7 @@
 	</div>
 </div>
 
-<div class="container-fluid noSpace accountSectionContainer" style="padding:10px;margin:10px 10px 0px 10px;">
+<div class="container-fluid">
 
 	<div class="col-md-6" ng-style="computeSectionStyle('planDetails')">
 		
@@ -238,34 +236,34 @@
 			<div class="col-md-3 text-center">
 				<div class="currentPlanTitle">Team Plan</div>
 				<div class="currentPlanPriceMain"><span class="currentPlanPriceSymbol">$</span>99</div>
-				<div class="currentPlanPriceSub">Per Month</div>
+				<div><h4>Per Month</h4></div>
 			</div>
 			<!-- Features 1 -->
 			<div class="col-md-5">
 				<div class="currentPlanDetailContainer">
-					<span class="currentPlanDetail">Users </span>
-					<span>5</span>
+					<span>Users </span>
+					<span style="font-weight:600;">5</span>
 				</div>
 				<div class="currentPlanDetailContainer">
-					<span class="currentPlanDetail">Inboxes </span>
-					<span>5</span>
+					<span>Inboxes </span>
+					<span style="font-weight:600;">5</span>
 				</div>
 				<div class="currentPlanDetailContainer">
-					<span class="currentPlanDetail">Messages </span>
-					<span>1500/Month</span>
+					<span>Messages </span>
+					<span style="font-weight:600;">1500/Month</span>
 				</div>
 				<div class="currentPlanDetailContainer">
-					<span class="currentPlanDetail">Mood insights </span>
-					<span>Unlimited</span>
+					<span>Mood insights </span>
+					<span style="font-weight:600;">Unlimited</span>
 				</div>
 				<div class="currentPlanDetailContainer">
-					<span class="currentPlanDetail">SSL </span>
-					<span>Encrypted</span>
+					<span>SSL </span>
+					<span style="font-weight:600;">Encrypted</span>
 				</div>
 			</div>
 			<!-- Features 1 -->
 			<div class="col-md-4">
-				<a href="#/upgrade" type="button" style="padding: 10px 0px 10px 0px;" class="btn btn-success btn-block btn-lg">Upgrade your plan!</a>
+				<a href="#/upgrade" type="button" style="padding: 10px 0px 10px 0px;" class="btn btn-primary btn-block btn-lg">Upgrade your plan!</a>
 			</div>
 
 		</div>

@@ -11,9 +11,9 @@ function mainController($scope, $location, User) {
 	$scope.authenticated = false;
 	$scope.currentUser = null;
 	$scope.moodMap = {
-		'1': 'angry',
+		'1': 'mad',
 		'2': 'sad',
-		'3': 'neutral',
+		'3': 'meh',
 		'4': 'happy',
 		'5': 'excited'
 	};

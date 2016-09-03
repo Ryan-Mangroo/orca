@@ -1,7 +1,7 @@
 body {
 	font-family: 'Work Sans', sans-serif;
 	background-color: #fff;
-	color: #a0aeae;
+	color: #2596c3;
 	font-weight: 300;
 }
 
@@ -30,11 +30,11 @@ a {
     -ms-transition: .25s;
     -o-transition: .25s;
     transition: .25s;
-    color: #3AB7C6;
+    color: #2596c3;
 }
 
 a:hover {
-	color: #a0aeae;
+	color: #aeb6b9;
 }
 
 .whiteLink {
@@ -42,7 +42,7 @@ a:hover {
 }
 
 .whiteLink:hover {
-	color: #b6bbc3;
+	color: #96d3eb;
 	text-decoration: none;
 }
 /*######################### LINKS #########################*/
@@ -65,10 +65,8 @@ a:hover {
     -o-transition: .25s;
     transition: .25s;
 	border-radius: 0px;
-	padding: 5px 10px 5px 10px;
-	border-width: 1px;
-	box-shadow: 1px 1px 0px #d2d5da;
-	border-radius: 5px;
+	padding: 10px 15px 10px 15px;
+	border: none;
 }
 
 .btn-sm {
@@ -92,9 +90,8 @@ a:hover {
 }
 
 .btn-default {
-	color: #a0aeae;
-	background-color: #f2f4f4;
-	border-color: #f2f4f4;
+	color: #8ca1a9;
+	background-color: #f3f5f6;
 }
 
 .btn-default:hover {
@@ -134,7 +131,7 @@ a:hover {
 }
 
 .badgeDark {
-	background-color: #3AB7C6;
+	background-color: #2596c3;
 }
 /*######################### BUTTONS #########################*/
 

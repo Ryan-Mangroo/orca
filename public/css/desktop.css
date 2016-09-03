@@ -1,9 +1,8 @@
 /*######################### GLOBAL #########################*/
 .pageTitle {
-	color: #a0aeae;
-	background-color: #f2f4f4;
+	color: #8ca1a9;
+	background-color: #f3f5f6;
 	padding: 10px;
-	border-bottom: 1px solid #d2d5da;
 }
 
 .grayBorderBox {
@@ -19,11 +18,10 @@
 
 /*######################### HEADER #########################*/
 .header {
-	color: #3AB7C6;
-	background-color: #d5eff3;
+	color: #fff;
+	background-color: #2596c3;
 	padding: 5px 0px 5px 5px;
 	font-size: 18px;
-	border-bottom: 1px dotted #3AB7C6;
 }
 
 .headerLogoContainer {
@@ -31,14 +29,14 @@
 }
 
 .headerLogoImage {
-	height: 35px;
+	height: 30px;
 }
 /*######################### HEADER #########################*/
 
 
 /*######################### USER MENU #########################*/
 .userMenuIcon {
-	color: #3AB7C6;
+	color: #fff;
 	font-size: 25px;
 	margin-right: 10px;
 	-webkit-transition: .25s;
@@ -49,7 +47,7 @@
 }
 
 .userMenuIcon:hover {
-	color: #a0aeae;
+	color: #96d3eb;
     cursor: pointer;
 }
 
@@ -60,11 +58,11 @@
     -o-transition: .25s;
     transition: .25s;
     font-size: 18px;
-	background-color: #3AB7C6;
+	background-color: #56B8DF;
 	border-radius: 0px 0px 0px 5px;
 	box-shadow: none;
 	border: none;
-	top: 40px;
+	top: 35px;
 	margin: 0px;
 	color: #fff;
 	padding: 3px 0px 0px 0px;
@@ -79,8 +77,8 @@
 }
 
 .userMenu li a:hover {
-	color: #3AB7C6;
-	background-color: #d5eff3;
+	color: #fff;
+	background-color: #2596c3;
 }
 /*######################### USER MENU #########################*/
 
@@ -244,19 +242,10 @@
 	padding: 15px;
 }
 
-.accountSectionContainer {
-	background-color: #EEEFF1;
-	border-bottom: 2px solid #d2d5da;
-	margin: 0px;
-	padding: 0px;
-}
-
 .planDetailsContainer {
-	margin: 0px;
-	font-size: 18px;
-	background-color: #004181;
-	color: #fff;
-	padding: 10px 0px 20px 10px;
+	color: #3AB7C6;
+	background-color: #d5eff3;
+	padding: 25px;
 }
 
 .currentPlanPriceTitle, .currentPlanTitle {
@@ -268,24 +257,15 @@
 	font-size: 70px;
 }
 
-.currentPlanPriceSub {
-	color: #91cf91;
-	font-size: 25px;
-}
-
 .currentPlanPriceSymbol {
 	position: relative;
 	top: -30px;
-	color: #91cf91;
+	color: #fff;
 	font-size: 18px;
 }
 
 .currentPlanDetailContainer {
 	margin:10px;
-}
-
-.currentPlanDetail {
-	color: #b6bbc3;
 }
 
 .usageBase, .usageGreen, .usageYellow, .usageRed {
