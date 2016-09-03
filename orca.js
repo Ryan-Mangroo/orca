@@ -111,6 +111,12 @@ function initializeApp() {
 		app.use(bodyParser.json());
 		app.use(express.static('public'));
 
+		// Allow for workwoo domains
+		app.use(function(req, res, next) {
+			res.header("Access-Control-Allow-Origin", "http://workwoo.com");
+			next();
+		});
+
 		// Session setup
 		app.use(session({
 			name: cfg.session.name,
