@@ -15,7 +15,10 @@ App.factory('Homepage', Homepage);
 App.factory('Account', Account);
 App.factory('Inbox', Inbox);
 
-// Directives
+// Constants
+App.constant('BASE_URL', CONFIG.BASE_URL);
+
+// Directives 
 App.directive('dateTimePicker', dateTimePicker);
 
 // Routes

@@ -1,5 +1,7 @@
-function mainController($scope, $location, User) {
+function mainController($scope, $location, User, BASE_URL) {
 	log.info('|mainController|');
+
+	$scope.baseURL = BASE_URL;
 	
 	$scope.successAlertVisible = false;
 	$scope.successAlertText = null;
