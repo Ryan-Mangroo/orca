@@ -1,7 +1,4 @@
-// Config
 var cfg = require('../../config/config');
-
-// Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Counter = require('../models/counter');
@@ -15,7 +12,7 @@ var messageSchema = new Schema({
 	mood: { type: Number },
 	content: { type: String },
 	comments: [commentSchema],
-	_box: { type: Schema.Types.ObjectId, ref: 'Message' }
+	_inbox: { type: Schema.Types.ObjectId, ref: 'Inbox' }
 }, cfg.mongoose.options);
 
 var Message = mongoose.model('Message', messageSchema);

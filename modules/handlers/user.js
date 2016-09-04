@@ -1,17 +1,11 @@
-// Config
 var cfg = require('../../config/config');
-
-// Mongoose
 var User = require('../models/user');
-
-// Custom modules
 //var mailer = require('workwoo-utils').mailer;
 var utility = require('../../utils/utility');
 var validator = require('../../utils/validator');
 var log = require('../../utils/logger');
 var widget = 'user-management';
 log.registerWidget(widget);
-
 
 exports.update = function(req, res) {
 	try {
@@ -37,19 +31,19 @@ exports.update = function(req, res) {
 							log.error('|user.update.save| Unknown  -> ' + error, widget);
 							utility.errorResponseJSON(res, 'Error occurred updating user');
 						} else {
-							// Repopulate the account & primary box info
+							// Repopulate the account & primary inbox info
 							var accountPopulation = {
 								path: '_account',
 								model: 'Account',
 								populate: {
-									path: '_primary_box',
-									model: 'Box'
+									path: '_primary_inbox',
+									model: 'Inbox'
 								}
 							};
 							user.populate(accountPopulation, function(error) {
 								if(error) {
 									log.error('|user.update.save.populate| Unknown  -> ' + error, widget);
-									utility.errorResponseJSON(res, 'Error occurred populating primary box');
+									utility.errorResponseJSON(res, 'Error occurred populating primary inbox');
 								} else {
 									log.info('|user.update| Success  -> ' + user._id, widget);
 

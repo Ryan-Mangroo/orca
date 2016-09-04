@@ -13,6 +13,7 @@ App.factory('Message', Message);
 App.factory('User', User);
 App.factory('Homepage', Homepage);
 App.factory('Account', Account);
+App.factory('Inbox', Inbox);
 
 // Directives
 App.directive('dateTimePicker', dateTimePicker);

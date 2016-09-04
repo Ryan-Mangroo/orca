@@ -1,4 +1,4 @@
-function messageController($scope, $location, $routeParams, Message, Box) {
+function messageController($scope, $location, $routeParams, Message, Inbox) {
 	log.info('|messageController|');
 	$('#entryForm').hide();
 
@@ -14,22 +14,22 @@ function messageController($scope, $location, $routeParams, Message, Box) {
 	$scope.showEntryForm = false;
 	$scope.newEntryPlaceholder = 'Your feedback...';
 
-	$scope.loadBoxInfo = function(boxNumber, token) {
-		log.info('Loading box info for: ' + boxNumber + ', t: ' + token);
-		Box.getInfo(boxNumber, token,
-		  function(boxInfo){
-		  	if(boxInfo.error) {
-		  		$scope.setBoxLoaded(false);
-		  		$scope.setBoxInfo(null);
+	$scope.loadInboxInfo = function(inboxNumber, token) {
+		log.info('Loading inbox info for: ' + inboxNumber + ', t: ' + token);
+		Inbox.getInfo(inboxNumber, token,
+		  function(inboxInfo){
+		  	if(inboxInfo.error) {
+		  		$scope.setInboxLoaded(false);
+		  		$scope.setInboxInfo(null);
 		  		$scope.changeView('view/error');
 		  	} else {
-		  		$scope.setBoxLoaded(true);
-		  		$scope.setBoxInfo(boxInfo);
+		  		$scope.setInboxLoaded(true);
+		  		$scope.setInboxInfo(inboxInfo);
 		  	}
 
 		  },
 		  function() {
-		  	log.error('Something bad happened while loading box info');
+		  	log.error('Something bad happened while loading inbox info');
 		  	$scope.changeView('view/error');
 		  }
 		);
@@ -37,7 +37,7 @@ function messageController($scope, $location, $routeParams, Message, Box) {
 
 	$scope.createMessage = function(messageContent) {
 		var newMessage = {
-			_box: $scope.boxInfo._id,
+			_inbox: $scope.inboxInfo._id,
 			mood: $scope.selectableMoods[$scope.selectedMood],
 			content: messageContent
 		};
@@ -76,7 +76,7 @@ function messageController($scope, $location, $routeParams, Message, Box) {
 
 
 	$scope.initMessageController = function() {
-		$scope.setBoxLoaded(false);
+		$scope.setInboxLoaded(false);
 		var currentURL = $location.url();
 		var tokenIndex = currentURL.indexOf('?t=');
 
@@ -93,23 +93,16 @@ function messageController($scope, $location, $routeParams, Message, Box) {
 			return;
 		}
 
-		// If no box number is given, redirect to error
-		var boxNumber = currentURL.slice(0, tokenIndex).slice(1);// Also remove the slash
-		if(boxNumber. length == 0) {
+		// If no inbox number is given, redirect to error
+		var inboxNumber = currentURL.slice(0, tokenIndex).slice(1);// Also remove the slash
+		if(inboxNumber. length == 0) {
 			$scope.changeView('error');
 			return;
 		}
 
-		// One last check to ensure that the box number is numeric
-
-
-
-
 		// Only now that we have a box number and token, can we see if it's valid.
-		$scope.loadBoxInfo(boxNumber, token);
+		$scope.loadInboxInfo(inboxNumber, token);
 	};
 
 	$scope.initMessageController();
-
-
 }

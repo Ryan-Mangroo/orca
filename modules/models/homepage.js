@@ -1,7 +1,4 @@
-// Config
 var cfg = require('../../config/config');
-
-// Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 

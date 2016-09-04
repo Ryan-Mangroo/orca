@@ -151,5 +151,36 @@ function Account($http) {
     );
   };
 
+  Account.signup = function (newAccountInfo, onSuccess, onFail) {
+    $http({ url: '/signup', method: 'POST', data: newAccountInfo })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Account.signup: Fail');
+        onFail();
+      }
+    );
+  };
+
   return Account;
+}
+
+
+/* ######################### INBOX ######################### */
+function Inbox($http) {
+  var Inbox = {};
+  Inbox.resetToken = function(inboxID, onSuccess, onFail) {
+    $http({ url: '/resetInboxToken', method: 'POST', data: { inboxID: inboxID } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Inbox.resetToken: Fail');
+        onFail();
+      }
+    );
+  };
+
+  return Inbox;
 }

@@ -66,7 +66,6 @@ a:hover {
     transition: .25s;
 	border-radius: 0px;
 	padding: 10px 15px 10px 15px;
-	border: none;
 }
 
 .btn-sm {
@@ -74,60 +73,6 @@ a:hover {
 	padding-top: 3px;
 	padding-bottom: 3px;
 	text-transform: none;
-}
-
-.btn:focus, 
-.btn:active, 
-.btn.active,
-.btn:focus, 
-.btn:active, 
-.btn.active,
-.btn.disabled:hover,
-.btn:disabled:hover {
-	color: #a0aeae;
-	background-color: #d2d5da;
-	border-color: #d2d5da;
-}
-
-.btn-default {
-	color: #8ca1a9;
-	background-color: #f3f5f6;
-}
-
-.btn-default:hover {
-	color: #a0aeae;
-	background-color: #d2d5da;
-	border-color: #d2d5da;
-}
-
-.btn-primary {
-	color: #fff;
-	background-color: #3AB7C6;
-	border-color: #3AB7C6;
-}
-
-.btn-primary:hover {
-	color: #fff;
-	background-color: #2e939f;
-	border-color: #2e939f;
-}
-
-.btn-success {
-	color: #fff;
-	background-color: #5fd16d;
-	border-color: #5fd16d;
-}
-
-.btn-success:hover {
-	color: #fff;
-	background-color: #33b142;
-	border-color: #33b142;
-}
-
-.btn-danger {
-	color: #fff;
-	background-color: #d16d5f;
-	border-color: #d16d5f;
 }
 
 .badgeDark {

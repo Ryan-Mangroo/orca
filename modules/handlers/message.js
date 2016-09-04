@@ -1,10 +1,5 @@
-// Config
 var cfg = require('../../config/config');
-
-// Mongoose
 var Message = require('../models/message');
-
-// Custom modules
 var Counter = require('../models/counter');
 var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
@@ -14,13 +9,13 @@ log.registerWidget(widget);
 
 exports.create = function(req, res) {
 	try {
-		var box = req.body._box;
+		var inbox = req.body._inbox;
 		var mood = req.body.mood;
 		var content = req.body.content;
 
 		var error = null;
-		if (validator.checkNull(box)) {
-			error = 'Box is Null';
+		if (validator.checkNull(inbox)) {
+			error = 'Inbox is Null';
 		}
 
 		if (validator.checkNull(content)) {
@@ -33,7 +28,7 @@ exports.create = function(req, res) {
 		}
 
 		var newMessage = new Message();
-		newMessage._box = box;
+		newMessage._inbox = inbox;
 		newMessage.mood = mood;
 		newMessage.content = content;
 		newMessage.save(function(error, message) {
@@ -96,7 +91,7 @@ exports.getAll = function(req, res) {
 	try {
 		log.info('|message.getAll|', widget);
 
-		// TODO: Scrub request body... Need to get messages by the box account
+		// TODO: Scrub request body... Need to get messages by the inbox account
 		var accountID = req.session.userprofile.account._id;	
 		
 		Message.find()

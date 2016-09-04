@@ -46,6 +46,11 @@ function homeController($scope, $location, $route, Homepage) {
 		$scope.homeKeywords.push(newKeyword);
 	}
 
+	$scope.getStarted = function() {
+		$scope.toggleEditKeywordSummary();
+		$scope.addSummaryKeyword();
+	}
+
 	$scope.removeSummaryKeyword = function(keywordIndex) {
 		$scope.editableHomeKeywords.splice(keywordIndex, 1);
 		$scope.homeKeywords.splice(keywordIndex, 1);

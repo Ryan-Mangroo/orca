@@ -1,15 +1,10 @@
-// Config
 var cfg = require('../../config/config');
-
 var crypto = require('crypto');
-
-// Mongoose
 var User = require('../models/user');
 var Account = require('../models/account');
-var Counter = require('../models/counter');
+var Inbox = require('../models/inbox');
+var Homepage = require('../models/homepage');
 //var NotificationTemplate = require('workwoo-utils').notificationTemplate;
-
-// Custom modules
 //var mailer = require('workwoo-utils').mailer;
 var utility = require('../../utils/utility');
 var validator = require('../../utils/validator');
@@ -23,7 +18,9 @@ exports.verifyCredentials = function(email, password, callback) {
 		if (validator.checkNull(email)) { errors.email = 'Email Address is Null'; } 
 		else if (!validator.checkEmail(email)) { errors.email = 'Email is not valid: ' + email; } 
 		
-		if (validator.checkNull(password)) { errors.password = 'Password is Null'; }
+		if (validator.checkNull(password)) {
+			errors.password = 'Password is Null';
+		}
 
 		if (!validator.checkEmptyObject(errors)) {
 			log.error('|auth.verifyCredentials.authenticate| ' + JSON.stringify(errors), widget);
@@ -31,7 +28,6 @@ exports.verifyCredentials = function(email, password, callback) {
 		}
 
 		log.info('|auth.verifyCredentials| Email -> ' + email, widget);
-
 		User.authenticate(email, password, function(error, user){
 			if (error) {
 				log.error('|auth.verifyCredentials.authenticate| Unknown -> ' + error, widget);
@@ -43,7 +39,6 @@ exports.verifyCredentials = function(email, password, callback) {
 			}
 
 			log.info('|auth.verifyCredentials.authenticate| User credentials verified -> ' + email, widget);
-			
 			var userSession = {
 				firstName: user.firstName,
 				lastName: user.lastName,
@@ -53,10 +48,8 @@ exports.verifyCredentials = function(email, password, callback) {
 				phone: user.phone,
 				role: user.role
 			};
-
 			return callback(null, userSession);
 		});
-
 	} catch (error) {
 		log.error('|auth.verifyCredentials| Unknown -> ' + error, widget);
 		return callback(error);
@@ -65,6 +58,7 @@ exports.verifyCredentials = function(email, password, callback) {
 
 
 function createAccount(accountName, callback) {
+	log.info('    Creating Account...', widget);
 	var newAccount = new Account();
 	newAccount.name = accountName;
 	newAccount.streetAddress = '';
@@ -74,52 +68,27 @@ function createAccount(accountName, callback) {
  	newAccount.zip = '';
  	newAccount.email = '';
  	newAccount.accountType = '0';
+ 	newAccount.logo = 'http://www.logospike.com/wp-content/uploads/2015/06/Batman_Logo_04.png';
 
 	newAccount.save(function(error, account) {
 		if (error) {
 			callback(error);
 		} else {
-			callback(null, account._id);
+			callback(null, account);
 		}
 	});
 };
 
-
-/*
-function createCounter(orgId, prefix, col, callback) {
-	var newCounter = new Counter();
-	newCounter.col = col;
-	newCounter.prefix = prefix;	
-	newCounter._org = orgId;
-	//newCounter._created_by = '56d67d7ee4b035e540be4bfd'; // System Account, move to config
-
-	newCounter.save(function(error, counter) {
-		if (error) {
-			callback(error);
-		} else {
-			callback(null);
-		}
-	});
-}
-*/
-
-
 function createUser(req, acccountID, callback) {
+	log.info('    Creating User...', widget);
 	var newUser = new User();
 	newUser.firstName = req.body.firstName;
 	newUser.lastName = req.body.lastName;
-	newUser.email = req.body.newEmail;
+	newUser.email = req.body.email;
 	newUser.state = 'active';
-	newUser.password = req.body.newPassword;
+	newUser.role = 'Account Owner';
+	newUser.password = req.body.newPassword; // Password rules <------------------------------------TODO
 	newUser._account = acccountID;
-
-	//var token = crypto.randomBytes(64).toString('hex');
-	//newUser.verified = false;
-	//newUser.verifyToken = token;
-	//newUser.newUser = true;
-
-	//newUser._created_by = '56d67d7ee4b035e540be4bfd'; // System Account, move to config
-	//newUser._updated_by = '56d67d7ee4b035e540be4bfd';
 
 	newUser.save(function(error, user) {
 		if (error) {
@@ -130,40 +99,110 @@ function createUser(req, acccountID, callback) {
 	});
 }
 
+function createPrimaryInbox(req, acccountID, callback) {
+	log.info('    Creating Primary Inbox...', widget);
+	log.info('Account: ' + acccountID, widget);
+	var newInbox = new Inbox();
+	newInbox.title = 'Anonymously Share Your Thoughts';
+	newInbox._account = acccountID;
+	newInbox.image = 'http://www.logospike.com/wp-content/uploads/2015/06/Batman_Logo_04.png';
 
-exports.signupRequest = function(req, res) {
+	newInbox.save(function(error, inbox) {
+		if (error) {
+			callback(error);
+		} else {
+			callback(null, inbox);
+		}
+	});
+}
+
+function createAccountHomepage(req, acccountID, callback) {
+	log.info('    Creating Homepage...', widget);
+	var newHomepage = new Homepage();
+	newHomepage.summaryKeywords = [];
+	newHomepage._account = acccountID;
+	newHomepage.save(function(error, homepage) {
+		if (error) {
+			callback(error);
+		} else {
+			callback(null, homepage);
+		}
+	});
+}
+
+// Null checks, dup email checks ----------------------------------------------------------------------------------- TODO
+exports.signup = function(req, res) {
 	try {
-		createAccount(req.body.accountName, function (error, accountID) {
+		log.info('Creating Account for: ' + req.body.accountName, widget);
+		createAccount(req.body.accountName, function (error, account) {
 			if (error) {
-				log.error('|auth.signupRequest.createAccount| Unknown  -> ' + error, widget);
+				log.error('|auth.signup.createAccount| Unknown  -> ' + error, widget);
 				return utility.errorResponseJSON(res, 'Error occurred creating account');
 			} else {
-				createUser(req, accountID, function (error, user) {
+
+				createUser(req, account._id, function (error, user) {
 					if (error) {
-						log.error('|auth.signupRequest.createUser| Unknown  -> ' + error, widget);
+						log.error('|auth.signup.createUser| Unknown  -> ' + error, widget);
 						return utility.errorResponseJSON(res, 'Error occurred creating user');
 					} else {
-						/*
-						NotificationTemplate.findOne({name: cfg.mailer.signupTemplate}, function (error, notificationTemplate) {
+
+						createPrimaryInbox(req, account._id, function (error, inbox) {
 							if (error) {
-								log.error('|auth.signupRequest.NotificationTemplate| Unknown -> ' + error, widget);
-								return utility.errorResponseJSON(res, 'Error while retrieving signup template');
+								log.error('|auth.signup.createPrimaryInbox| Unknown  -> ' + error, widget);
+								return utility.errorResponseJSON(res, 'Error occurred creating primary inbox');
 							} else {
-								notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.tokenPlaceholder, user.verifyToken);
-								notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.hostNamePlaceholder, cfg.hostname);
-								mailer.sendMail(notificationTemplate, {to: user.email}, user._id);								
-								return res.send(JSON.stringify({result: true}));
+
+								// Re-query for the new account so we can save it's new primary inbox
+								Account.findById(account._id).exec(
+									function(error, newAccount) {
+										if (error) {
+											log.error('|user.update.findById| Unknown  -> ' + error, widget);
+											utility.errorResponseJSON(res, 'Error occurred updating user');
+										} else {			
+											newAccount._primary_inbox = inbox._id;
+									    	newAccount.save(function(error){
+												if (error) {
+													log.error('|auth.signup.createPrimaryInbox| Unknown  -> ' + error, widget);
+													utility.errorResponseJSON(res, 'Error updating account with new inbox');
+												} else {
+													// Finally, create the empty homepage for them to configure on the first visit
+													createAccountHomepage(req, account._id, function (error, homepage) {
+														if (error) {
+															log.error('|auth.signup.createAccountHomepage| Unknown  -> ' + error, widget);
+															return utility.errorResponseJSON(res, 'Error occurred creating homepage');
+														} else {
+
+															log.info('Account successfully created for ' + account.name + ' -> ' + account._id, widget);
+															/*
+															NotificationTemplate.findOne({name: cfg.mailer.signupTemplate}, function (error, notificationTemplate) {
+																if (error) {
+																	log.error('|auth.signupRequest.NotificationTemplate| Unknown -> ' + error, widget);
+																	return utility.errorResponseJSON(res, 'Error while retrieving signup template');
+																} else {
+																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.tokenPlaceholder, user.verifyToken);
+																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.hostNamePlaceholder, cfg.hostname);
+																	mailer.sendMail(notificationTemplate, {to: user.email}, user._id);								
+																	return res.send(JSON.stringify({result: true}));
+																}
+															});
+															*/
+															return res.send(JSON.stringify({ result: true }));
+														}
+													});
+												}
+											});
+										}
+									}
+								);
 							}
 						});
-						*/
-						return res.send(JSON.stringify({ result: true }));
 					}
 				});
 			}
 		});
 	} catch (error) {
-		log.error('|auth.signupRequest| Unknown -> ' + error, widget);
-	    utility.errorResponseJSON(res, 'Error while processing signup request');
+		log.error('|auth.signup| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error while processing signup');
 	}
 };
 

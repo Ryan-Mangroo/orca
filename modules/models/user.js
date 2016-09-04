@@ -1,19 +1,11 @@
-// Config
 var cfg = require('../../config/config');
-
-// Misc Libs
 var bcrypt = require('bcrypt');
 var crypto = require('crypto');
-
-// Logger
 var log = require('../../utils/logger');
-var widget = 'user';
-log.registerWidget(widget);
-
-// Mongoose
-//var Counter = require('./counter');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var widget = 'user';
+log.registerWidget(widget);
 
 var userSchema = new Schema({
 	email: { type: String, required: true, unique: true },
@@ -39,8 +31,8 @@ userSchema.statics.authenticate = function(email, password, callback) {
 		path: '_account',
 		model: 'Account',
 		populate: {
-			path: '_primary_box',
-			model: 'Box'
+			path: '_primary_inbox',
+			model: 'Inbox'
 		}
 	};
 

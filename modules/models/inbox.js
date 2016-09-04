@@ -1,24 +1,23 @@
-// Config
 var cfg = require('../../config/config');
-
 var crypto = require('crypto');
-
-// Mongoose
+var Counter = require('../models/counter');
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
-var boxSchema = new Schema({
+var Schema = mongoose.Schema;
+var inboxSchema = new Schema({
 	title: { type: String },
 	number: { type: String },
 	token: { type: String },
+	image: { type: String },
 	_account: { type: Schema.Types.ObjectId, ref: 'Account' }
 }, cfg.mongoose.options);
 
-boxSchema.pre('save', function(next) {
-	var box = this;
+
+inboxSchema.pre('save', function(next) {
+	var inbox = this;
 	if (this.isNew) {
 		Counter.increment('boxes', function(error, autonumber) {
-			box.number = autonumber;
+			inbox.number = autonumber;
 			next();
 		});
 	} else {
@@ -26,15 +25,18 @@ boxSchema.pre('save', function(next) {
 	}
 });
 
-boxSchema.pre('save', function(next) {
-	var box = this;
+
+inboxSchema.pre('save', function(next) {
+	var inbox = this;
 	if (this.isNew) {
-		box.token = crypto.randomBytes(64).toString('hex');
+		inbox.token = crypto.randomBytes(12).toString('hex');
+		next();
 	} else {
 		next();
 	}
 });
 
-var Box = mongoose.model('Box', boxSchema);
 
-module.exports = Box;
+var Inbox = mongoose.model('Inbox', inboxSchema);
+
+module.exports = Inbox;

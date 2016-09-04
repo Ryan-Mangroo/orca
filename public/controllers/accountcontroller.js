@@ -1,4 +1,4 @@
-function accountController($scope, $location, Account) {
+function accountController($scope, $location, Account, Inbox) {
 	log.info('|accountController|');
 	$scope.allowEditCompany = false;
 	$scope.allowEditPersonal = false;
@@ -157,6 +157,22 @@ function accountController($scope, $location, Account) {
 			email: $scope.currentUser.account.email,
 			phone: $scope.currentUser.account.phone
 		};
+	};
+
+	$scope.resetPrimaryInboxToken = function() {
+		Inbox.resetToken($scope.currentUser.account._primary_inbox._id, 
+			function(updatedInbox){
+				$("#tokenResetModal").modal('hide');
+				$scope.setPrimaryInbox(updatedInbox);
+		  		$scope.clearAlerts();
+		  		$scope.toggleAlert('success', true, 'The link to your inbox has been reset. Be sure to share the new link.');
+			},
+			function() {
+				$("#tokenResetModal").modal('hide');
+		  		$scope.clearAlerts();
+		  		$scope.toggleAlert('danger', true, 'Something bad happened while reseting the inbox link');
+			}
+		);
 	};
 
 	$scope.loadUsageCharts = function() {

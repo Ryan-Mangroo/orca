@@ -14,12 +14,13 @@ var BasicStrategy = require('passport-http').BasicStrategy;
 // Database & Storage
 var mongoose = require('mongoose');
 var aws = require('aws-sdk');
+var S3_BUCKET = process.env.S3_BUCKET;
 
 // Custom modules
 var auth = require('./modules/handlers/auth.js');
 var user = require('./modules/handlers/user.js');
 var account = require('./modules/handlers/account.js');
-var box = require('./modules/handlers/box.js');
+var inbox = require('./modules/handlers/inbox.js');
 var message = require('./modules/handlers/message.js');
 var homepage = require('./modules/handlers/homepage.js');
 
@@ -75,8 +76,6 @@ function validateRequest() {
 			var errorMessage = {error: error};
 			return res.send(JSON.stringify(errorMessage));
 		}
-
-		log.info('|validateRequest| -> User authenticated', widget);
 		next();
 	}
 }
@@ -111,11 +110,14 @@ function initializeApp() {
 		app.use(bodyParser.json());
 		app.use(express.static('public'));
 
-		// Allow for workwoo domains
-		app.use(function(req, res, next) {
-			res.header("Access-Control-Allow-Origin", "http://workwoo.com");
-			res.header("Access-Control-Allow-Credentials", true);
-			res.header("Access-Control-Allow-Headers", "Authorization");
+		// Allow public authentication
+		app.use(function (req, res, next) {
+			res.set({
+				'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+				'Access-Control-Allow-Methods': 'POST',
+				'Access-Control-Allow-Origin' : req.headers.origin,
+				'Access-Control-Allow-Credentials': true
+			});
 			next();
 		});
 
@@ -137,36 +139,12 @@ function initializeApp() {
 		// Passport setup
 		app.use(passport.initialize());
 		app.use(passport.session());
-
 		passport.use(new BasicStrategy(auth.verifyCredentials));
+		passport.serializeUser(function(user, done) { done(null, user.id); });
+		passport.deserializeUser(function(id, done) { done(null, id); });
 
-		passport.serializeUser(function(user, done) {
-			done(null, user.id);
-		});
-
-		passport.deserializeUser(function(id, done) {
-			done(null, id);
-		});
-
-		/* 
-		* These headers are for allowing Cross-Origin Resource Sharing (CORS).
-		* This enables the angular front-end, which resides in the WorkWoo 
-		* Platform app, to make requests to the WorkWoo Auth app.
-		*/
-/*		app.use(function (req, res, next) {
-			res.set({
-				'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-				'Access-Control-Allow-Methods': 'POST',
-				'Access-Control-Allow-Origin' : req.headers.origin,
-				'Access-Control-Allow-Credentials': true
-			});
-			next();
-		});
-*/
+		// ######################### AUTH ROUTES ######################### //
 		
-		// Global routes
-		app.route('/getUserProfile').get(validateRequest(), user.getUserProfile);
-
 		app.route('/login').get(function(req, res) {
 			log.info('|login| Incorrect GET instead of POST', widget);
 			req.logout();
@@ -192,55 +170,62 @@ function initializeApp() {
 			res.redirect(cfg.platform.url);
 		});
 
-		app.route('/signup').get(function(req, res) {
-			log.info('|signup| Incorrect GET instead of POST', widget);
-			req.logout();
-			res.sendStatus(401);
-		}).post(auth.signupRequest);
-/*
-		app.route('/forgotPwd').get(function(req, res) {
-			log.info('|forgotPwd| Incorrect GET instead of POST', widget);
-			req.logout();
-			res.sendStatus(401);
-		}).post(auth.forgotPasswordRequest);
+		// ######################### ALL OTHER ROUTES ######################### //
 
-		app.route('/resetPwd').get(function(req, res) {
-			log.info('|resetPwd| Incorrect GET instead of POST', widget);
-			req.logout();
-			res.sendStatus(401);
-		}).post(auth.resetPasswordRequest);
-
-		app.route('/verify').get(function(req, res) {
-			log.info('|verify| Incorrect GET instead of POST', widget);
-			req.logout();
-			res.sendStatus(401);
-		}).post(auth.verifyRequest);
-*/
-		// Box & Message
-		app.route('/getBoxInfo').get(box.getInfo);
-		app.route('/createBox').post(validateRequest(), box.create);
+		// Inbox & Message Functionality
+		app.route('/getInboxInfo').get(inbox.getInfo); // Publicly available
 		app.route('/createMessage').post(validateRequest(), message.create);
 		app.route('/getAllMessages').get(validateRequest(), message.getAll);
 		app.route('/getOneMessage').get(validateRequest(), message.getOne);
 		app.route('/deleteMessages').post(validateRequest(), message.delete);
 		app.route('/addComment').post(validateRequest(), message.addComment);
 
+		// Inbox & Message configuration
+		app.route('/resetInboxToken').post(validateRequest(), inbox.resetToken);
+
 		// Prediction & Reports
 		app.route('/getKeywordSummary').get(validateRequest(), homepage.getKeywordSummary);
 		app.route('/updateKeywordSummary').post(validateRequest(), homepage.updateKeywordSummary);
 
-		// Account related
+		// Account related (while authenticated)
+		app.route('/getUserProfile').get(validateRequest(), user.getUserProfile);
 		app.route('/updateAccount').post(validateRequest(), account.update);
 		app.route('/updateUser').post(validateRequest(), user.update);
 		app.route('/changeUserPassword').post(validateRequest(), user.changePassword);
-		
-/*
-		app.route('/signup').get(function(req, res) {
-			log.info('|signup| Incorrect GET instead of POST', widget);
-			req.logout();
-			res.sendStatus(401);
-		}).post(auth.signupRequest);
 
+		// Account related (unauthenticated)
+		app.route('/signup').post(auth.signup);
+
+
+		app.route('/sign-s3').get(function(req, res) {
+			log.info('SIGN S3-------: ', widget);
+			var s3 = new aws.S3();
+			var fileName = req.query['file-name'];
+			var fileType = req.query['file-type'];
+			var s3Params = {
+				Bucket: S3_BUCKET,
+				Key: fileName,
+				Expires: 60,
+				ContentType: fileType,
+				ACL: 'public-read'
+			};
+
+			s3.getSignedUrl('putObject', s3Params, function(error, data) {
+				if(error){
+				  log.error('ERROR: ' + error, widget);
+				  return res.send('FAIL');
+				}
+				log.info('SUCCESS: ' + error, widget);
+				var returnData = {
+				  signedRequest: data,
+				  url: 'https://${S3_BUCKET}.s3.amazonaws.com/${fileName}'
+				};
+				return res.send(JSON.stringify(returnData));
+			});
+		});
+
+
+		/*
 		app.route('/forgotPwd').get(function(req, res) {
 			log.info('|forgotPwd| Incorrect GET instead of POST', widget);
 			req.logout();
@@ -258,9 +243,10 @@ function initializeApp() {
 			req.logout();
 			res.sendStatus(401);
 		}).post(auth.verifyRequest);
-*/
+		*/
+
 		return app;
-	} catch (e) {
+	} catch (error) {
 		log.error('|initializeApp| Unknown -> ' + error, widget);
 		process.exit(0);
 	}

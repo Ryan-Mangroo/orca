@@ -8,7 +8,7 @@ App.controller('submittedController', submittedController);
 
 // Factories
 App.factory('Message', Message);
-App.factory('Box', Box);
+App.factory('Inbox', Inbox);
 
 App.config(function($routeProvider) {
 	$routeProvider.when('/', { templateUrl : 'views/error.html', controller: 'errorController'});

@@ -1,7 +1,4 @@
-// Config
 var cfg = require('../../config/config');
-
-// Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -12,8 +9,9 @@ var accountSchema = new Schema({
  	country: { type: String },
  	email: { type: String },
  	phone: { type: String },
+ 	logo: { type: String },
  	accountType: { type: String },
- 	_primary_box: { type: Schema.Types.ObjectId, ref: 'Box' },
+ 	_primary_inbox: { type: Schema.Types.ObjectId, ref: 'Inbox' },
 }, cfg.mongoose.options);
 
 var Account = mongoose.model('Account', accountSchema);

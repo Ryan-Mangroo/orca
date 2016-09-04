@@ -49,6 +49,10 @@ function mainController($scope, $location, User) {
     	$location.path(viewName);
   	};
 
+  	$scope.setPrimaryInbox = function(inboxInfo) {
+  		$scope.currentUser.account._primary_inbox = inboxInfo;
+  	};
+
   	$scope.setUserAccount = function(accountInfo) {
   		$scope.currentUser.account = accountInfo;
   	};

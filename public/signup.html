@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<!-- Angular, Bootstrap, jQuery, etc -->
+		<link href='https://fonts.googleapis.com/css?family=Work+Sans:200,300,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/angular.min.js"></script>
+
+		<!-- Angular app & custom scripts -->
+		<script src="js/utils.js"></script>
+		<script src="factories.js"></script>
+
+		<script>
+			var SignupApp = angular.module('SignupApp', []);
+			SignupApp.factory('Account', Account);
+			SignupApp.factory('User', User);
+			SignupApp.controller('SignupAppController', function($scope, Account, User){
+				log.info('Loaded');
+				$scope.newAccount = {
+					accountName: '',
+					firstName: '',
+					lastName: '',
+					email: '',
+					newPassword: '',
+					newPasswordVerify: '',
+				};
+
+				$scope.signup = function(newAccount) {
+					Account.signup(newAccount,
+						function(response){
+					  		// After signup, login and redirect to the app
+							User.login({ emailAddress: newAccount.email, password: newAccount.newPassword },
+								function(userProfile){
+									log.info('Signup & Login success!');
+									window.location = "/";
+								},
+								function() {
+									log.error('Something bad happened while logging in');
+								}
+							);
+					  	},
+						function() {
+							log.error('Something bad happened while creating new account');
+						}
+					);
+				};
+			});
+
+		</script>
+
+	</head>
+
+	<body ng-app="SignupApp" ng-controller="SignupAppController">
+
+		<div class="container" style="max-width:500px;">
+			<form name="signupForm" id="signupForm">
+				<div class="col-md-12">
+					<input type="text" id="accountName" name="accountName" placeholder="Your Company's Name" ng-model="newAccount.accountName" class="form-control" required/>
+				</div>
+				<div class="col-md-12">
+					<input type="text" id="firstName" name="firstName" placeholder="First Name" ng-model="newAccount.firstName" class="form-control" required/>
+				</div>
+				<div class="col-md-12">
+					<input type="text" id="lastName" name="lastName" placeholder="Last Name" ng-model="newAccount.lastName" class="form-control" required/>
+				</div>
+				<div class="col-md-12">
+					<input type="email" id="email" name="email" placeholder="Email" ng-model="newAccount.email" class="form-control" required/>
+				</div>
+				<div class="col-md-12">
+					<input type="password" id="newPassword" name="newPassword" placeholder="Create a password" ng-model="newAccount.newPassword" class="form-control" required/>
+				</div>
+				<div class="col-md-12">
+					<input type="password" id="newPasswordVerify" name="newPasswordVerify" placeholder="Verify your password" ng-model="newAccount.newPasswordVerify" class="form-control" required/>
+				</div>
+				<span style="color:red;" ng-if="signupForm.newPasswordVerify.$touched && newAccount.newPassword != newAccount.newPasswordVerify">Passwords don't match</span>
+				<div class="col-md-12">
+					<button type="button" ng-click="signup(newAccount)">Login</button>
+				</div>
+			</form>
+		</div>
+
+	</body>
+
+
+</html>

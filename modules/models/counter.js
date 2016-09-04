@@ -1,14 +1,9 @@
-// Config
 var cfg = require('../../config/config');
-
-// Logger
 var log = require('../../utils/logger');
-var widget = 'counter';
-log.registerWidget(widget);
-
-//Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var widget = 'counter';
+log.registerWidget(widget);
 
 var counterSchema = new Schema({
 	seq: { type: Number, default: 100 },

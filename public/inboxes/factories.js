@@ -15,21 +15,21 @@ function Message($http) {
 
   return Message;
 }
+ss
 
-
-function Box($http) {
-  var Box = {};
-  Box.getInfo = function(boxNumber, token, onSuccess, onFail) {
-    $http({ url: '/getBoxInfo', method: 'GET', params: { boxNumber: boxNumber, token: token } })
+function Inbox($http) {
+  var Inbox = {};
+  Inbox.getInfo = function(inboxNumber, token, onSuccess, onFail) {
+    $http({ url: '/getInboxInfo', method: 'GET', params: { inboxNumber: inboxNumber, token: token } })
       .then(function success(response) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Box.getInfo: Fail');
+        log.error('Inbox.getInfo: Fail');
         onFail();
       }
     );
   };
 
-  return Box;
+  return Inbox;
 }

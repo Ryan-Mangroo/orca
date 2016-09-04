@@ -1,10 +1,5 @@
-// Config
 var cfg = require('../../config/config');
-
-// Mongoose
 var Account = require('../models/account');
-
-// Custom modules
 var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
 var log = require('../../utils/logger');
@@ -36,11 +31,11 @@ exports.update = function(req, res) {
 							log.error('|account.update.save| Unknown  -> ' + error, widget);
 							utility.errorResponseJSON(res, 'Error occurred updating account');
 						} else {
-							// Repopulate the primary box info
-							account.populate('_primary_box', function(error) {
+							// Repopulate the primary inbox info
+							account.populate('_primary_inbox', function(error) {
 								if(error) {
 									log.error('|account.update.save.populate| Unknown  -> ' + error, widget);
-									utility.errorResponseJSON(res, 'Error occurred populating primary box');
+									utility.errorResponseJSON(res, 'Error occurred populating primary inbox');
 								} else {
 									log.info('|account.update| Success  -> ' + account._id, widget);
 									req.session.userprofile.account = account;
