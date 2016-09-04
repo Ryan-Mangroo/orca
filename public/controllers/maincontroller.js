@@ -53,6 +53,10 @@ function mainController($scope, $location, User) {
   		$scope.currentUser.account._primary_inbox = inboxInfo;
   	};
 
+  	$scope.setAccountLogo = function(imageURL) {
+  		$scope.currentUser.account.logo = imageURL;
+  	};
+
   	$scope.setUserAccount = function(accountInfo) {
   		$scope.currentUser.account = accountInfo;
   	};

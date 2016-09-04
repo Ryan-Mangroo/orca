@@ -151,6 +151,34 @@ function Account($http) {
     );
   };
 
+  Account.getSignedLogoURL = function(fileName, fileType, onSuccess, onFail) {
+    $http({ url: '/getSignedLogoURL', method: 'GET', params: { fileName: fileName, fileType: fileType } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Account.getSignedLogoURL: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Account.saveLogoToS3 = function(signedRequest, imageFile, onSuccess, onFail) {
+    var uploadRequest = new XMLHttpRequest();
+    uploadRequest.open('PUT', signedRequest);
+    uploadRequest.onreadystatechange = () => {
+      if(uploadRequest.readyState === 4){
+        if(uploadRequest.status === 200){
+          onSuccess();
+        }
+        else{
+          onFail();
+        }
+      }
+    };
+    uploadRequest.send(imageFile);
+  };
+
   Account.signup = function (newAccountInfo, onSuccess, onFail) {
     $http({ url: '/signup', method: 'POST', data: newAccountInfo })
       .then(function success(response) {

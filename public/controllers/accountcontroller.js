@@ -12,6 +12,10 @@ function accountController($scope, $location, Account, Inbox) {
 	$scope.personalInfo = {};
 	$scope.passwordInfo = {};
 
+	$scope.allowEditLogo = false;
+	$scope.accountLogoSource = $scope.currentUser.account.logo;
+	$scope.accountLogoFile = null;
+
 	$scope.computeSectionStyle = function(sectionName) {
 		var disabled = true;
 		var isFocused = false;
@@ -20,10 +24,10 @@ function accountController($scope, $location, Account, Inbox) {
 			disabled = ($scope.allowEditCompany || $scope.allowEditPersonal);
 		} else if(sectionName == 'company') {
 			isFocused = $scope.allowEditCompany;
-			disabled = $scope.allowEditPersonal || $scope.allowEditPassword;
+			disabled = $scope.allowEditPersonal || $scope.allowEditPassword || $scope.allowEditLogo;
 		} else if(sectionName == 'personal') {
 			isFocused = ($scope.allowEditPersonal || $scope.allowEditPassword);
-			disabled = $scope.allowEditCompany;
+			disabled = $scope.allowEditCompany || $scope.allowEditLogo;
 		}
 
 		var style = {};
@@ -173,6 +177,64 @@ function accountController($scope, $location, Account, Inbox) {
 		  		$scope.toggleAlert('danger', true, 'Something bad happened while reseting the inbox link');
 			}
 		);
+	};
+
+	$scope.previewAccountLogo = function(element) {
+		$scope.allowEditLogo = true;
+		$scope.$apply(function(scope) {
+			var imageFile = element.files[0];
+			$scope.accountLogoFile = imageFile;
+			var reader = new FileReader();
+			reader.readAsDataURL(imageFile);
+			reader.onload = function(e) {
+				$scope.accountLogoSource = reader.result;
+				$scope.$apply();
+			};
+		});
+	};
+
+	$scope.saveAccountLogo = function() {
+		log.info('Saving new logo');
+
+		// First, request the logo URL from our server
+		Account.getSignedLogoURL($scope.accountLogoFile.name, $scope.accountLogoFile.type, 
+		  function(requestInfo){
+		  	$scope.clearAlerts();
+			$scope.saveAccountLogoToS3(requestInfo, $scope.accountLogoFile);
+		  },
+		  function() {
+		  	// On fail of getting signed request
+		  	$scope.clearAlerts();
+		  	$scope.toggleAlert('danger', true, 'Something failed while updating account logo');
+		  }
+		);
+	};
+
+	$scope.saveAccountLogoToS3 = function(requestInfo, imageFile) {
+	  	// Then, send the file over to S3
+		Account.saveLogoToS3(requestInfo.signedRequest, imageFile,
+		  function(){
+		  	$scope.allowEditLogo = false;
+		  	$scope.clearAlerts();
+		  	$scope.toggleAlert('success', true, 'Account logo updated');
+		  	$scope.$apply();
+		  },
+		  function() {
+		  	$scope.allowEditLogo = false;
+		  	$scope.clearAlerts();
+		  	$scope.toggleAlert('danger', true, 'Something failed while updating account logo');
+		  	$scope.$apply();
+		  }
+		);
+	};
+
+	$scope.cancelChangeLogo = function() {
+		$scope.setAccountLogoSource($scope.currentUser.account.logo);
+		$scope.allowEditLogo = false;
+	};
+
+	$scope.setAccountLogoSource = function(src) {
+		$scope.accountLogoSource = src;
 	};
 
 	$scope.loadUsageCharts = function() {

@@ -65,7 +65,7 @@ a:hover {
     -o-transition: .25s;
     transition: .25s;
 	border-radius: 0px;
-	padding: 10px 15px 10px 15px;
+	padding: 10px 10px 10px 10px;
 }
 
 .btn-sm {
@@ -73,6 +73,26 @@ a:hover {
 	padding-top: 3px;
 	padding-bottom: 3px;
 	text-transform: none;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }
 
 .badgeDark {

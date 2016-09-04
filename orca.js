@@ -14,7 +14,6 @@ var BasicStrategy = require('passport-http').BasicStrategy;
 // Database & Storage
 var mongoose = require('mongoose');
 var aws = require('aws-sdk');
-var S3_BUCKET = process.env.S3_LOGOS_BUCKET;
 
 // Custom modules
 var auth = require('./modules/handlers/auth.js');
@@ -187,43 +186,15 @@ function initializeApp() {
 		app.route('/getKeywordSummary').get(validateRequest(), homepage.getKeywordSummary);
 		app.route('/updateKeywordSummary').post(validateRequest(), homepage.updateKeywordSummary);
 
-		// Account related (while authenticated)
+		// Account & User related (while authenticated)
 		app.route('/getUserProfile').get(validateRequest(), user.getUserProfile);
-		app.route('/updateAccount').post(validateRequest(), account.update);
 		app.route('/updateUser').post(validateRequest(), user.update);
 		app.route('/changeUserPassword').post(validateRequest(), user.changePassword);
+		app.route('/updateAccount').post(validateRequest(), account.update);
+		app.route('/getSignedLogoURL').get(validateRequest(), account.getSignedLogoURL);
 
 		// Account related (unauthenticated)
 		app.route('/signup').post(auth.signup);
-
-
-		app.route('/sign-s3').get(function(req, res) {
-			log.info('SIGN S3-------: ', widget);
-			var s3 = new aws.S3();
-			var fileName = req.query['file-name'];
-			var fileType = req.query['file-type'];
-			var s3Params = {
-				Bucket: S3_BUCKET,
-				Key: fileName,
-				Expires: 60,
-				ContentType: fileType,
-				ACL: 'public-read'
-			};
-
-			s3.getSignedUrl('putObject', s3Params, function(error, data) {
-				if(error){
-				  log.error('ERROR: ' + error, widget);
-				  return res.send('FAIL');
-				}
-				log.info('SUCCESS: ' + error, widget);
-				var returnData = {
-				  signedRequest: data,
-				  url: 'https://' + S3_BUCKET + '.s3.amazonaws.com/' + fileName
-				};
-				return res.send(JSON.stringify(returnData));
-			});
-		});
-
 
 		/*
 		app.route('/forgotPwd').get(function(req, res) {
