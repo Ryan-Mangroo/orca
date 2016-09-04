@@ -14,6 +14,7 @@ var BasicStrategy = require('passport-http').BasicStrategy;
 // Database & Storage
 var mongoose = require('mongoose');
 var aws = require('aws-sdk');
+var S3_BUCKET = process.env.S3_LOGOS_BUCKET;
 
 // Custom modules
 var auth = require('./modules/handlers/auth.js');
@@ -202,7 +203,7 @@ function initializeApp() {
 			var fileName = req.query['file-name'];
 			var fileType = req.query['file-type'];
 			var s3Params = {
-				Bucket: 'S3_LOGOS_BUCKET',
+				Bucket: S3_BUCKET,
 				Key: fileName,
 				Expires: 60,
 				ContentType: fileType,
