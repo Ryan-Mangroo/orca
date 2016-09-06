@@ -13,11 +13,11 @@ function homeController($scope, $location, $route, Homepage) {
 		if($scope.allowEditKeywordSummary) {
 			backgroundColor = '#a1a9ac';
 		} else if(value < 33) {
-			backgroundColor = '#df7d56';
+			backgroundColor = '#d9534f';
 		} else if(value >= 33 && value < 50) {
-			backgroundColor = '#dfc256';
+			backgroundColor = '#f0ad4e';
 		}else if(value >= 50) {
-			backgroundColor = '#56df7d';
+			backgroundColor = '#5cb85c';
 		}
 		return backgroundColor;
 	}

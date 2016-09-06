@@ -65,13 +65,17 @@ a:hover {
     -o-transition: .25s;
     transition: .25s;
 	border-radius: 0px;
-	padding: 10px 10px 10px 10px;
+	padding: 10px 5px 10px 5px;
+	border: none;
+	border-left: 5px solid;
 }
 
 .btn-sm {
 	margin: 0px;
 	padding-top: 3px;
 	padding-bottom: 3px;
+	padding-left: 10px;
+	padding-right: 10px;
 	text-transform: none;
 }
 
@@ -93,6 +97,36 @@ a:hover {
     background: white;
     cursor: inherit;
     display: block;
+}
+
+.btn-default {
+	color: #6f8993;
+	background-color: #f3f5f6;
+	border-color: #d6dde0;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #2596c3;
+	border-color: #1d7598;
+}
+
+.btn-success {
+	color: #fff;
+	background-color: #5cb85c;
+	border-color: #449d44;
+}
+
+.btn-danger {
+	color: #fff;
+	background-color: #d9534f;
+	border-color: #c9302c;
+}
+
+.btn-warning {
+	color: #fff;
+	background-color: #f0ad4e;
+	border-color: #df8a13;
 }
 
 .badgeDark {
@@ -146,9 +180,19 @@ a:hover {
 /*######################### ALERTS #########################*/
 
 .alert {
-	font-size: 18px;
+	font-size: 20px;
 	border-radius: 0px;
-	margin-bottom: 0px;
+	border: none;
+}
+
+.alert-info {
+	color: #2596c3;
+	background-color: #d6eef7;
+}
+
+.alert-success {
+	color: #3d8b3d;
+	background-color: #c6e6c6;
 }
 
 /*######################### ALERTS #########################*/

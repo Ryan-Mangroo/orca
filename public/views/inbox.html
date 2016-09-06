@@ -54,17 +54,13 @@
 	</div>
 
 	<!-- List controls -->
-	<div class="row">
-		<div class="col-md-12">
-			<div style="margin-top:15px;">
-				<button ng-click="deleteMessages()" ng-disabled="selectedMessages.length == 0" type="button" class="btn btn-danger">
-					<span class="fa fa-trash-o"></span> Delete
-				</button>
-				<button ng-click="archiveMessages()" ng-disabled="selectedMessages.length == 0" type="button" class="btn btn-primary">
-					<span class="fa fa-archive"></span> Archive
-				</button>
-			</div>
+	<div class="row" style="margin-top:10px;">
+		<div class="col-md-2">
+			<button ng-click="deleteMessages()" ng-disabled="selectedMessages.length == 0" type="button" class="btn btn-block btn-danger">
+				<span class="fa fa-trash-o"></span> Delete Selected
+			</button>
 		</div>
+		<div class="col-md-10"></div><!-- Spacer -->
 	</div>
 
 </div>

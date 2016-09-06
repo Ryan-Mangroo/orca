@@ -2,7 +2,7 @@ var aws = require('aws-sdk');
 var log = require('./logger');
 var widget = 'aws-utils';
 log.registerWidget(widget);
-//
+
 exports.getSignedS3URL = function(fileName, fileType, bucketName, callback) {
 	log.info('|aws-utils.getSignedS3URL|', widget);
 
