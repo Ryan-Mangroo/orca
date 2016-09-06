@@ -59,7 +59,7 @@ exports.getSignedLogoURL = function(req, res) {
 	try {
 		var accountID = req.session.userprofile.account._id;
 		log.info('|account.getSignedLogoURL| Updating logo for account  -> ' + accountID, widget);
-		var fileName = accountID + '?v=1';
+		var fileName = accountID;
 		var fileType = req.query.fileType;
 		var bucketName = 'workwoo-account-logos';
 
