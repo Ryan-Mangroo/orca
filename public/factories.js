@@ -1,8 +1,8 @@
 /* ######################### MESSAGE ######################### */
 function Message($http) {
   var Message = {};
-  Message.getAll = function(params, onSuccess, onFail) {
-    $http({ url: '/getAllMessages', method: 'GET', params: params } )
+  Message.search = function(queryParams, onSuccess, onFail) {
+    $http({ url: '/searchMessages', method: 'GET', params: queryParams } )
       .then(function success(response) {
         onSuccess(response.data.result);
       },

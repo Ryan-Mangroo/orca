@@ -4,6 +4,7 @@ var App = angular.module('App', ['ngRoute', 'ngAnimate']);
 App.controller('mainController', mainController);
 App.controller('homeController', homeController);
 App.controller('loginController', loginController);
+App.controller('inboxController', inboxController);
 App.controller('messageController', messageController);
 App.controller('accountController', accountController);
 App.controller('supportController', supportController);
@@ -26,8 +27,8 @@ App.config(function($routeProvider) {
 	$routeProvider.when('/', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/home', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/login', { templateUrl : 'views/login.html', controller: loginController});
-	$routeProvider.when('/messages', { templateUrl : 'views/messagelist.html', controller: messageController});
-	$routeProvider.when('/messages/:message', { templateUrl : 'views/message.html', controller: messageController});
+	$routeProvider.when('/inbox/:inboxNumber', { templateUrl : 'views/inbox.html', controller: inboxController});
+	$routeProvider.when('/message/:messageID', { templateUrl : 'views/message.html', controller: messageController});
 	$routeProvider.when('/account', { templateUrl : 'views/account.html', controller: accountController});
 	$routeProvider.when('/upgrade', { templateUrl : 'views/upgrade.html', controller: supportController});
 	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});

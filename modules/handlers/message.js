@@ -1,5 +1,6 @@
 var cfg = require('../../config/config');
 var Message = require('../models/message');
+var Inbox = require('../models/inbox');
 var Counter = require('../models/counter');
 var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
@@ -86,28 +87,73 @@ exports.getOne = function(req, res) {
 	}
 };
 
-
-exports.getAll = function(req, res) {
+// Scrub request & Account separation ------------------------------------------- TODO
+exports.search = function(req, res) {
 	try {
-		log.info('|message.getAll|', widget);
+		log.info('|message.search|', widget);
 
-		// TODO: Scrub request body... Need to get messages by the inbox account
+	    var inboxNumber = req.query.inboxNumber;
+	    var sortField = req.query.sortField;
+	    var sortOrder = req.query.sortOrder;
+	    var anchorFieldValue = req.query.anchorFieldValue;
+	    var anchorID = req.query.anchorID;
+	    var searchTerm = req.query.searchTerm;
+	    var additionalQuery = req.query.queryCriteria;
+
+		var messagesPerPage = 10;
+
+		log.info('|message.search| inboxNumber -> ' + inboxNumber, widget);
+		log.info('|message.search| sortField -> ' + sortField, widget);
+		log.info('|message.search| sortOrder -> ' + sortOrder, widget);
+		log.info('|message.search| anchorFieldValue -> ' + anchorFieldValue, widget);
+		log.info('|message.search| anchorID -> ' + anchorID, widget);
+		log.info('|message.search| searchTerm -> ' + searchTerm, widget);
+		log.info('|message.search| additionalQuery -> ' + additionalQuery, widget);
+
 		var accountID = req.session.userprofile.account._id;	
-		
-		Message.find()
+
+		// First, get the record for the inbox, so we can get its ID.
+		Inbox.findOne({ number: inboxNumber, _account: accountID })
 			.exec(
-			function (error, messages) {
+			function (error, inbox) {
 				if (error) {
-					log.error('|message.getAll| Unknown -> ' + error, widget);
-					utility.errorResponseJSON(res, 'Unknown error getting messages');
-				} else {
-					log.info('Messages found: ' + messages.length, widget);
-					res.send(JSON.stringify({ result: messages }));
+					log.error('|Message.search.Inbox.findOne| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error getting inbox');
+				} else if(!inbox) {
+					log.info('|Message.search.Inbox.findOne| Inbox not found -> ' + inboxNumber, widget);	
+					utility.errorResponseJSON(res, 'Invalid inbox');
+				} else {		
+					log.info('|Message.search.Inbox.findOne| Inbox found -> ' + inbox.number);	
+					
+					// Now that we have the inboxID, search for the messages
+					var options = {
+						inboxID: inbox._id,
+						sortField: sortField,
+						sortOrder: sortOrder,
+						anchorFieldValue: anchorFieldValue,
+						anchorID: anchorID,
+						searchTerm: searchTerm,
+						messagesPerPage: messagesPerPage
+					};
+
+					if (additionalQuery) {
+						options.additionalQuery = JSON.parse(additionalQuery);
+					} else {
+						options.additionalQuery = null;
+					}
+
+					Message.search(options, function(error, result){
+						if (error) {
+							log.info('|message.search| Unknown -> ' + error, widget);
+						} else {
+							res.send(JSON.stringify({ result: result }));
+						}
+					});
 				}
-			});
+			}
+		);
 	} catch (error) {
-		log.error('|message.getAll| Unknown -> ' + error, widget);
-		utility.errorResponseJSON(res, 'Unknown error getting messages');
+		log.error('|message.search| -> Unknown ' + error, widget);
 	}
 };
 

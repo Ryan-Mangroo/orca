@@ -40,13 +40,13 @@
 			
 			<div class="ellipsis">
             	<div class="itemCardContent">
-            		<a ng-href="#/messages/{{ message._id }}">{{ message.content }}</a>
+            		<a ng-href="#/message/{{ message._id }}">{{ message.content }}</a>
             	</div>
 			</div>
 
 		</div>
 		<div class="col-md-3">
-			<span>{{ formattedDateTime(message.updated_at) }}</span>
+			<span>{{ formattedDateTime(message.created_at) }}</span>
 		</div>
 		<div class="col-md-1 text-left">
 			<img class="moodIcon" ng-src="{{'img/faces/' + moodMap[message.mood] + '.png'}}"/>

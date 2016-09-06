@@ -26,11 +26,11 @@
 		<script src="controllers/maincontroller.js"></script>
 		<script src="controllers/homecontroller.js"></script>
 		<script src="controllers/logincontroller.js"></script>
+		<script src="controllers/inboxcontroller.js"></script>
 		<script src="controllers/messagecontroller.js"></script>
 		<script src="controllers/accountcontroller.js"></script>
 		<script src="controllers/supportcontroller.js"></script>
 		<script src="app.js"></script><!-- The main app needs to load after controllers -->
-
 	</head>
 
 	<body ng-app="App" ng-controller="mainController">
@@ -42,7 +42,7 @@
 				<span class="fa fa-bars userMenuIcon dropdown-toggle" type="button" data-toggle="dropdown"></span>
 				<ul class="dropdown-menu userMenu">
 					<li><a href="#/home"><i class="fa fa-home"></i> Current Mood</a></li>
-					<li><a href="#/messages"><i class="fa fa-inbox"></i> Inbox</a></li>
+					<li><a ng-href="#/inbox/{{currentUser.account._primary_inbox.number}}"><i class="fa fa-inbox"></i> Company Inbox</a></li>
 					<li><a href="#/account"><i class="fa fa-cog"></i> Account</a></li>
 					<li><a href="#/support"><i class="fa fa-question"></i> Get Help</a></li>
 					<li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>

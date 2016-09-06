@@ -4,7 +4,7 @@ var crypto = require('crypto');
 var log = require('../../utils/logger');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var widget = 'user';
+var widget = 'User';
 log.registerWidget(widget);
 
 var userSchema = new Schema({

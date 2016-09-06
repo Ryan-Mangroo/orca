@@ -174,7 +174,7 @@ function initializeApp() {
 		// Inbox & Message Functionality
 		app.route('/getInboxInfo').get(inbox.getInfo); // Publicly available
 		app.route('/createMessage').post(validateRequest(), message.create);
-		app.route('/getAllMessages').get(validateRequest(), message.getAll);
+		app.route('/searchMessages').get(validateRequest(), message.search);
 		app.route('/getOneMessage').get(validateRequest(), message.getOne);
 		app.route('/deleteMessages').post(validateRequest(), message.delete);
 		app.route('/addComment').post(validateRequest(), message.addComment);

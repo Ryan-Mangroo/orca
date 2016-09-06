@@ -5,7 +5,7 @@
 	</div>
 	<div class="col-md-8 text-right">
 		<span>Feedback form for your employees: </span>
-		<a style="font-weight:bold;" ng-href="{{baseURL}}/inboxes/#/{{currentUser.account._primary_inbox.number}}?t={{currentUser.account._primary_inbox.token}}">{{baseURL}}/inboxes/{{ currentUser.account._primary_inbox.number }}?t={{currentUser.account._primary_inbox.token}}</a>
+		<a style="font-weight:bold;" ng-href="{{baseURL}}/inbox/#/{{currentUser.account._primary_inbox.number}}?t={{currentUser.account._primary_inbox.token}}">{{baseURL}}/inbox/{{ currentUser.account._primary_inbox.number }}?t={{currentUser.account._primary_inbox.token}}</a>
 		<button data-toggle="modal" data-target="#tokenResetModal" style="margin-left:10px;" ng-disabled="allowEditCompany || allowEditPersonal || allowEditPassword" type="button" style="margin:0px 10px 0px 0px;" class="btn btn-sm btn-warning"><i class="fa fa-warning"></i> Reset link</button>
 	</div>
 </div>
