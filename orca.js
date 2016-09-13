@@ -172,7 +172,7 @@ function initializeApp() {
 		// ######################### ALL OTHER ROUTES ######################### //
 
 		// Inbox & Message Functionality
-		app.route('/getInboxInfo').get(inbox.getInfo); // Publicly available
+		app.route('/getPublicInfo').get(inbox.getPublicInfo); // Publicly available
 		app.route('/createMessage').post(validateRequest(), message.create);
 		app.route('/searchMessages').get(validateRequest(), message.search);
 		app.route('/getOneMessage').get(validateRequest(), message.getOne);
@@ -181,6 +181,7 @@ function initializeApp() {
 
 		// Inbox & Message configuration
 		app.route('/resetInboxToken').post(validateRequest(), inbox.resetToken);
+		app.route('/getAllInboxInfo').get(validateRequest(), inbox.getAllInboxInfo);
 
 		// Prediction & Reports
 		app.route('/getKeywordSummary').get(validateRequest(), homepage.getKeywordSummary);

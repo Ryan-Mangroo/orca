@@ -209,6 +209,18 @@ function Inbox($http) {
       }
     );
   };
+  // Get and return all inbox info for the current user's
+  Inbox.getAllInboxInfo = function(onSuccess, onFail) {
+    $http({ url: '/getAllInboxInfo', method: 'GET', params: {} })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Inbox.getAllInboxes: Fail');
+        onFail();
+      }
+    );
+  };
 
   return Inbox;
 }

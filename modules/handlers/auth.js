@@ -48,6 +48,10 @@ exports.verifyCredentials = function(email, password, callback) {
 				phone: user.phone,
 				role: user.role
 			};
+
+			log.info('UserSession:');
+			log.object(userSession);
+
 			return callback(null, userSession);
 		});
 	} catch (error) {

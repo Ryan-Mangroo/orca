@@ -57,9 +57,9 @@ exports.resetToken = function(req, res) {
 };
 
 
-exports.getInfo = function(req, res) {
+exports.getPublicInfo = function(req, res) {
 	try {
-		log.info('|inbox.getInfo|', widget);
+		log.info('|inbox.getPublicInfo|', widget);
 
 		var inboxNumber = req.query.inboxNumber;
 		var token = req.query.token;
@@ -74,32 +74,65 @@ exports.getInfo = function(req, res) {
 		}
 
 		if (error) {
-			log.error('|inbox.getInfo| ' + error, widget);
+			log.error('|inbox.getPublicInfo| ' + error, widget);
 			return utility.errorResponseJSON(res, 'Error occurred getting inbox info');
 		}
 
-		log.info('|inbox.getInfo| Getting inbox info -> ' + inboxNumber + ', token -> ' + token, widget);
+		log.info('|inbox.getPublicInfo| Getting inbox info -> ' + inboxNumber + ', token -> ' + token, widget);
 
 		Inbox.findOne({ number: inboxNumber, token: token }, '-_account')
 			.exec(
 			function (error, inboxInfo) {
 				if (error) {
-					log.error('|inbox.getInfo.findOne| Unknown  -> ' + error, widget);
+					log.error('|inbox.getPublicInfo.findOne| Unknown  -> ' + error, widget);
 					utility.errorResponseJSON(res, 'Error occurred getting inbox');
 				} else if(!inboxInfo) {
-					log.info('|inbox.getInfo| Inbox credentials invalid -> ' + inboxNumber + ', token -> ' + token);	
+					log.info('|inbox.getPublicInfo| Inbox credentials invalid -> ' + inboxNumber + ', token -> ' + token);	
 					utility.errorResponseJSON(res, 'Invalid inbox credentials');
 				} else {		
-					log.info('|inbox.getInfo| Inbox found -> ' + inboxInfo._id);	
+					log.info('|inbox.getPublicInfo| Inbox found -> ' + inboxInfo._id);	
 					res.send(JSON.stringify({ result: inboxInfo }));
 				}
 			}
 		);
 	} catch (error) {
-		log.error('|inbox.getInfo| Unknown -> ' + error, widget);
+		log.error('|inbox.getPublicInfo| Unknown -> ' + error, widget);
 		utility.errorResponseJSON(res, 'Error occurred getting inbox');
 	}
 };
+
+
+exports.getAllInboxInfo = function(req, res) {
+	try {
+		log.info('|inbox.getAllInboxInfo|', widget);
+		var accountID = req.session.userprofile.account._id; // Put some king of account separation globally ------------------------------- TODO
+		log.info('|inbox.getAllInboxInfo| Loading info for account -> ' + accountID, widget);
+
+		Inbox.find({ _account: accountID })
+			.exec(
+			function (error, inboxes) {
+				if (error) {
+					log.error('|inbox.getAllInboxInfo.findOne| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred getting inboxes');
+				} else if(!inboxes) {
+					log.info('|inbox.getAllInboxInfo| No inboxes found for account -> ' + accountID, widget);	
+					res.send(JSON.stringify({ result: [] }));
+				} else {		
+					log.info('|inbox.getAllInboxInfo| Inboxes found -> ' + inboxes.length);	
+					res.send(JSON.stringify({ result: inboxes }));
+				}
+			}
+		);
+	} catch (error) {
+		log.error('|inbox.getAllInboxInfo| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Error occurred getting inboxes');
+	}
+};
+
+
+
+
+
 
 /*
 exports.create = function(req, res) {

@@ -238,9 +238,9 @@ function accountController($scope, $location, Account, Inbox) {
 	};
 
 	$scope.loadUsageCharts = function() {
-		$scope.setChartData('#chartUsers', 4, 5);
-		$scope.setChartData('#chartInboxes', 1, 5);
-		$scope.setChartData('#chartMessages', 27, 100);
+		//$scope.setChartData('#chartUsers', 4, 5);
+		//$scope.setChartData('#chartInboxes', 1, 5);
+		//$scope.setChartData('#chartMessages', 27, 100);
 	};
 
 	$scope.setChartData = function(chartID, used, available) {

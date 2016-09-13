@@ -7,21 +7,6 @@ function homeController($scope, $location, $route, Homepage) {
 
 	$scope.allowEditKeywordSummary = false;
 
-	$scope.getMoodscaleColor = function(value){
-		var value = value + 20;
-		var backgroundColor = '';
-		if($scope.allowEditKeywordSummary) {
-			backgroundColor = '#a1a9ac';
-		} else if(value < 33) {
-			backgroundColor = '#d9534f';
-		} else if(value >= 33 && value < 50) {
-			backgroundColor = '#f0ad4e';
-		}else if(value >= 50) {
-			backgroundColor = '#5cb85c';
-		}
-		return backgroundColor;
-	}
-
 	$scope.toggleEditKeywordSummary = function() {
 		$scope.allowEditKeywordSummary = !$scope.allowEditKeywordSummary;
 		if($scope.allowEditKeywordSummary) {
@@ -35,9 +20,12 @@ function homeController($scope, $location, $route, Homepage) {
 			$scope.homeKeywords = $scope.homeKeywordsOriginal;
 			$scope.homeKeywordsOriginal = [];
 			$scope.editableHomeKeywords = [];
-			$scope.setProgressBars();
 			$scope.allowEditKeywordSummary = false;
+
 		}
+
+		// Re-cycle the charts
+		$scope.showGauges();
 	};
 
 	$scope.addSummaryKeyword = function() {
@@ -73,23 +61,12 @@ function homeController($scope, $location, $route, Homepage) {
 		  },
 		  function() {
 		  	$scope.clearAlerts();
+		  	$scope.showGauges();
 			$scope.toggleAlert('danger', true, 'Unknown error trying to update homepage keywords');
 		  }
 		);
 
 	}
-
-	$scope.setProgressBars = function() {
-		// The delay allows for NG to finish the scope changes before jQuery tries to animate
-		setTimeout(function(){
-		  	for(var i=0; i<$scope.homeKeywords.length; i++) {
-		  		var value = $scope.homeKeywords[i].value + 20 + '%';
-		  		log.info(i + ': ' + value);
-
-		  		$('#' + i + '_keyword_bar').css('width', value);
-		  	}
-	  	},100);
-	};
 
 	$scope.loadHomeKeywords = function() {
 		Homepage.getKeywordSummary(
@@ -97,13 +74,55 @@ function homeController($scope, $location, $route, Homepage) {
 
 		  	$scope.homeKeywords = result.keywordData;
 		  	$scope.homepageID = result.homepageID;
-			$scope.setProgressBars();
+			
+			setTimeout(function(){
+			  	$scope.showGauges();
+		  	},100);
+
+			log.info('Loaded');
+
 		  },
 		  function() {
 		  	log.error('Something bad happened getting homepage keywords');
 		  }
 		);
 	};
+
+	$scope.showGauges = function() {
+	  	for(var i=0; i<$scope.homeKeywords.length; i++) {
+	  		// Grab variables & prep the chart
+	  		var keywordLink = '<a href="#">' + $scope.homeKeywords[i].title + '</a>';
+	  		var value = $scope.homeKeywords[i].value + 20;
+	  		var elementID = '#keyword_' + i + '_gauge';
+			$(elementID).empty();
+
+	  		// Determine the gauge color
+			var backgroundColor = '';
+			if($scope.allowEditKeywordSummary) {
+				backgroundColor = '#a1a9ac';
+			} else if(value < 33) {
+				backgroundColor = '#d9534f';
+			} else if(value >= 33 && value < 50) {
+				backgroundColor = '#f0ad4e';
+			}else if(value >= 50) {
+				backgroundColor = '#5cb85c';
+			}
+
+			// Show the chart
+			$(elementID).circliful({
+				backgroundColor: '#f3f5f6',
+				foregroundColor: backgroundColor,
+				foregroundBorderWidth: 20,
+				textAdditionalCss: 'display:none;',
+				halfCircle: true,
+				animation: !$scope.allowEditKeywordSummary,
+		        animationStep: 5,
+		        backgroundBorderWidth: 20,
+		        percent: value,
+			});
+	  	}
+	};
+
 
 	$scope.initHomeController = function() {
 		$scope.loadHomeKeywords();

@@ -67,6 +67,12 @@ function mainController($scope, $location, User, BASE_URL) {
   		$scope.currentUser = personalInfo;
   	};
 
+
+  	$scope.loadInboxInfo = function() {
+  		
+  	};
+
+
 	$scope.ensureAuthenticated = function() {
 		if($scope.currentUser) {
 			$scope.authenticated = true;

@@ -20,7 +20,7 @@ ss
 function Inbox($http) {
   var Inbox = {};
   Inbox.getInfo = function(inboxNumber, token, onSuccess, onFail) {
-    $http({ url: '/getInboxInfo', method: 'GET', params: { inboxNumber: inboxNumber, token: token } })
+    $http({ url: '/getPublicInfo', method: 'GET', params: { inboxNumber: inboxNumber, token: token } })
       .then(function success(response) {
         onSuccess(response.data.result);
       },

@@ -1,6 +1,8 @@
 function inboxController($scope, $location, Message) {
 	log.info('|inboxController|');
 
+	$scope.currentInbox = null;
+
 	$scope.messages = [];
 	$scope.inboxLoading = true;
 	$scope.selectedMessages = [];

@@ -113,6 +113,7 @@
 	opacity: 0;
 }
 .moodIcon {
+
 	height: 30px;
 	width: 30px;
 }
@@ -139,22 +140,8 @@
     justify-content: space-around;
 }
 
-.removeKeywordIcon {
-	-webkit-transition: .25s;
-    -moz-transition: .25s;
-    -ms-transition: .25s;
-    -o-transition: .25s;
-    transition: .25s;
-	font-size: 30px;
-	position: absolute;
-	top: 10px;
-	left: -20px;
+.removeTopicIcon {
 	color: #d16d5f;
-}
-
-.removeKeywordIcon:hover {
-	cursor: pointer;
-	color: #b6bbc3;
 }
 
 /*######################### HOMEPAGE #########################*/
@@ -183,17 +170,16 @@
 /*######################### SINGLE MESSAGE #########################*/
 
 .singleMessageContent {
-	border: 1px dotted #d2d5da;
-	margin: 15px 15px 15px 0px;
-	padding: 10px;
-	min-height: 200px;
+	font-style: italic;
+	padding: 25px;
+	font-size: 20px;
 }
 
 .singleMessageFeedback {
-	background-color: #f2f4f4;
-	border: 1px dotted #d2d5da;	
-	margin: 15px 15px 15px 0px;
-	padding: 25px;
+	color: #6f8993;
+	background-color: #f3f5f6;
+	margin-top: 15px;
+	padding: 15px 25px 25px 25px;
 	min-height: 200px;
 }
 
@@ -202,11 +188,9 @@
 }
 
 .commentListItem {	
-	background-color: #fefce1;
+	background-color: #f9fcdc;
 	padding: 10px;
-	border-radius: 5px;
-	margin-bottom: 5px;
-	box-shadow: 1px 1px 0px #d2d5da;
+	margin-bottom: 2px;
 }
 
 
@@ -267,26 +251,5 @@
 .currentPlanDetailContainer {
 	margin:10px;
 }
-
-.usageBase, .usageGreen, .usageYellow, .usageRed {
-	stroke none;
-}
-
-.usageBase {
-	fill: #d2d5da;
-}
-
-.usageGreen {
-	fill: #5cb85c;
-}
-
-.usageYellow {
-	fill: #f0ad4e;
-}
-
-.usageRed {
-	fill: #d9534f;
-}
-
 
 /*######################### ACCOUNT #########################*/

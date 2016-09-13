@@ -7,15 +7,14 @@
 			</h4>
 	</div>
 	<div class="col-md-6 text-right">
-		<button type="button" class="btn btn-primary btn-sm" ng-click="archiveSingleMessage(singleMessage._id)"><i class="fa fa-archive"></i> Archive Message</button>
-		<button type="button" class="btn btn-danger btn-sm" ng-click="deleteSingleMessage(singleMessage._id)"><i class="fa fa-trash"></i> Delete Message</button>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="deleteSingleMessage(singleMessage._id)"><i class="fa fa-trash"></i> Delete this message</button>
 	</div>
 </div>
 
 <div class="container-fluid noSpace">
 	<div class="col-md-8">
 		<div class="singleMessageContent">
-			<span>{{ singleMessage.content }}</span>
+			<p>"{{ singleMessage.content }}"</p>
 		</div>
 	</div>
 
@@ -24,7 +23,7 @@
 			<h4>Comment on this message</h4>
 			<textarea style="resize:vertical;" ng-model="newComment" type="text" class="form-control defaultInput" rows="5"></textarea>
 			<div class="text-right" style="margin-top:10px;">
-				<button type="button" ng-click="addComment(newComment)" class="btn btn-warning">Post comment</button>
+				<button type="button" ng-click="addComment(newComment)" class="btn btn-sm btn-warning">Post comment</button>
 			</div>
 			<div class="commentListContainer">
 
