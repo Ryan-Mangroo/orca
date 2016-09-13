@@ -151,11 +151,22 @@ function initializeApp() {
 		}).post(function(req, res, next) {
 			log.info('|login|', widget);
 			passport.authenticate('basic', function(error, user, info) {
-				if (error) { return next(error); }
-				if (!user) { return res.sendStatus(401); }
+				if (error) {
+					log.error('|login| Unknown -> ' + error, widget);
+					return next(error);
+				}
+				if (!user) {
+					log.error('|login| User not found', widget);
+					return res.sendStatus(401);
+				}
 
 		    	req.logIn(user, function(error) {
-		    		if (error) { return next(error); }
+		    		if (error) {
+		    			log.error('|login|req.logIn Unknown -> ' + error, widget);
+		    			return next(error);
+		    		}
+		    		log.info('|login|req.logIn Success', widget);
+		    		log.object(user);
 		    		req.session.userprofile = user;
 		    		return res.send(JSON.stringify(user));
 				});

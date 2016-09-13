@@ -14,9 +14,13 @@ log.registerWidget(widget);
 
 exports.verifyCredentials = function(email, password, callback) {
 	try {
+		log.info('|auth.verifyCredentials|', widget);
 		var errors = {};
-		if (validator.checkNull(email)) { errors.email = 'Email Address is Null'; } 
-		else if (!validator.checkEmail(email)) { errors.email = 'Email is not valid: ' + email; } 
+		if (validator.checkNull(email)) {
+			errors.email = 'Email Address is Null';
+		} else if (!validator.checkEmail(email)) {
+			errors.email = 'Email is not valid: ' + email;
+		} 
 		
 		if (validator.checkNull(password)) {
 			errors.password = 'Password is Null';
