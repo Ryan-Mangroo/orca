@@ -1,5 +1,8 @@
 function accountController($scope, $location, Account, Inbox) {
 	log.info('|accountController|');
+
+	$scope.inboxes = ['one', 'two', 'three'];
+
 	$scope.allowEditCompany = false;
 	$scope.allowEditPersonal = false;
 	$scope.allowEditPassword = false;
@@ -237,40 +240,6 @@ function accountController($scope, $location, Account, Inbox) {
 		$scope.accountLogoSource = src;
 	};
 
-	$scope.loadUsageCharts = function() {
-		//$scope.setChartData('#chartUsers', 4, 5);
-		//$scope.setChartData('#chartInboxes', 1, 5);
-		//$scope.setChartData('#chartMessages', 27, 100);
-	};
-
-	$scope.setChartData = function(chartID, used, available) {
-		
-		// Determine the percentage used
-		var sliceClassName = 'usageBase';
-		var percentUsed = (100 * used)/available;
-		var percentRemaining = 100 - percentUsed;
-
-		if(percentUsed <= 50) {
-			sliceClassName = 'usageGreen';
-		} else if(percentUsed > 50 && percentUsed <= 75) {
-			sliceClassName = 'usageYellow';
-		} else if(percentUsed > 75) {
-			sliceClassName = 'usagered';
-		}
-
-		var seriesData = {
-			series: [
-				{ value: percentUsed, className: sliceClassName, },
-				{ value: percentRemaining, className: 'usageBase'}
-			]
-		};
-		
-		var options = { showLabel: false };
-		new Chartist.Pie(chartID, seriesData, options);
-		
-	};
-
-	$scope.loadUsageCharts();
 	$scope.setCompanyInfo();
 	$scope.setPersonalInfo();
 }

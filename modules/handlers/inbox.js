@@ -1,6 +1,7 @@
 var cfg = require('../../config/config');
 var Inbox = require('../models/inbox');
 var crypto = require('crypto');
+var aws = require('../../utils/aws-utils')
 var Counter = require('../models/counter');
 var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
@@ -13,7 +14,9 @@ exports.resetToken = function(req, res) {
 		log.info('|inbox.resetToken|', widget);
 		var inboxID = req.body.inboxID;
 		var error = null;
-		if (validator.checkNull(inboxID)) { error = 'Inbox ID is Null'; } 
+		if (validator.checkNull(inboxID)) {
+			error = 'Inbox ID is Null';
+		} 
 
 		if (error) {
 			log.error('|inbox.resetToken| ' + error, widget);
@@ -21,9 +24,6 @@ exports.resetToken = function(req, res) {
 		}
 
 		var accountID = req.session.userprofile.account._id; // Put some king of account separation globally ------------------------------- TODO
-		
-		log.info('Account ID: ' + accountID, widget);
-
 		Inbox.findOne({ _account: accountID, _id: inboxID })
 			.exec(
 			function (error, inbox) {
@@ -65,8 +65,6 @@ exports.getPublicInfo = function(req, res) {
 		var token = req.query.token;
 		var error = null;
 
-		// TODO: Scrub token
-
 		if (validator.checkNull(inboxNumber)) {
 			error = 'Box number is null';
 		} else if (!validator.checkAlphanumeric(inboxNumber)) {
@@ -101,37 +99,109 @@ exports.getPublicInfo = function(req, res) {
 	}
 };
 
-
-exports.getAllInboxInfo = function(req, res) {
+// Get all inboxes for the current user's account.
+exports.getAllInfo = function(req, res) {
 	try {
-		log.info('|inbox.getAllInboxInfo|', widget);
+		log.info('|inbox.getAllInfo|', widget);
 		var accountID = req.session.userprofile.account._id; // Put some king of account separation globally ------------------------------- TODO
-		log.info('|inbox.getAllInboxInfo| Loading info for account -> ' + accountID, widget);
+		log.info('|inbox.getAllInfo| Getting inbox info for account -> ' + accountID, widget);
 
 		Inbox.find({ _account: accountID })
 			.exec(
 			function (error, inboxes) {
 				if (error) {
-					log.error('|inbox.getAllInboxInfo.findOne| Unknown  -> ' + error, widget);
+					log.error('|inbox.getAllInfo.findOne| Unknown  -> ' + error, widget);
 					utility.errorResponseJSON(res, 'Error occurred getting inboxes');
 				} else if(!inboxes) {
-					log.info('|inbox.getAllInboxInfo| No inboxes found for account -> ' + accountID, widget);	
+					log.info('|inbox.getAllInfo| No inboxes found for account -> ' + accountID, widget);	
 					res.send(JSON.stringify({ result: [] }));
 				} else {		
-					log.info('|inbox.getAllInboxInfo| Inboxes found -> ' + inboxes.length);	
+					log.info('|inbox.getAllInfo| Inboxes found -> ' + inboxes.length);	
 					res.send(JSON.stringify({ result: inboxes }));
 				}
 			}
 		);
 	} catch (error) {
-		log.error('|inbox.getAllInboxInfo| Unknown -> ' + error, widget);
+		log.error('|inbox.getAllInfo| Unknown -> ' + error, widget);
 		utility.errorResponseJSON(res, 'Error occurred getting inboxes');
 	}
 };
 
+// Get the inbox for the ID given
+exports.getOneInfo = function(req, res) {
+	try {
+		log.info('|inbox.getOneInfo|', widget);
+		
+		var inboxID = req.query.inboxID;
+		var accountID = req.session.userprofile.account._id;
+		log.info('|inbox.getOneInfo| Loading info for inbox -> ' + inboxID, widget);
+
+		Inbox.findOne({ _account: accountID, _id: inboxID })
+			.exec(
+			function (error, inbox) {
+				if (error) {
+					log.error('|inbox.getOneInfo.findOne| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred getting inbox');
+				} else if(!inbox) {
+					log.info('|inbox.getOneInfo| No inbox found -> ' + inboxID, widget);	
+					utility.errorResponseJSON(res, 'Error occurred getting inbox');
+				} else {		
+					log.info('|inbox.getOneInfo| Inbox found -> ' + inbox._id);	
+					res.send(JSON.stringify({ result: inbox }));
+				}
+			}
+		);
+	} catch (error) {
+		log.error('|inbox.getOneInfo| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Error occurred getting inbox');
+	}
+};
 
 
+exports.getSignedImageURL = function(req, res) {
+	try {
+		log.info('|inbox.getSignedImageURL|', widget);
+		var inboxID = req.query.inboxID;
 
+		var fileName = inboxID;
+		var fileType = req.query.fileType;
+		var bucketName = 'workwoo-inbox-images';
+
+		aws.getSignedS3URL(fileName, fileType, bucketName, function(error, signedRequest){
+			if(error || !signedRequest) {
+				log.error('|inbox.getSignedImageURL| Error while getting signed request -> ' + error, widget);
+				utility.errorResponseJSON(res, 'Error while getting signed request');
+			} else {
+				// Save the new image URL to the inbox record
+				Inbox.findById(inboxID)
+		    		.exec(
+		    		function(error, inbox) {
+			    		if (error) {
+							log.error('|inbox.getSignedImageURL.findById| Unknown  -> ' + error, widget);
+							utility.errorResponseJSON(res, 'Error occurred updating inbox image');
+						} else {
+							log.info('Updating image to: ' + signedRequest.url);
+							inbox.image = signedRequest.url;
+					    	inbox.save(function(error){
+								if (error) {
+									log.error('|inbox.getSignedImageURL.save| Unknown  -> ' + error, widget);
+									utility.errorResponseJSON(res, 'Error occurred updating inbox image');
+								} else {
+									// Finally send the signed request info
+									log.info('|inbox.getSignedImageURL.save| Image save success', widget);
+									res.send(JSON.stringify({ result: signedRequest }));
+								} 
+					    	});
+						}
+			    	}
+			    );
+			}
+		});
+	} catch (error) {
+		log.error('|inbox.getSignedImageURL| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error while getting signed request');
+	}
+};
 
 
 /*

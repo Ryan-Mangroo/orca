@@ -1,7 +1,8 @@
-function mainController($scope, $location, User, BASE_URL) {
+function mainController($scope, $location, User, Inbox, BASE_URL) {
 	log.info('|mainController|');
 
 	$scope.baseURL = BASE_URL;
+	$scope.accountInboxes = [];
 	
 	$scope.successAlertVisible = false;
 	$scope.successAlertText = null;
@@ -68,8 +69,16 @@ function mainController($scope, $location, User, BASE_URL) {
   	};
 
 
-  	$scope.loadInboxInfo = function() {
-  		
+  	$scope.loadAllInboxInfo = function() {
+  		log.info('Loading inboxes');
+  		Inbox.getAllInboxInfo(
+			function(inboxes){
+				$scope.accountInboxes = inboxes;
+			},
+			function() {
+				log.error('Error loading inboxes');
+			}
+		);
   	};
 
 
@@ -81,6 +90,7 @@ function mainController($scope, $location, User, BASE_URL) {
 			  function(userProfile){
 			  	$scope.currentUser = userProfile;
 			  	$scope.authenticated = true;
+			  	$scope.loadAllInboxInfo();
 			  },
 			  function() {
 			  	$scope.authenticated = false;

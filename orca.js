@@ -192,7 +192,9 @@ function initializeApp() {
 
 		// Inbox & Message configuration
 		app.route('/resetInboxToken').post(validateRequest(), inbox.resetToken);
-		app.route('/getAllInboxInfo').get(validateRequest(), inbox.getAllInboxInfo);
+		app.route('/getAllInboxInfo').get(validateRequest(), inbox.getAllInfo);
+		app.route('/getOneInboxInfo').get(validateRequest(), inbox.getOneInfo);
+		app.route('/getSignedInboxImageURL').get(validateRequest(), inbox.getSignedImageURL);
 
 		// Prediction & Reports
 		app.route('/getKeywordSummary').get(validateRequest(), homepage.getKeywordSummary);
@@ -203,7 +205,7 @@ function initializeApp() {
 		app.route('/updateUser').post(validateRequest(), user.update);
 		app.route('/changeUserPassword').post(validateRequest(), user.changePassword);
 		app.route('/updateAccount').post(validateRequest(), account.update);
-		app.route('/getSignedLogoURL').get(validateRequest(), account.getSignedLogoURL);
+		app.route('/getSignedAccountLogoURL').get(validateRequest(), account.getSignedLogoURL);
 
 		// Account related (unauthenticated)
 		app.route('/signup').post(auth.signup);

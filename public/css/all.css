@@ -3,6 +3,7 @@ body {
 	background-color: #fff;
 	color: #2596c3;
 	font-weight: 300;
+	margin-bottom: 50px;
 }
 
 .thin {
@@ -199,10 +200,6 @@ a:hover {
 
 
 /*######################### ANIMATIONS #########################*/
-.fa-spin {
-  -webkit-animation: fa-spin 1.25s infinite linear;
-  animation: fa-spin 1.25s infinite linear;
-}
 
 .adminLoadingIndicator {
 	text-align: center;
@@ -212,13 +209,13 @@ a:hover {
 
 /* Fade in and fade out staggered */
 .fadeInOutStagger.ng-enter {
-	transition: .05s;
+	transition: .5s;
 	opacity: 0;
 }
 
 .fadeInOutStagger.ng-enter-stagger {
-	transition-delay: 0.025s;
-	transition-duration: 0s;
+	transition-delay: .5s;
+	transition-duration: .5s;
 }
 
 .fadeInOutStagger.ng-enter-active {
@@ -226,7 +223,7 @@ a:hover {
 }
 
 .fadeInOutStagger.ng-leave {
-	transition: 0s;
+	transition: .5s;
 	opacity: 1;
 }
 

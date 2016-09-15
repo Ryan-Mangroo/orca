@@ -54,7 +54,7 @@ exports.update = function(req, res) {
 	}
 };
 
-// Update the logo on the account only after the upload is successful ------------------------------------- TODO
+
 exports.getSignedLogoURL = function(req, res) {
 	try {
 		var accountID = req.session.userprofile.account._id;

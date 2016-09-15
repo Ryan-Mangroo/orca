@@ -2,7 +2,7 @@
 .pageTitle {
 	color: #6f8993;
 	background-color: #f3f5f6;
-	padding: 10px;
+	padding: 5px;
 }
 
 .grayBorderBox {
@@ -13,6 +13,12 @@
 	border-radius: 10px;
 	border: 1px solid #d2d5da;
 }
+
+.loadingIcon {
+	font-size: 150px;
+	color: #f3f5f6;
+}
+
 /*######################### GLOBAL #########################*/
 
 
@@ -147,21 +153,23 @@
 /*######################### HOMEPAGE #########################*/
 
 
-/*######################### MESSAGE LIST #########################*/
+/*######################### LIST #########################*/
 
-.messageListHeader {
+.listHeader {
+	font-size: 16px;
 	font-weight: 600;
 	padding: 10px;
-	color: #a0aeae;
-	border-bottom: 1px solid #d2d5da;
+	background-color: #2596c3;
+	color: #fff;
 }
 
-.messageListRow {
+.listRow {
 	position: relative;
-	color: #a0aeae;
-	padding: 10px;
-	background-color: #fff;
-	border-bottom: 1px dotted #d2d5da;
+	padding: 5px;
+	background-color: #fbfcfc;
+	border-bottom: 2px dotted #e4e9eb;
+	border-left: 1px solid #e4e9eb;
+	border-right: 1px solid #e4e9eb;
 }
 
 /*######################### MESSAGE LIST #########################*/

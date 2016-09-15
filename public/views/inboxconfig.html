@@ -1,0 +1,120 @@
+<!-- Page Title -->
+<div class="container-fluid pageTitle">
+	<div class="col-md-4">
+		<h4 class="noSpace">Configure Inbox</h4>
+	</div>
+</div>
+
+
+<div class="container" style="margin-top:10px;padding: 0px 10px 25px 10px;border-bottom:2px">
+	<!-- Main Link & basic info -->
+	<div class="col-md-12">
+		
+		<!-- Logo -->
+		<div class="col-md-3">
+			<div class="accountSection" ng-style="computeSectionStyle('logo')">
+				<!-- Logo Image -->
+				<div class="accountLogoContainer">
+					<img class="accountLogo" ng-src="{{ inboxImageSource }}"/>
+				</div>
+			
+				<!-- Edit Logo Button (before change) -->
+				<div class="row" ng-if="!allowEditImage">
+					<div class="col-md-12">
+						<span class="btn btn-block btn-default btn-file">
+						    Change Inbox Image <input ng-model="inboxImageFile" onchange="angular.element(this).scope().previewInboxImage(this)" type="file" accept="image/*"/>
+						</span>
+					</div>
+				</div>
+
+				<!-- Edit Logo Buttons (after change) -->
+				<div class="row" ng-if="allowEditImage">
+					<div class="col-md-12">
+						<button type="button" class="btn btn-default btn-block" ng-click="cancelChangeImage()">Cancel</button>
+					</div>
+					<div class="col-md-12">
+						<button type="button" class="btn btn-success btn-block" ng-click="saveInboxImage()">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Inbox Info -->
+		<div class="col-md-8">
+			<div class="accountSection" ng-style="computeSectionStyle('company')">
+
+				<form ng-model="companyInfo" style="font-size:16px;">
+					<!-- Company Name -->
+					<div>
+						<label>Name: </label>
+						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.name }}</span>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.name"/>
+						</div>
+					</div>
+					<!-- Company HQ -->
+					<div ng-if="!allowEditCompany" class="fadeInOut">
+						<label>HQ: </label>
+						<span> {{ companyInfo.city }} {{ companyInfo.state }}, {{ companyInfo.country }}</span>
+						<div class="form-group"></div><!-- Spacer -->
+					</div>
+					<div ng-if="allowEditCompany" class="fadeInOut">
+						<label>City:</label>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.city"/>
+						</div>
+					</div>
+					<div ng-if="allowEditCompany" class="fadeInOut">
+						<label>State:</label>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.state"/>
+						</div>
+					</div>
+					<div ng-if="allowEditCompany" class="fadeInOut">
+						<label>Country:</label>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.country"/>
+						</div>
+					</div>
+					<!-- Company Email -->
+					<div>
+						<label>Billing Email: </label>
+						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.email }}</span>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.email"/>
+						</div>
+					</div>
+					<!-- Company Phone -->
+					<div>
+						<label>Billing Phone: </label>
+						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.phone }}</span>
+						<div class="form-group">
+							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.phone"/>
+						</div>
+					</div>
+				</form>
+
+				<!-- Edit Company Buttons -->
+				<div class="row fadeInOut" ng-if="!allowEditCompany">
+					<div class="col-md-6">
+						<button ng-disabled="allowEditPersonal || allowEditPassword || allowEditLogo" type="button" ng-click="editCompanyInfo()" class="btn btn-default btn-block">Update Company Info</button>
+					</div>
+				</div>
+
+				<div class="row fadeInOut" ng-if="allowEditCompany">
+					<div class="col-md-6">
+						<button ng-disabled="companySubmitting" type="button" ng-click="cancelSaveCompany()" class="btn btn-default btn-block">Cancel</button>
+					</div>
+					<div class="col-md-6">
+						<button ng-disabled="companySubmitting" type="button" ng-click="saveCompany(companyInfo)" class="btn btn-success btn-block">
+							<span ng-if="!companySubmitting">Save Changes</span>
+							<span ng-if="companySubmitting"><i class="fa fa-refresh fa-spin"></i> Saving</span>
+						</button>
+					</div>
+					</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>

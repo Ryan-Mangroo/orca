@@ -1,5 +1,7 @@
 function homeController($scope, $location, $route, Homepage) {
 	log.info('|homeController|');
+	$scope.homeLoading = true;
+
 	$scope.homepageID = null;
 	$scope.homeKeywords = [];
 	$scope.homeKeywordsOriginal = [];
@@ -23,7 +25,6 @@ function homeController($scope, $location, $route, Homepage) {
 			$scope.allowEditKeywordSummary = false;
 
 		}
-
 		// Re-cycle the charts
 		$scope.showGauges();
 	};
@@ -32,6 +33,28 @@ function homeController($scope, $location, $route, Homepage) {
 		var newKeyword = { title: 'New Word', value: 0 };
 		$scope.editableHomeKeywords.push(newKeyword);
 		$scope.homeKeywords.push(newKeyword);
+
+		var keywordIndex = $scope.homeKeywords.length - 1;
+  		var elementID = '#keyword_' + keywordIndex + '_gauge';
+		$(elementID).empty();
+
+		// Show the chart
+		setTimeout(function(){
+		  	$(elementID).circliful({
+				backgroundColor: '#f3f5f6',
+				foregroundColor: '#f3f5f6',
+				foregroundBorderWidth: 20,
+				textAdditionalCss: 'display:none;',
+				halfCircle: true,
+				animation: !$scope.allowEditKeywordSummary,
+		        animationStep: 5,
+		        backgroundBorderWidth: 20,
+		        percent: 0,
+			});
+	  	},100);
+		
+
+
 	}
 
 	$scope.getStarted = function() {
@@ -77,12 +100,12 @@ function homeController($scope, $location, $route, Homepage) {
 			
 			setTimeout(function(){
 			  	$scope.showGauges();
+			  	log.info('Loaded');
 		  	},100);
-
-			log.info('Loaded');
-
+			$scope.homeLoading = false;
 		  },
 		  function() {
+		  	$scope.homeLoading = false;
 		  	log.error('Something bad happened getting homepage keywords');
 		  }
 		);

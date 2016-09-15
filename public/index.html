@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="css/font-awesome.min.css">
 		<link rel="stylesheet" href="css/chartist.min.css">
 		<link rel="stylesheet" href="css/jquery.circliful.css">
+		<link rel="stylesheet" href="css/select.min.css">
 
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
@@ -17,6 +18,7 @@
 		<script src="js/angular-route.js"></script>
 		<script src="js/moment.min.js"></script>
 		<script src="js/jquery.circliful.min.js"></script>
+		<script src="js/select.min.js"></script>
 
 		<!-- Custom Styles -->
 		<link rel="stylesheet" type="text/css" href="css/all.css">
@@ -34,6 +36,8 @@
 		<script src="controllers/messagecontroller.js"></script>
 		<script src="controllers/accountcontroller.js"></script>
 		<script src="controllers/supportcontroller.js"></script>
+		<script src="controllers/inboxconfigcontroller.js"></script>
+		
 		<script src="app.js"></script><!-- The main app needs to load after controllers -->
 	</head>
 
@@ -45,8 +49,8 @@
 			<div class="dropdown pull-right">
 				<span class="fa fa-bars userMenuIcon dropdown-toggle" type="button" data-toggle="dropdown"></span>
 				<ul class="dropdown-menu userMenu">
-					<li><a href="#/home"><i class="fa fa-home"></i> Current Mood</a></li>
-					<li><a ng-href="#/inbox/{{currentUser.account._primary_inbox.number}}"><i class="fa fa-inbox"></i> Feedback Inbox</a></li>
+					<li><a href="#/home"><i class="fa fa-tachometer"></i> Dashboards</a></li>
+					<li><a ng-href="#/inbox/{{currentUser.account._primary_inbox.number}}"><i class="fa fa-inbox"></i> Feedback Inboxes</a></li>
 					<li><a href="#/account"><i class="fa fa-cog"></i> Account</a></li>
 					<li><a href="#/support"><i class="fa fa-question"></i> Get Help</a></li>
 					<li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
@@ -58,7 +62,7 @@
 		<!-- Desktop Header -->
 
 		<!-- Content -->
-		<div ng-if="authenticated" class="adminContent fadeInOut" ng-view></div>
+		<div ng-if="authenticated" ng-view></div>
 
 	</body>
 

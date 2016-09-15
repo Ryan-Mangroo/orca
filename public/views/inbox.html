@@ -11,7 +11,7 @@
 <!-- List -->
 <div ng-if="!messagesLoading" class="container-fluid fadeInOut">
 	<!-- Column Header -->
-	<div ng-if="!messagesLoading" class="row messageListHeader">
+	<div ng-if="!messagesLoading" class="row listHeader">
 		<div class="col-md-1">
 			<input type="checkbox" ng-click="toggleAll(message._id)"/>
 		</div>
@@ -23,7 +23,7 @@
 	</div>
 
 	<!-- If there are no messages -->
-	<div ng-if="!messagesLoading && messages.length == 0" class="row messageListRow">
+	<div ng-if="!messagesLoading && messages.length == 0" class="row listRow">
 		<div class="row">
 			<div class="col-md-12 text-center">
 				<span>-- No messages --</span>
@@ -32,7 +32,7 @@
 	</div>
 
 	<!-- Create 1 row for each message -->
-	<div ng-repeat="message in messages" ng-if="!messagesLoading" class="row messageListRow">
+	<div ng-repeat="message in messages" ng-if="!messagesLoading" class="row listRow">
 		<div class="col-md-1 text-left">
 			<input type="checkbox" ng-checked="selectedMessages.indexOf(message._id) > -1" ng-click="toggleSelectedMessage(message._id)"/>	
 		</div>

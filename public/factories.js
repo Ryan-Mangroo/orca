@@ -152,7 +152,7 @@ function Account($http) {
   };
 
   Account.getSignedLogoURL = function(fileName, fileType, onSuccess, onFail) {
-    $http({ url: '/getSignedLogoURL', method: 'GET', params: { fileName: fileName, fileType: fileType } })
+    $http({ url: '/getSignedAccountLogoURL', method: 'GET', params: { fileName: fileName, fileType: fileType } })
       .then(function success(response) {
         onSuccess(response.data.result);
       },
@@ -209,7 +209,8 @@ function Inbox($http) {
       }
     );
   };
-  // Get and return all inbox info for the current user's
+
+  // Get and return all inbox info for the current user's account
   Inbox.getAllInboxInfo = function(onSuccess, onFail) {
     $http({ url: '/getAllInboxInfo', method: 'GET', params: {} })
       .then(function success(response) {
@@ -221,6 +222,48 @@ function Inbox($http) {
       }
     );
   };
+
+  // Get and return inbox info for the given inbox ID
+  Inbox.getOneInboxInfo = function(inboxID, onSuccess, onFail) {
+    $http({ url: '/getOneInboxInfo', method: 'GET', params: { inboxID: inboxID } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Inbox.getOneInboxInfo: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Inbox.getSignedImageURL = function(inboxID, fileName, fileType, onSuccess, onFail) {
+    $http({ url: '/getSignedInboxImageURL', method: 'GET', params: { inboxID: inboxID, fileName: fileName, fileType: fileType } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Inbox.getSignedImageURL: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Inbox.saveImageToS3 = function(signedRequest, imageFile, onSuccess, onFail) {
+    var uploadRequest = new XMLHttpRequest();
+    uploadRequest.open('PUT', signedRequest);
+    uploadRequest.onreadystatechange = () => {
+      if(uploadRequest.readyState === 4){
+        if(uploadRequest.status === 200){
+          onSuccess();
+        }
+        else{
+          onFail();
+        }
+      }
+    };
+    uploadRequest.send(imageFile);
+  };
+
 
   return Inbox;
 }
