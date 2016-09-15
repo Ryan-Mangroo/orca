@@ -1,6 +1,6 @@
 <div class="container newEntryContainer" style="padding:0px 25px 25px 25px;">
 
-	<div ng-if="inboxLoaded">
+	<div ng-if="inboxLoaded && inboxStatus == 'active'">
 		<!-- Mood Selection -->
 		<h3 id="moodQuestion" class="text-center">Your mood?</h3>
 		<div class="moodIconContainer">
@@ -10,6 +10,11 @@
 			<img class="moodChoiceIcon" ng-click="setMood('happy')" id="happyMood" src="../img/faces/happy.png"/>
 			<img class="moodChoiceIcon" ng-click="setMood('excited')" id="excitedMood" src="../img/faces/excited.png"/>
 		</div>
+	</div>
+
+	<div ng-if="inboxLoaded && inboxStatus == 'inactive'">
+		<h3 class="text-center">This inbox has been disabled.</h3>
+		<h3 class="text-center">Please contact your administration for help.</h3>
 	</div>
 
 	<!-- Feedback input (hidden until mood is selected) -->
@@ -26,12 +31,4 @@
 			</button>
 		</div>
 	</form>
-</div>
-
-<div class="container guaranteeContainer">
-	<!-- Certified Anonymous -->
-	<div class="col-md-12 text-center whiteText">
-		<span class="fa fa-check"></span>
-		<a href="#/guarantee"> Guaranteed Anonymous</a>
-	</div>
 </div>

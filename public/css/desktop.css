@@ -2,7 +2,7 @@
 .pageTitle {
 	color: #6f8993;
 	background-color: #f3f5f6;
-	padding: 5px;
+	padding: 10px;
 }
 
 .grayBorderBox {
@@ -261,3 +261,22 @@
 }
 
 /*######################### ACCOUNT #########################*/
+
+
+/*######################### INBOX CONFIGURATION #########################*/
+.inactiveInboxIndicator, .activeInboxIndicator {
+	margin-left: 25px;
+	margin-right: 25px;
+	font-weight: bold;
+}
+
+.inactiveInboxIndicator {
+	color: #d16d5f;
+}
+
+.activeInboxIndicator {
+	color: #5cb85c;
+}
+
+
+/*######################### INBOX CONFIGURATION #########################*/

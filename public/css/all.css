@@ -196,6 +196,16 @@ a:hover {
 	background-color: #c6e6c6;
 }
 
+.alert-title-sm {
+	position: absolute;
+	top: -10px;
+	left: 0px;
+	right: 0px;
+	margin: 0px;
+	font-size: 16px;
+	padding: 8px 8px 9px 8px;
+}
+
 /*######################### ALERTS #########################*/
 
 

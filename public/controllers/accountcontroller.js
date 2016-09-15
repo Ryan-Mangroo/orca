@@ -78,7 +78,7 @@ function accountController($scope, $location, Account, Inbox) {
 			  	$scope.passwordSubmitting = false;
 			  	$scope.allowEditPassword = false;
 			  	$scope.clearAlerts();
-			  	$scope.toggleAlert('success', true, 'You password has been updated.');
+			  	$scope.toggleAlert('success', true, 'Password updated.');
 		  	}
 		  },
 		  function() {
@@ -102,7 +102,7 @@ function accountController($scope, $location, Account, Inbox) {
 		  	$scope.companySubmitting = false;
 		  	$scope.allowEditCompany = false;
 		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('success', true, 'Your company information has been updated');
+		  	$scope.toggleAlert('success', true, 'Company information updated');
 		  },
 		  function() {
 		  	$scope.companySubmitting = false;
@@ -126,7 +126,7 @@ function accountController($scope, $location, Account, Inbox) {
 		  	$scope.personalSubmitting = false;
 		  	$scope.allowEditPersonal = false;
 		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('success', true, 'Your personal information has been updated');
+		  	$scope.toggleAlert('success', true, 'Personal information updated');
 
 		  },
 		  function() {
@@ -164,22 +164,6 @@ function accountController($scope, $location, Account, Inbox) {
 			email: $scope.currentUser.account.email,
 			phone: $scope.currentUser.account.phone
 		};
-	};
-
-	$scope.resetPrimaryInboxToken = function() {
-		Inbox.resetToken($scope.currentUser.account._primary_inbox._id, 
-			function(updatedInbox){
-				$("#tokenResetModal").modal('hide');
-				$scope.setPrimaryInbox(updatedInbox);
-		  		$scope.clearAlerts();
-		  		$scope.toggleAlert('success', true, 'The link to your inbox has been reset. Be sure to share the new link.');
-			},
-			function() {
-				$("#tokenResetModal").modal('hide');
-		  		$scope.clearAlerts();
-		  		$scope.toggleAlert('danger', true, 'Something bad happened while reseting the inbox link');
-			}
-		);
 	};
 
 	$scope.previewAccountLogo = function(element) {

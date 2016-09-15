@@ -1,0 +1,14 @@
+<div ng-if="successAlertVisible" class="alert alert-success text-center alert-title-sm">
+  <span class="close" ng-click="toggleAlert('success', false, null)">&times;</span>
+  <i class="fa fa-check-circle"></i> <span>{{ successAlertText }}</span>
+</div>
+
+<div ng-if="infoAlertVisible" class="alert alert-info text-center alert-title-sm">
+  <span class="close" ng-click="toggleAlert('info', false, null)">&times;</span>
+  <i class="fa fa-info-circle"></i> <span>{{ infoAlertText }}</span>
+</div>
+
+<div ng-if="dangerAlertVisible" class="alert alert-danger text-center alert-title-sm">
+  <span class="close" ng-click="toggleAlert('danger', false, null)">&times;</span>
+  <i class="fa fa-frown-o"></i> <span>{{ dangerAlertText }}</span>
+</div>

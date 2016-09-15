@@ -5,7 +5,8 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 var inboxSchema = new Schema({
-	title: { type: String },
+	description: { type: String },
+	public_title: { type: String },
 	number: { type: String },
 	token: { type: String },
 	image: { type: String },

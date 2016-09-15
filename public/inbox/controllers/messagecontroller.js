@@ -2,6 +2,8 @@ function messageController($scope, $location, $routeParams, Message, Inbox) {
 	log.info('|messageController|');
 	$('#entryForm').hide();
 
+	$scope.inboxStatus = '';
+
 	$scope.selectableMoods = {
 		'mad': 1,
 		'sad': 2,
@@ -23,6 +25,10 @@ function messageController($scope, $location, $routeParams, Message, Inbox) {
 		  		$scope.setInboxInfo(null);
 		  		$scope.changeView('view/error');
 		  	} else {
+
+		  		$scope.inboxStatus = inboxInfo.status
+
+		  		log.info($scope.inboxStatus);
 		  		$scope.setInboxLoaded(true);
 		  		$scope.setInboxInfo(inboxInfo);
 		  	}

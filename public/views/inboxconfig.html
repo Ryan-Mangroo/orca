@@ -3,6 +3,9 @@
 	<div class="col-md-4">
 		<h4 class="noSpace">Configure Inbox</h4>
 	</div>
+	<div class="col-md-4">
+	<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+	</div>
 </div>
 
 
@@ -10,30 +13,30 @@
 	<!-- Main Link & basic info -->
 	<div class="col-md-12">
 		
-		<!-- Logo -->
+		<!-- Inbox Image -->
 		<div class="col-md-3">
 			<div class="accountSection" ng-style="computeSectionStyle('logo')">
-				<!-- Logo Image -->
+				<!-- Inbox Image -->
 				<div class="accountLogoContainer">
 					<img class="accountLogo" ng-src="{{ inboxImageSource }}"/>
 				</div>
 			
-				<!-- Edit Logo Button (before change) -->
+				<!-- Edit Image Button (before change) -->
 				<div class="row" ng-if="!allowEditImage">
 					<div class="col-md-12">
 						<span class="btn btn-block btn-default btn-file">
-						    Change Inbox Image <input ng-model="inboxImageFile" onchange="angular.element(this).scope().previewInboxImage(this)" type="file" accept="image/*"/>
+						    Change Inbox Image <input ng-disabled="inboxLoading || inboxSubmitting" ng-model="inboxImageFile" onchange="angular.element(this).scope().previewInboxImage(this)" type="file" accept="image/*"/>
 						</span>
 					</div>
 				</div>
 
-				<!-- Edit Logo Buttons (after change) -->
+				<!-- Edit Image Buttons (after change) -->
 				<div class="row" ng-if="allowEditImage">
 					<div class="col-md-12">
-						<button type="button" class="btn btn-default btn-block" ng-click="cancelChangeImage()">Cancel</button>
+						<button type="button" ng-disabled="inboxLoading || inboxSubmitting" class="btn btn-default btn-block" ng-click="cancelChangeImage()">Cancel</button>
 					</div>
 					<div class="col-md-12">
-						<button type="button" class="btn btn-success btn-block" ng-click="saveInboxImage()">Save</button>
+						<button type="button" ng-disabled="inboxLoading || inboxSubmitting" class="btn btn-success btn-block" ng-click="saveInboxImage()">Save</button>
 					</div>
 				</div>
 			</div>
@@ -42,79 +45,84 @@
 		<!-- Inbox Info -->
 		<div class="col-md-8">
 			<div class="accountSection" ng-style="computeSectionStyle('company')">
-
 				<form ng-model="companyInfo" style="font-size:16px;">
-					<!-- Company Name -->
+					<!-- Status -->
 					<div>
-						<label>Name: </label>
-						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.name }}</span>
 						<div class="form-group">
-							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.name"/>
+							<label>Inbox Status: </label>
+							<!-- If Active -->
+							<span ng-if="selectedInbox.status == 'active'" class="activeInboxIndicator fadeInOut">ACTIVE</span>
+							<button ng-disabled="inboxLoading || inboxSubmitting" ng-if="selectedInbox.status == 'active'" type="button" ng-click="toggleInboxStatus('inactive')" class="btn btn-default btn-sm fadeInOut">Make Inactive</button>
+							<!-- If Inactive -->
+							<span ng-if="selectedInbox.status == 'inactive'" class="inactiveInboxIndicator fadeInOut">INACTIVE</span>
+							<button ng-disabled="inboxLoading || inboxSubmitting" ng-if="selectedInbox.status == 'inactive'" type="button" ng-click="toggleInboxStatus('active')" class="btn btn-default btn-sm fadeInOut">Make Active</button>
 						</div>
 					</div>
-					<!-- Company HQ -->
-					<div ng-if="!allowEditCompany" class="fadeInOut">
-						<label>HQ: </label>
-						<span> {{ companyInfo.city }} {{ companyInfo.state }}, {{ companyInfo.country }}</span>
-						<div class="form-group"></div><!-- Spacer -->
-					</div>
-					<div ng-if="allowEditCompany" class="fadeInOut">
-						<label>City:</label>
-						<div class="form-group">
-							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.city"/>
-						</div>
-					</div>
-					<div ng-if="allowEditCompany" class="fadeInOut">
-						<label>State:</label>
-						<div class="form-group">
-							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.state"/>
-						</div>
-					</div>
-					<div ng-if="allowEditCompany" class="fadeInOut">
-						<label>Country:</label>
-						<div class="form-group">
-							<input ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.country"/>
-						</div>
-					</div>
-					<!-- Company Email -->
+
+					<!-- Description -->
 					<div>
-						<label>Billing Email: </label>
-						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.email }}</span>
+						<label>Description: </label>
 						<div class="form-group">
-							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.email"/>
+							<input ng-disabled="inboxLoading || inboxSubmitting" type="text" class="fadeInOut form-control" ng-model="selectedInbox.description"/>
 						</div>
 					</div>
-					<!-- Company Phone -->
+
+					<!-- Public Title -->
 					<div>
-						<label>Billing Phone: </label>
-						<span class="fadeInOut" ng-if="!allowEditCompany"> {{ companyInfo.phone }}</span>
+						<label>Public Title: </label>
 						<div class="form-group">
-							<input ng-disabled="companySubmitting" ng-if="allowEditCompany" type="text" class="fadeInOut form-control" ng-model="companyInfo.phone"/>
+							<input ng-disabled="inboxLoading || inboxSubmitting" type="text" class="fadeInOut form-control" ng-model="selectedInbox.public_title"/>
+						</div>
+					</div>
+
+					<!-- Inbox URL -->
+					<div>
+						<label>Public URL: </label>
+						<div class="form-group">
+							<div><a style="margin-right:25px;" ng-href="{{baseURL}}/inbox/#/{{selectedInbox.number}}?t={{selectedInbox.token}}">{{baseURL}}/inbox/#/{{selectedInbox.number}}?t={{selectedInbox.token}}</a></div>
+							<div><button ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#tokenResetModal" type="button" class="btn btn-sm btn-warning"><i class="fa fa-warning"></i> Reset link</button></div>
 						</div>
 					</div>
 				</form>
 
-				<!-- Edit Company Buttons -->
-				<div class="row fadeInOut" ng-if="!allowEditCompany">
+				<div class="row fadeInOut">
+					<div class="col-md-6"></div><!-- Spacer -->
 					<div class="col-md-6">
-						<button ng-disabled="allowEditPersonal || allowEditPassword || allowEditLogo" type="button" ng-click="editCompanyInfo()" class="btn btn-default btn-block">Update Company Info</button>
-					</div>
-				</div>
-
-				<div class="row fadeInOut" ng-if="allowEditCompany">
-					<div class="col-md-6">
-						<button ng-disabled="companySubmitting" type="button" ng-click="cancelSaveCompany()" class="btn btn-default btn-block">Cancel</button>
-					</div>
-					<div class="col-md-6">
-						<button ng-disabled="companySubmitting" type="button" ng-click="saveCompany(companyInfo)" class="btn btn-success btn-block">
-							<span ng-if="!companySubmitting">Save Changes</span>
-							<span ng-if="companySubmitting"><i class="fa fa-refresh fa-spin"></i> Saving</span>
+						<button ng-disabled="inboxLoading || inboxSubmitting" type="button" ng-click="saveInbox(selectedInbox)" class="btn btn-success btn-block">
+							<span ng-if="!inboxSubmitting">Save Changes</span>
+							<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
 						</button>
 					</div>
 					</div>
 			</div>
 		</div>
 
-
 	</div>
+</div>
+
+
+<!-- Reset Link modal -->
+<div id="tokenResetModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      	<h3 class="text-center">Are you sure?</h3>
+      </div>
+      <div class="modal-body text-center">
+        <h4>After you do this, your old link will no longer work</h4>
+      </div>
+      <div class="modal-footer">
+      	<div class="col-md-3"></div><!-- Spacer -->
+      	<div class="col-md-3">
+        	<button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+      	</div>
+      	<div class="col-md-3">
+      		<button type="button" class="btn btn-warning btn-block" ng-click="resetToken()">Do it</button>
+      	</div>
+      	<div class="col-md-3"></div><!-- Spacer -->
+      </div>
+    </div>
+  </div>
 </div>

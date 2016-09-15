@@ -1,5 +1,8 @@
 function inboxConfigController($scope, $location, Inbox) {
 	log.info('|inboxConfigController|');
+	$scope.clearAlerts();
+	$scope.inboxLoading = true;
+	$scope.inboxSubmitting = false;
 
 	$scope.selectedInbox = null;
 	$scope.inboxImageFile = null;
@@ -8,17 +11,55 @@ function inboxConfigController($scope, $location, Inbox) {
 	$scope.inboxImageSource = null;
 
   	$scope.loadInboxInfo = function(inboxID) {
-  		log.info('Loading inboxes');
   		Inbox.getOneInboxInfo(inboxID,
 			function(inboxInfo){
+				log.object(inboxInfo);
+				$scope.inboxLoading = false;
 				$scope.selectedInbox = inboxInfo;
 				$scope.inboxImageSource = $scope.selectedInbox.image;
 			},
 			function() {
-				log.error('Error loading inboxe');
+				$scope.inboxLoading = false;
+				log.error('Error loading inbox');
 			}
 		);
   	};
+
+  	$scope.saveInbox = function(selectedInbox) {
+  		$scope.inboxSubmitting = true;
+		Inbox.update(selectedInbox, 
+		  function(updatedInbox){
+		  	$scope.selectedInbox = updatedInbox;
+		  	$scope.clearAlerts();
+		  	$scope.inboxSubmitting = false;
+		  	$scope.toggleAlert('success', true, 'Inbox updated');
+		  },
+		  function() {
+		  	$scope.inboxSubmitting = false;
+		  	$scope.clearAlerts();
+		  	$scope.toggleAlert('danger', true, 'Inbox updat fail');
+		  }
+		);
+	};
+
+  	$scope.resetToken = function() {
+  		$scope.inboxSubmitting = true;
+		Inbox.resetToken($scope.selectedInbox._id, 
+			function(updatedInbox){
+				$("#tokenResetModal").modal('hide');
+				$scope.selectedInbox.token = updatedInbox.token;
+				$scope.inboxSubmitting = false;
+		  		$scope.clearAlerts();
+		  		$scope.toggleAlert('success', true, 'The link to your inbox has been reset. Be sure to share the new link.');
+			},
+			function() {
+				$("#tokenResetModal").modal('hide');
+				$scope.inboxSubmitting = false;
+		  		$scope.clearAlerts();
+		  		$scope.toggleAlert('danger', true, 'Something bad happened while reseting the inbox link');
+			}
+		);
+	};
 
 	$scope.previewInboxImage = function(element) {
 		$scope.allowEditImage = true;
@@ -75,6 +116,10 @@ function inboxConfigController($scope, $location, Inbox) {
 
 	$scope.setInboxImageSource = function(src) {
 		$scope.inboxImageSource = src;
+	};
+
+	$scope.toggleInboxStatus = function(status) {
+		$scope.selectedInbox.status = status;
 	};
 
 

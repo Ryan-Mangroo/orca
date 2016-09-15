@@ -198,6 +198,19 @@ function Account($http) {
 /* ######################### INBOX ######################### */
 function Inbox($http) {
   var Inbox = {};
+
+  Inbox.update = function (updatedInbox, onSuccess, onFail) {
+    $http({ url: '/updateInbox', method: 'POST', data: updatedInbox })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Inbox.update: Fail');
+        onFail();
+      }
+    );
+  };
+
   Inbox.resetToken = function(inboxID, onSuccess, onFail) {
     $http({ url: '/resetInboxToken', method: 'POST', data: { inboxID: inboxID } })
       .then(function success(response) {

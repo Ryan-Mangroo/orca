@@ -29,7 +29,7 @@
 		<!-- Header -->
 		<h2 ng-if="inboxLoaded" class="text-center newEntryHeader">
 			<div style="margin:0px 10px 10px 10px;"><img class="companyLogoImage" ng-src="{{inboxInfo.image}}"/></div>
-			<div style="margin:10px 10px 0px 10px;">{{ inboxInfo.title }}</div>
+			<div style="margin:10px 10px 0px 10px;">{{ inboxInfo.public_title }}</div>
 		</h2>
 
 		<!-- Content -->
@@ -38,7 +38,11 @@
 		<!-- Footer -->
 		<div class="container text-center newEntryFooter">
 			<div class="col-md-12">
-				<div style="padding:25px;">
+				<div style="padding-top:50px;">
+					<span class="fa fa-check"></span>
+					<a href="http://www.workwoo.com/privacy"> Guaranteed Anonymous</a>
+				</div>
+				<div style="padding-top:10px;">
 					<a href="http://www.workwoo.com"><img style="height:35px;" src="../img/logo-white.png"/></a>
 				</div>
 			</div>

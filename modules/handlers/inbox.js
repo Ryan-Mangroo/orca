@@ -9,6 +9,43 @@ var log = require('../../utils/logger');
 var widget = 'inbox';
 log.registerWidget(widget);
 
+exports.update = function(req, res) {
+	try {
+		log.info('|inbox.update|', widget);
+		
+		var accountID = req.session.userprofile.account._id;
+		var inboxID = req.body._id;
+
+		log.info('|inbox.update| Updating inbox  -> ' + accountID, widget);
+		Inbox.findOne({ _account: accountID, _id: inboxID })
+    		.exec(
+    		function(error, inbox) {
+	    		if (error) {
+					log.error('|inbox.update.findById| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred updating inbox');
+				} else {			
+					inbox.description = req.body.description;
+			 		inbox.public_title = req.body.public_title;
+					inbox.status = req.body.status;
+
+			    	inbox.save(function(error){
+						if (error) {
+							log.error('|inbox.update.save| Unknown  -> ' + error, widget);
+							utility.errorResponseJSON(res, 'Error occurred updating inbox');
+						} else {
+							log.info('|inbox.update| Success  -> ' + inbox._id, widget);
+							res.send(JSON.stringify({ result: inbox }));
+						} 
+			    	});
+				}
+	    	}
+	    );
+	} catch (error) {
+		log.error('|inbox.update| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error while updating inbox');
+	}
+};
+
 exports.resetToken = function(req, res) {
 	try {
 		log.info('|inbox.resetToken|', widget);

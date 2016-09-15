@@ -15,7 +15,7 @@ function Message($http) {
 
   return Message;
 }
-ss
+
 
 function Inbox($http) {
   var Inbox = {};

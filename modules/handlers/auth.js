@@ -109,11 +109,12 @@ function createUser(req, acccountID, callback) {
 
 function createPrimaryInbox(req, acccountID, callback) {
 	log.info('    Creating Primary Inbox...', widget);
-	log.info('Account: ' + acccountID, widget);
 	var newInbox = new Inbox();
-	newInbox.title = 'Anonymously Share Your Thoughts';
+	newInbox.description = 'Companywide Feedback Inbox';
+	newInbox.public_title = 'Anonymously Share Your Thoughts';
+	newInbox.status = 'active';
 	newInbox._account = acccountID;
-	newInbox.image = 'http://www.logospike.com/wp-content/uploads/2015/06/Batman_Logo_04.png';
+	newInbox.image = 'https://s3-us-west-1.amazonaws.com/workwoo-app-images/incognito.png';
 
 	newInbox.save(function(error, inbox) {
 		if (error) {

@@ -195,6 +195,7 @@ function initializeApp() {
 		app.route('/getAllInboxInfo').get(validateRequest(), inbox.getAllInfo);
 		app.route('/getOneInboxInfo').get(validateRequest(), inbox.getOneInfo);
 		app.route('/getSignedInboxImageURL').get(validateRequest(), inbox.getSignedImageURL);
+		app.route('/updateInbox').post(validateRequest(), inbox.update);
 
 		// Prediction & Reports
 		app.route('/getKeywordSummary').get(validateRequest(), homepage.getKeywordSummary);

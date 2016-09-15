@@ -70,7 +70,6 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
 
 
   	$scope.loadAllInboxInfo = function() {
-  		log.info('Loading inboxes');
   		Inbox.getAllInboxInfo(
 			function(inboxes){
 				$scope.accountInboxes = inboxes;
