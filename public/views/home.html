@@ -1,17 +1,15 @@
 <!-- Page Title -->
 <div class="container-fluid pageTitle">
 	<div class="col-md-6">
-		<h4 class="noSpace">The most active topics at {{ currentUser.account.name }}</h4>
+		<h4>{{ currentUser.account._primary_inbox.description }}</h4>
 	</div>
 	<div class="col-md-6">
-
-		<select style="font-size:30px;">
-			<option value="volvo">Volvo</option>
-			<option value="saab">Saab</option>
-			<option value="mercedes">Mercedes</option>
-			<option value="audi">Audi</option>
-		</select>
-
+		<div class="dropdown pull-right">
+			<h4 data-toggle="dropdown" class="inboxSwitcherControl">See another inbox <i class="fa fa-caret-down"></i></h4>
+			<ul class="dropdown-menu inboxSwitcher">
+				<li ng-repeat="inbox in accountInboxes"><a ng-href="#/inbox/{{inbox._id}}"><i class="fa fa-inbox"></i> {{ inbox.description }}</a></li>
+			</ul>
+		</div>
 	</div>
 </div>
 

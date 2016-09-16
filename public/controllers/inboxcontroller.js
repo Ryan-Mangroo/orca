@@ -1,13 +1,11 @@
 function inboxController($scope, $location, Message) {
 	log.info('|inboxController|');
 
-	$scope.currentInbox = null;
-
 	$scope.messages = [];
 	$scope.inboxLoading = true;
 	$scope.selectedMessages = [];
 	$scope.listTitle = 'All Feedback'
-	$scope.inboxNumber = null;
+	$scope.inboxID = null;
 	$scope.selectAll = true; // used by the "Select all" checkbox, to toggle T/F
 
 	// Search query components
@@ -36,7 +34,7 @@ function inboxController($scope, $location, Message) {
 		$scope.inboxLoading = true;
 
 	    var queryParams = {
-	      inboxNumber: $scope.inboxNumber,
+	      inboxID: $scope.inboxID,
 	      sortField: $scope.sortField,
 	      sortOrder: $scope.sortOrder,
 	      anchorValue: $scope.anchorValue,
@@ -60,20 +58,6 @@ function inboxController($scope, $location, Message) {
 	        log.info('FAIL');
 	      }
 	    );
-	  };
-
-
-
-	$scope.search = function() {
-		Message.getAll($scope.inboxNumber,
-		  function(messages){
-		  	$scope.messages = messages;
-		  	$scope.inboxLoading = false;
-		  },
-		  function() {
-		  	log.error('Something bad happened getting all messages');
-		  }
-		);
 	};
 
 	$scope.deleteMessages = function() {
@@ -124,7 +108,7 @@ function inboxController($scope, $location, Message) {
 		}
 
 	    var currentURL = $location.url();
-	    $scope.inboxNumber = currentURL.slice(7,currentURL.length);
+	    $scope.inboxID = currentURL.slice(7,currentURL.length);
 		$scope.loadInbox();
 
 	};

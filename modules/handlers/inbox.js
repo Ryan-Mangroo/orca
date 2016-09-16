@@ -9,6 +9,33 @@ var log = require('../../utils/logger');
 var widget = 'inbox';
 log.registerWidget(widget);
 
+exports.create = function(req, res) {
+	try {
+		log.info('|inbox.create|', widget);
+
+		var newInbox = new Inbox();
+		newInbox.description = req.body.description;
+		newInbox.public_title = req.body.public_title;
+		newInbox.status = 'active';
+		newInbox._account = req.session.userprofile.account._id;
+		newInbox.image = 'https://workwoo-app-images.s3.amazonaws.com/default-inbox-image.png';
+
+		newInbox.save(function(error, inbox) {
+			if (error || !inbox) {
+				log.error('|inbox.create.save| Unknown  -> ' + error, widget);
+				utility.errorResponseJSON(res, 'Error while creating inbox');
+			} else {
+				log.info('|inbox.create.save| New inbox created -> ' + inbox._id, widget);				
+				res.send(JSON.stringify({ result: inbox }));
+			}
+		});
+	} catch (error) {
+		log.error('|inbox.create| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error while creating inbox');
+	}
+};
+
+
 exports.update = function(req, res) {
 	try {
 		log.info('|inbox.update|', widget);
@@ -239,40 +266,3 @@ exports.getSignedImageURL = function(req, res) {
 	    utility.errorResponseJSON(res, 'Error while getting signed request');
 	}
 };
-
-
-/*
-exports.create = function(req, res) {
-	try {
-		log.info('|inbox.create|', widget);
-		var title = req.body.title;
-		var error = null;
-		if (validator.checkNull(title)) { error = 'Title is Null'; } 
-
-		if (error) {
-			log.error('|inbox.create| ' + error, widget);
-			return utility.errorResponseJSON(res, 'Error while creating inbox');
-		}
-
-		var account = req.session.userprofile.account._id;
-
-		var newInbox = new Inbox();
-		newInbox.title = title;
-		newInbox._account = account;
-
-		newInbox.save(function(error, inbox) {
-    		if (error) {
-				log.error('|inbox.create.save| Unknown  -> ' + error, widget);
-				utility.errorResponseJSON(res, 'Error while creating inbox');
-			} else {
-				log.info('|inbox.create.save| New inbox created -> ' + inbox._id, widget);				
-				res.send(JSON.stringify({ inbox: inbox }));
-			}
-    	});
-
-	} catch (error) {
-		log.error('|inbox.create| Unknown -> ' + error, widget);
-	    utility.errorResponseJSON(res, 'Error while creating inbox');
-	}
-};
-*/

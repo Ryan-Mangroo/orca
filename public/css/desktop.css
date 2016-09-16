@@ -2,7 +2,7 @@
 .pageTitle {
 	color: #6f8993;
 	background-color: #f3f5f6;
-	padding: 10px;
+	padding: 0px;
 }
 
 .grayBorderBox {
@@ -172,6 +172,49 @@
 	border-right: 1px solid #e4e9eb;
 }
 
+.inboxSwitcherControl {
+	cursor: pointer;
+	user-select: none;
+	padding: 10px 30px 10px 30px;
+	margin: 0px 20px 0px 0px;
+	background-color: #e4e9eb;
+}
+
+.inboxSwitcher {
+	-webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+    transition: .25s;
+    font-size: 18px;
+	background-color: #f3f5f6;
+	border-radius: 0px;
+	box-shadow: none;
+	border: none;
+	border-left: 5px solid #e4e9eb;
+	top: 39px;
+	margin: 0px 0px 0px 20px;
+	color: #6f8993;
+	padding: 3px 0px 0px 0px;
+}
+
+.inboxSwitcher li {
+	margin: 0px;
+	padding: 0px;
+}
+
+.inboxSwitcher li a {
+	margin: 0px;
+	padding: 5px 16px 5px 16px;
+	border-bottom: 1px solid #e4e9eb;
+	color: #6f8993;
+}
+
+.inboxSwitcher li a:hover {
+	color: #fff;
+	background-color: #2596c3;
+}
+
 /*######################### MESSAGE LIST #########################*/
 
 
@@ -213,12 +256,11 @@
 }
 
 .accountLogoContainer {
-	border: 1px solid #d2d5da;
-	margin-bottom: 55px;
-	height: 150px;
+	margin-bottom: 65px;
+	height: 140px;
 	text-align: center;
 	padding: 10px;
-	background-color: #fff;
+	background-color: #f3f5f6;
 }
 
 .accountSectionHeading {

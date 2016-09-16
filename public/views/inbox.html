@@ -1,15 +1,29 @@
 <!-- Page Title -->
 <div class="container-fluid pageTitle">
 	<div class="col-md-6">
-		<h4 class="noSpace">{{ listTitle }}</h4>
+		<h4>{{ accountInboxesObject[inboxID].description }}</h4>
+	</div>
+	<div class="col-md-6">
+		<div class="dropdown pull-right">
+			<h4 data-toggle="dropdown" class="inboxSwitcherControl">See another inbox <i class="fa fa-caret-down"></i></h4>
+			<ul class="dropdown-menu inboxSwitcher">
+				<li ng-repeat="inbox in accountInboxes"><a ng-href="#/inbox/{{inbox._id}}"><i class="fa fa-inbox"></i> {{ inbox.description }}</a></li>
+			</ul>
+		</div>
 	</div>
 </div>
 
-<!-- Alerts Include -->
-<span ng-include="'views/includes/alerts.html'"></span>
-
 <!-- List -->
-<div ng-if="!messagesLoading" class="container-fluid fadeInOut">
+<div ng-if="!messagesLoading" class="container fadeInOut" style="margin-top:25px;">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info text-center">
+				<span>Be sure to share the link for this inbox: <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></span>
+			</div>
+		</div>
+	</div>
+
 	<!-- Column Header -->
 	<div ng-if="!messagesLoading" class="row listHeader">
 		<div class="col-md-1">
@@ -32,7 +46,7 @@
 	</div>
 
 	<!-- Create 1 row for each message -->
-	<div ng-repeat="message in messages" ng-if="!messagesLoading" class="row listRow">
+	<div ng-repeat="message in messages" ng-if="!messagesLoading" class="row listRow FadeInOutStagger">
 		<div class="col-md-1 text-left">
 			<input type="checkbox" ng-checked="selectedMessages.indexOf(message._id) > -1" ng-click="toggleSelectedMessage(message._id)"/>	
 		</div>

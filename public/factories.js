@@ -199,6 +199,18 @@ function Account($http) {
 function Inbox($http) {
   var Inbox = {};
 
+  Inbox.create = function (newInbox, onSuccess, onFail) {
+    $http({ url: '/createInbox', method: 'POST', data: newInbox })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Inbox.create: Fail');
+        onFail();
+      }
+    );
+  };
+
   Inbox.update = function (updatedInbox, onSuccess, onFail) {
     $http({ url: '/updateInbox', method: 'POST', data: updatedInbox })
       .then(function success(response) {

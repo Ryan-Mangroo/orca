@@ -7,7 +7,7 @@ function messageController($scope, $location, $routeParams, Message, Inbox) {
 	$scope.selectableMoods = {
 		'mad': 1,
 		'sad': 2,
-		'neutral': 3,
+		'meh': 3,
 		'happy': 4,
 		'excited': 5
 	};

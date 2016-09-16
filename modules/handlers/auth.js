@@ -76,7 +76,7 @@ function createAccount(accountName, callback) {
  	newAccount.zip = '';
  	newAccount.email = '';
  	newAccount.accountType = '0';
- 	newAccount.logo = 'http://www.logospike.com/wp-content/uploads/2015/06/Batman_Logo_04.png';
+ 	newAccount.logo = 'https://workwoo-app-images.s3.amazonaws.com/default-account-logo.png';
 
 	newAccount.save(function(error, account) {
 		if (error) {
@@ -114,7 +114,7 @@ function createPrimaryInbox(req, acccountID, callback) {
 	newInbox.public_title = 'Anonymously Share Your Thoughts';
 	newInbox.status = 'active';
 	newInbox._account = acccountID;
-	newInbox.image = 'https://s3-us-west-1.amazonaws.com/workwoo-app-images/incognito.png';
+	newInbox.image = 'https://workwoo-app-images.s3.amazonaws.com/default-inbox-image.png';
 
 	newInbox.save(function(error, inbox) {
 		if (error) {

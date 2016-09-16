@@ -1,5 +1,5 @@
-function inboxConfigController($scope, $location, Inbox) {
-	log.info('|inboxConfigController|');
+function editInboxController($scope, $location, Inbox) {
+	log.info('|editInboxController|');
 	$scope.clearAlerts();
 	$scope.inboxLoading = true;
 	$scope.inboxSubmitting = false;
@@ -76,7 +76,6 @@ function inboxConfigController($scope, $location, Inbox) {
 	};
 
 	$scope.saveInboxImage = function() {
-
 		// First, request the image URL from our server
 		Inbox.getSignedImageURL($scope.selectedInbox._id, $scope.inboxImageFile.name, $scope.inboxImageFile.type, 
 		  function(requestInfo){
@@ -123,16 +122,19 @@ function inboxConfigController($scope, $location, Inbox) {
 	};
 
 
-	$scope.initInboxConfigController = function() {
+	$scope.initEditInboxController = function() {
 		if(!$scope.ensureAuthenticated) {
 			$scope.changeView('login');
 			return;
 		}
 	    var currentURL = $location.url();
-	    var inboxID = currentURL.slice(22,currentURL.length);
+	    var inboxID = currentURL.slice(20,currentURL.length);
+
+	    log.info(inboxID);
+
 		$scope.loadInboxInfo(inboxID);
 	};
 
-	$scope.initInboxConfigController();
+	$scope.initEditInboxController();
 
 }

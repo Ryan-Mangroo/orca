@@ -92,7 +92,7 @@ exports.search = function(req, res) {
 	try {
 		log.info('|message.search|', widget);
 
-	    var inboxNumber = req.query.inboxNumber;
+	    var inboxID = req.query.inboxID;
 	    var sortField = req.query.sortField;
 	    var sortOrder = req.query.sortOrder;
 	    var anchorFieldValue = req.query.anchorFieldValue;
@@ -102,7 +102,7 @@ exports.search = function(req, res) {
 
 		var messagesPerPage = 10;
 
-		log.info('|message.search| inboxNumber -> ' + inboxNumber, widget);
+		log.info('|message.search| inboxID -> ' + inboxID, widget);
 		log.info('|message.search| sortField -> ' + sortField, widget);
 		log.info('|message.search| sortOrder -> ' + sortOrder, widget);
 		log.info('|message.search| anchorFieldValue -> ' + anchorFieldValue, widget);
@@ -113,17 +113,17 @@ exports.search = function(req, res) {
 		var accountID = req.session.userprofile.account._id;	
 
 		// First, get the record for the inbox, so we can get its ID.
-		Inbox.findOne({ number: inboxNumber, _account: accountID })
+		Inbox.findOne({ _id: inboxID, _account: accountID })
 			.exec(
 			function (error, inbox) {
 				if (error) {
 					log.error('|Message.search.Inbox.findOne| Unknown  -> ' + error, widget);
 					utility.errorResponseJSON(res, 'Error getting inbox');
 				} else if(!inbox) {
-					log.info('|Message.search.Inbox.findOne| Inbox not found -> ' + inboxNumber, widget);	
+					log.info('|Message.search.Inbox.findOne| Inbox not found -> ' + inboxID, widget);	
 					utility.errorResponseJSON(res, 'Invalid inbox');
 				} else {		
-					log.info('|Message.search.Inbox.findOne| Inbox found -> ' + inbox.number);	
+					log.info('|Message.search.Inbox.findOne| Inbox found -> ' + inbox._id);	
 					
 					// Now that we have the inboxID, search for the messages
 					var options = {

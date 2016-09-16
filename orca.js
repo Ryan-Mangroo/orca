@@ -54,7 +54,6 @@ log.registerWidget(widget);
 // For now, this function simply checks the user's authentication status.
 function validateRequest() {
 	return function(req, res, next) {
-		log.info('|validateRequest|');
 		if (!req.isAuthenticated || !req.isAuthenticated()) {
 			log.info('|validateRequest| -> User not authenticated. Sending 401', widget);
 
@@ -196,6 +195,7 @@ function initializeApp() {
 		app.route('/getOneInboxInfo').get(validateRequest(), inbox.getOneInfo);
 		app.route('/getSignedInboxImageURL').get(validateRequest(), inbox.getSignedImageURL);
 		app.route('/updateInbox').post(validateRequest(), inbox.update);
+		app.route('/createInbox').post(validateRequest(), inbox.create);
 
 		// Prediction & Reports
 		app.route('/getKeywordSummary').get(validateRequest(), homepage.getKeywordSummary);

@@ -3,6 +3,7 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
 
 	$scope.baseURL = BASE_URL;
 	$scope.accountInboxes = [];
+	$scope.accountInboxesObject = {};
 	
 	$scope.successAlertVisible = false;
 	$scope.successAlertText = null;
@@ -72,7 +73,14 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
   	$scope.loadAllInboxInfo = function() {
   		Inbox.getAllInboxInfo(
 			function(inboxes){
+
+				// Save the resulting inboxes but also convert the array of inboxes into
+				// an an object with each inbox ID as the key andthe info as the value
 				$scope.accountInboxes = inboxes;
+				for(var i=0; i<inboxes.length; i++) {
+					$scope.accountInboxesObject[inboxes[i]._id] = inboxes[i];
+				}
+				
 			},
 			function() {
 				log.error('Error loading inboxes');
