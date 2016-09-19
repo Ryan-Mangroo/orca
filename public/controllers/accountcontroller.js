@@ -1,7 +1,6 @@
 function accountController($scope, $location, Account, Inbox) {
 	log.info('|accountController|');
-
-	$scope.inboxes = ['one', 'two', 'three'];
+	$scope.clearAlerts();
 
 	$scope.allowEditCompany = false;
 	$scope.allowEditPersonal = false;

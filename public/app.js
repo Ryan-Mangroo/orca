@@ -2,6 +2,7 @@ var App = angular.module('App', ['ngRoute', 'ngAnimate']);
 
 // Controllers
 App.controller('mainController', mainController);
+App.controller('staticController', staticController);
 App.controller('homeController', homeController);
 App.controller('loginController', loginController);
 App.controller('inboxController', inboxController);
@@ -26,6 +27,7 @@ App.directive('dateTimePicker', dateTimePicker);
 
 // Routes
 App.config(function($routeProvider) {
+	$routeProvider.when('/404', { templateUrl : 'views/404.html', controller: staticController});
 	$routeProvider.when('/', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/home', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/login', { templateUrl : 'views/login.html', controller: loginController});

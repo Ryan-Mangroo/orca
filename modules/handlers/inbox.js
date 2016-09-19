@@ -1,5 +1,6 @@
 var cfg = require('../../config/config');
 var Inbox = require('../models/inbox');
+var Homepage = require('../models/homepage');
 var crypto = require('crypto');
 var aws = require('../../utils/aws-utils')
 var Counter = require('../models/counter');
@@ -25,8 +26,19 @@ exports.create = function(req, res) {
 				log.error('|inbox.create.save| Unknown  -> ' + error, widget);
 				utility.errorResponseJSON(res, 'Error while creating inbox');
 			} else {
-				log.info('|inbox.create.save| New inbox created -> ' + inbox._id, widget);				
-				res.send(JSON.stringify({ result: inbox }));
+
+				// Lastly, create the default homepage for the inbox
+				var newHomepage = new Homepage();
+				newHomepage.summaryKeywords = [];
+				newHomepage._inbox = inbox._id;
+				newHomepage.save(function(error, homepage) {
+					if (error) {
+						callback(error);
+					} else {
+						log.info('|inbox.create.save| New inbox created -> ' + inbox._id, widget);				
+						res.send(JSON.stringify({ result: inbox }));
+					}
+				});
 			}
 		});
 	} catch (error) {
@@ -107,7 +119,6 @@ exports.resetToken = function(req, res) {
 							utility.errorResponseJSON(res, 'Error occurred saving new inbox token');
 						} else {
 							log.info('|inbox.resetToken| Inbox token reset successfully -> ' + inbox._id, widget);	
-							req.session.userprofile.account._primary_inbox = inbox;
 							res.send(JSON.stringify({ result: inbox }));
 						}
 					});
@@ -119,7 +130,6 @@ exports.resetToken = function(req, res) {
 	    utility.errorResponseJSON(res, 'Error trying to reset inbox token');
 	}
 };
-
 
 exports.getPublicInfo = function(req, res) {
 	try {

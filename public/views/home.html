@@ -1,27 +1,38 @@
 <!-- Page Title -->
 <div class="container-fluid pageTitle">
-	<div class="col-md-6">
-		<h4>{{ currentUser.account._primary_inbox.description }}</h4>
+	<div class="row">
+		<div class="col-md-8"></div><!-- Spacer -->
+		<div class="col-md-4" style="margin-right:0px;padding-right:0px;">
+			<div class="dropdown pull-right" style="background-color:red;">
+				<h4 data-toggle="dropdown" class="inboxSwitcherControl">See feedback from another inbox <i class="fa fa-caret-down"></i></h4>
+				<ul class="dropdown-menu inboxSwitcher">
+					<li ng-repeat="inbox in accountInboxes" ng-if="inbox._id != inboxID"><a href="javascript:void(0)" ng-click="switchInbox(inbox._id)">{{ inbox.description }}</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
-	<div class="col-md-6">
-		<div class="dropdown pull-right">
-			<h4 data-toggle="dropdown" class="inboxSwitcherControl">See another inbox <i class="fa fa-caret-down"></i></h4>
-			<ul class="dropdown-menu inboxSwitcher">
-				<li ng-repeat="inbox in accountInboxes"><a ng-href="#/inbox/{{inbox._id}}"><i class="fa fa-inbox"></i> {{ inbox.description }}</a></li>
-			</ul>
+</div>
+
+<!-- Loading -->
+<div ng-if="homeLoading" class="container fadeInOut">
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<i class="fa fa-cog fa-spin loadingIcon"></i>
+		</div>
+	</div>
+</div>
+
+<!-- Page Title -->
+<div ng-if="!homeLoading" class="container fadeInOut">
+	<div class="row">
+		<div class="col-md-6">
+			<h2 class="grayText"> {{ accountInboxesObject[inboxID].description }}</h2>
 		</div>
 	</div>
 </div>
 
 <!-- Home content -->
-<div class="container homeKeywordListContainer">
-
-	<!-- While loading -->
-	<div ng-if="homeLoading" class="row fadeInOut">
-		<div class="col-md-12 text-center">
-			<i class="fa fa-cog fa-spin loadingIcon"></i>
-		</div>
-	</div>
+<div class="container">
 
 	<!-- If nothing is set up -->
 	<div ng-if="!homeLoading && homeKeywords.length == 0 && !allowEditKeywordSummary" class="row fadeInOut">
@@ -81,7 +92,7 @@
 		<div class="col-md-12">
 			<div class="alert alert-info text-center">
 			  <i class="fa fa-info-circle"></i>
-			  <span>Have you <a ng-href="{{baseURL}}/inbox/#/{{currentUser.account._primary_inbox.number}}?t={{currentUser.account._primary_inbox.token}}">shared the feedback form</a> with your employees?</span>
+			  <span>Have you <a ng-href="{{baseURL}}/inbox/#/{{currentUser.account._primary_inbox.number}}?t={{currentUser.account._primary_inbox.token}}">shared this feedback form</a> with your employees?</span>
 			</div>
 		</div>
 	</div>

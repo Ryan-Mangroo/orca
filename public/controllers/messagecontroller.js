@@ -2,22 +2,18 @@ function messageController($scope, $location, Message) {
 	log.info('|messageController|');
 	$scope.singleMessage = {};
 	$scope.messagesLoading = true;
-
 	$scope.newComment = null;
-
 
 	$scope.getOneMessage = function(messageID) {
 		Message.getOne(messageID,
 		  function(singleMessage){
 
-		  	log.info('Success');
-		  	log.object(singleMessage);
-
 		  	$scope.singleMessage = singleMessage;
 		  	$scope.messagesLoading = false;
 		  },
 		  function() {
-		  	log.error('Something bad happened getting single message');
+		  	// Message not found
+		  	$scope.changeView('404');
 		  }
 		);
 	};

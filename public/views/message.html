@@ -1,19 +1,33 @@
-<!-- Page Title -->
+<!-- Control Bar -->
 <div class="container-fluid pageTitle">
-	<div class="col-md-6">
-		<h4 class="noSpace">
-			<img class="moodIcon" ng-src="{{'img/faces/' + moodMap[singleMessage.mood] + '.png'}}"/>
-			<span>Message received {{ formattedDateTime(singleMessage.updated_at) }}</span>
-			</h4>
-	</div>
-	<div class="col-md-6 text-right">
-		<button type="button" class="btn btn-danger btn-sm" ng-click="deleteSingleMessage(singleMessage._id)"><i class="fa fa-trash"></i> Delete this message</button>
+	<div class="row">
+		<div class="col-md-4">
+			<h4><i class="fa fa-arrow-left"></i><a href="javascript:history.back()"> Go Back</a></h4>
+		</div>
+		<div class="col-md-4">
+			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+		</div>
+		<div class="col-md-4 text-right" style="margin-right:0px;padding-right:0px;">
+			<button type="button" class="btn btn-danger" ng-click="deleteSingleMessage(singleMessage._id)"><i class="fa fa-trash"></i> Delete this message</button>
+		</div>
 	</div>
 </div>
 
-<div class="container-fluid noSpace">
+<!-- Loading -->
+<div ng-if="messagesLoading" class="container fadeInOut">
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<i class="fa fa-cog fa-spin loadingIcon"></i>
+		</div>
+	</div>
+</div>
+
+
+<div class="container-fluid">
 	<div class="col-md-8">
-		<div class="singleMessageContent">
+		<h3>Message received {{ formattedDateTime(singleMessage.updated_at) }}</h3>
+		<h4><img class="moodIcon" ng-src="{{'img/faces/' + moodMap[singleMessage.mood] + '.png'}}"/> Why I'm {{ moodMap[singleMessage.mood] }}...</h4>
+		<div class="singleMessageContent mainColor">
 			<p>"{{ singleMessage.content }}"</p>
 		</div>
 	</div>
@@ -36,7 +50,6 @@
 					<div>{{ comment.comment }}</div>
 				</div>
 			</div>
-
 
 		</div>
 	</div>

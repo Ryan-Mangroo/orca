@@ -38,8 +38,11 @@
 		<script src="controllers/supportcontroller.js"></script>
 		<script src="controllers/editinboxcontroller.js"></script>
 		<script src="controllers/newinboxcontroller.js"></script>
-		
-		<script src="app.js"></script><!-- The main app needs to load after controllers -->
+		<script src="controllers/staticcontroller.js"></script>
+
+		<!-- The main app must be loaded after controllers -->
+		<script src="app.js"></script>
+
 	</head>
 
 	<body ng-app="App" ng-controller="mainController">

@@ -71,9 +71,9 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
 
 
   	$scope.loadAllInboxInfo = function() {
+  		log.info('Loading inboxes')
   		Inbox.getAllInboxInfo(
 			function(inboxes){
-
 				// Save the resulting inboxes but also convert the array of inboxes into
 				// an an object with each inbox ID as the key andthe info as the value
 				$scope.accountInboxes = inboxes;
@@ -87,7 +87,6 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
 			}
 		);
   	};
-
 
 	$scope.ensureAuthenticated = function() {
 		if($scope.currentUser) {

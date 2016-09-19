@@ -2,9 +2,10 @@ function inboxController($scope, $location, Message) {
 	log.info('|inboxController|');
 
 	$scope.messages = [];
-	$scope.inboxLoading = true;
+	$scope.messagesLoading = true;
 	$scope.selectedMessages = [];
 	$scope.listTitle = 'All Feedback'
+
 	$scope.inboxID = null;
 	$scope.selectAll = true; // used by the "Select all" checkbox, to toggle T/F
 
@@ -31,7 +32,7 @@ function inboxController($scope, $location, Message) {
 
 
 	$scope.loadInbox = function() {
-		$scope.inboxLoading = true;
+		$scope.messagesLoading = true;
 
 	    var queryParams = {
 	      inboxID: $scope.inboxID,
@@ -47,14 +48,14 @@ function inboxController($scope, $location, Message) {
 	      function(result){
 	        // Success
 	        log.info('SUCCESS');
-	        log.object(result);
 
-	        $scope.inboxLoading = false;
+	        $scope.messagesLoading = false;
 	        $scope.anchorValue = result.newAnchorValue;
 	        $scope.anchorID = result.newAnchorID;
 	        $scope.messages = result.messages
 	      },
 	      function() {
+	      	$scope.messagesLoading = false;
 	        log.info('FAIL');
 	      }
 	    );

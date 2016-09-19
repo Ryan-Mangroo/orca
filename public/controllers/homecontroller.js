@@ -2,6 +2,9 @@ function homeController($scope, $location, $route, Homepage) {
 	log.info('|homeController|');
 	$scope.homeLoading = true;
 
+	// Start by showing the primary inbox
+	$scope.inboxID = $scope.currentUser.account._primary_inbox._id
+
 	$scope.homepageID = null;
 	$scope.homeKeywords = [];
 	$scope.homeKeywordsOriginal = [];
@@ -52,9 +55,6 @@ function homeController($scope, $location, $route, Homepage) {
 		        percent: 0,
 			});
 	  	},100);
-		
-
-
 	}
 
 	$scope.getStarted = function() {
@@ -75,11 +75,13 @@ function homeController($scope, $location, $route, Homepage) {
 		Homepage.updateKeywordSummary(keywordList, $scope.homepageID,
 		  function(result){
 		  	if(result.error) {
-		  		$scope.clearAlerts();
+		  		$scope.homeLoading = false;
 				$scope.toggleAlert('danger', true, result.message);
 		  	} else {
 		  		// If save was successful, reload the page
-		  		$route.reload();
+		  		$scope.allowEditKeywordSummary = false;
+		  		$scope.homeLoading = true;
+				$scope.loadHomepage();
 		  	}
 		  },
 		  function() {
@@ -91,8 +93,9 @@ function homeController($scope, $location, $route, Homepage) {
 
 	}
 
-	$scope.loadHomeKeywords = function() {
-		Homepage.getKeywordSummary(
+	$scope.loadHomepage = function() {
+		$scope.homeLoading = true;
+		Homepage.getHomepage($scope.inboxID,
 		  function(result){
 
 		  	$scope.homeKeywords = result.keywordData;
@@ -100,7 +103,6 @@ function homeController($scope, $location, $route, Homepage) {
 			
 			setTimeout(function(){
 			  	$scope.showGauges();
-			  	log.info('Loaded');
 		  	},100);
 			$scope.homeLoading = false;
 		  },
@@ -115,7 +117,7 @@ function homeController($scope, $location, $route, Homepage) {
 	  	for(var i=0; i<$scope.homeKeywords.length; i++) {
 	  		// Grab variables & prep the chart
 	  		var keywordLink = '<a href="#">' + $scope.homeKeywords[i].title + '</a>';
-	  		var value = $scope.homeKeywords[i].value + 20;
+	  		var value = $scope.homeKeywords[i].value;
 	  		var elementID = '#keyword_' + i + '_gauge';
 			$(elementID).empty();
 
@@ -146,9 +148,16 @@ function homeController($scope, $location, $route, Homepage) {
 	  	}
 	};
 
+	$scope.switchInbox = function(inboxID) {
+		$scope.homeLoading = true;
+		$scope.inboxID = inboxID;
+		log.info(inboxID);
+		$scope.loadHomepage();
+	};
+
 
 	$scope.initHomeController = function() {
-		$scope.loadHomeKeywords();
+		$scope.loadHomepage();
 	};
 
 	$scope.initHomeController();

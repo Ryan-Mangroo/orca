@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var homepageSchema = new Schema({
 	summaryKeywords: { type: [String] },
-	_account: { type: Schema.Types.ObjectId, ref: 'Account' }
+	_inbox: { type: Schema.Types.ObjectId, ref: 'Inbox' }
 }, cfg.mongoose.options);
 
 var Homepage = mongoose.model('Homepage', homepageSchema);

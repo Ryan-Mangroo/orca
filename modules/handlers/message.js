@@ -72,11 +72,12 @@ exports.getOne = function(req, res) {
 					log.error('|message.getOne.findById| Unknown  -> ' + error, widget);
 					utility.errorResponseJSON(res, 'Error occurred getting message');
 				} else if(!message) {
-					log.info('|message.getOne| Message ID not found -> ' + messageID);	
-					utility.errorResponseJSON(res, 'Message ID not found');
+					log.info('|message.getOne| Message not found -> ' + messageID);
+					res.status(404);
+					return res.send(JSON.stringify({error: 'Message Not Found'}));
 				} else {		
-					log.info('|message.getOne| Message found -> ' + message._id);	
 
+					log.info('|message.getOne| Message found -> ' + message._id);	
 					message.comments.reverse();
 					res.send(JSON.stringify({ result: message }));
 				}

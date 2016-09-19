@@ -83,8 +83,8 @@ function User($http) {
 /* ######################### HOMEPAGE ######################### */
 function Homepage($http) {
   var Homepage = {};
-  Homepage.getKeywordSummary = function(onSuccess, onFail) {
-    $http({ url: '/getKeywordSummary', method: 'GET', params: {} })
+  Homepage.getHomepage = function(inboxID, onSuccess, onFail) {
+    $http({ url: '/getHomepage', method: 'GET', params: { inboxID: inboxID} })
       .then(function success(response) {
         onSuccess(response.data.result);
       },

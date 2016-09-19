@@ -1,18 +1,27 @@
-<!-- Page Title -->
+<!-- Control Bar -->
 <div class="container-fluid pageTitle">
-	<div class="col-md-4">
-		<h4 class="noSpace">Configure Inbox</h4>
-	</div>
-	<div class="col-md-4">
-	<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+	<div class="row">
+		<div class="col-md-4">
+			<h4><i class="fa fa-arrow-left"></i><a href="#/account"> Your Account</a></h4>
+		</div>
+		<div class="col-md-4">
+			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+		</div>
 	</div>
 </div>
 
+<!-- Page Title -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="grayText"><i class="fa fa-inbox mainColor"></i> Configure Inbox</h2>
+		</div>
+	</div>
+</div>
 
-<div class="container" style="margin-top:10px;padding: 0px 10px 25px 10px;border-bottom:2px">
-	<!-- Main Link & basic info -->
-	<div class="col-md-12">
-		
+<!-- Content -->
+<div class="container">
+	<div class="row">
 		<!-- Inbox Image -->
 		<div class="col-md-3">
 			<div class="accountSection" ng-style="computeSectionStyle('logo')">
@@ -93,10 +102,9 @@
 							<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
 						</button>
 					</div>
-					</div>
+				</div>
 			</div>
 		</div>
-
 	</div>
 </div>
 

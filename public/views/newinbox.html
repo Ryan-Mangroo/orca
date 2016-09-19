@@ -1,51 +1,63 @@
-<!-- Page Title -->
+<!-- Control Bar -->
 <div class="container-fluid pageTitle">
-	<div class="col-md-12">
-		<h4 class="noSpace">Configure Inbox</h4>
+	<div class="row">
+		<div class="col-md-4">
+			<h4><i class="fa fa-arrow-left"></i><a href="#/account"> Your Account</a></h4>
+		</div>
+		<div class="col-md-4">
+			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+		</div>
 	</div>
 </div>
 
-<div class="container" style="margin-top:10px;padding: 0px 10px 25px 10px;border-bottom:2px">
-	<div class="col-md-2"></div><!-- Spacer -->
-	<div class="col-md-8">
-		<div class="accountSection">
-			<form ng-model="newInbox" style="font-size:16px;">
+<!-- Page Title -->
+<div class="container mediumContainer">
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="grayText"><i class="fa fa-inbox mainColor"></i> New Inbox</h2>
+		</div>
+	</div>
+</div>
 
-				<!-- Inbox URL -->
-				<div>
-					<div class="alert alert-info text-center">
-						<i class="fa fa-info-circle"></i> <span> A unique link will be generated for your Inbox after saving</span>
-					</div>
+<div class="container mediumContainer">
+	<form ng-model="newInbox">
+		<div class="row">
+
+			<!-- Description -->
+			<div class="col-md-12">
+				<label>Description: </label>
+				<div class="form-group">
+					<input ng-disabled="inboxSubmitting" type="text" class="fadeInOut form-control" ng-model="newInbox.description"/>
 				</div>
+			</div>
 
-				<!-- Description -->
-				<div>
-					<label>Description: </label>
-					<div class="form-group">
-						<input ng-disabled="inboxSubmitting" type="text" class="fadeInOut form-control" ng-model="newInbox.description"/>
-					</div>
+			<!-- Public Title -->
+			<div class="col-md-12">
+				<label>Public Title: </label>
+				<div class="form-group">
+					<input ng-disabled="inboxSubmitting" type="text" class="fadeInOut form-control" ng-model="newInbox.public_title"/>
 				</div>
+			</div>
 
-				<!-- Public Title -->
-				<div>
-					<label>Public Title: </label>
-					<div class="form-group">
-						<input ng-disabled="inboxSubmitting" type="text" class="fadeInOut form-control" ng-model="newInbox.public_title"/>
-					</div>
-				</div>
-			</form>
+			<div class="col-md-6"></div><!-- Spacer -->
 
-			<div class="row fadeInOut">
-				<div class="col-md-6"></div><!-- Spacer -->
-				<div class="col-md-6">
+			<!-- Submit Button -->
+			<div class="col-md-6">
+				<div class="buttonContainer">
 					<button ng-disabled="inboxSubmitting" type="button" ng-click="createInbox(newInbox)" class="btn btn-success btn-block">
 						<span ng-if="!inboxSubmitting">Create Inbox</span>
 						<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Creating...</span>
 					</button>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="col-md-2"></div><!-- Spacer -->
 
+			<!-- Inbox URL Info Alert-->
+			<div class="col-md-12">
+				<div class="alert alert-info text-center">
+					<i class="fa fa-info-circle"></i> <span> A unique link will be generated for your Inbox after saving</span>
+				</div>
+			</div>
+
+		</div>
+	</form>
 </div>

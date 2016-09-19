@@ -1,80 +1,106 @@
-<!-- Page Title -->
+<!-- Control Bar -->
 <div class="container-fluid pageTitle">
-	<div class="col-md-6">
-		<h4>{{ accountInboxesObject[inboxID].description }}</h4>
-	</div>
-	<div class="col-md-6">
-		<div class="dropdown pull-right">
-			<h4 data-toggle="dropdown" class="inboxSwitcherControl">See another inbox <i class="fa fa-caret-down"></i></h4>
-			<ul class="dropdown-menu inboxSwitcher">
-				<li ng-repeat="inbox in accountInboxes"><a ng-href="#/inbox/{{inbox._id}}"><i class="fa fa-inbox"></i> {{ inbox.description }}</a></li>
-			</ul>
+	<div class="row">
+		<div class="col-md-4">
+			<h4><i class="fa fa-arrow-left"></i><a href="#/home"> Home</a></h4>
+		</div>
+		<div class="col-md-4">
+			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+		</div>
+		<div class="col-md-4" style="margin-right:0px;padding-right:0px;">
+			<div class="dropdown pull-right" style="background-color:red;">
+				<h4 data-toggle="dropdown" class="inboxSwitcherControl">See feedback from another inbox <i class="fa fa-caret-down"></i></h4>
+				<ul class="dropdown-menu inboxSwitcher">
+					<li ng-repeat="inbox in accountInboxes" ng-if="inbox._id != inboxID"><a ng-href="#/inbox/{{inbox._id}}">{{ inbox.description }}</a></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>
 
-<!-- List -->
-<div ng-if="!messagesLoading" class="container fadeInOut" style="margin-top:25px;">
-
+<!-- Loading -->
+<div ng-if="messagesLoading" class="container fadeInOut">
 	<div class="row">
-		<div class="col-md-12">
-			<div class="alert alert-info text-center">
-				<span>Be sure to share the link for this inbox: <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></span>
-			</div>
+		<div class="col-md-12 text-center">
+			<i class="fa fa-cog fa-spin loadingIcon"></i>
 		</div>
 	</div>
+</div>
 
-	<!-- Column Header -->
+<!-- Page Title -->
+<div ng-if="!messagesLoading" class="container fadeInOut">
+	<div class="row">
+		<div class="col-md-6">
+			<h2 class="grayText"><i class="fa fa-inbox mainColor"></i> {{ accountInboxesObject[inboxID].description }}</h2>
+		</div>
+	</div>
+</div>
+
+
+<!-- List -->
+<div ng-if="!messagesLoading" class="container fadeInOut">
+
+	<!-- List Header -->
 	<div ng-if="!messagesLoading" class="row listHeader">
-		<div class="col-md-1">
-			<input type="checkbox" ng-click="toggleAll(message._id)"/>
-		</div>
+		<div class="col-md-1"><input type="checkbox" ng-click="toggleAll(message._id)"/></div>
 		<div class="col-md-7">Message</div>
-		<div class="col-md-3">
-			<span>Received</span>
-		</div>
+		<div class="col-md-3"><span>Received</span></div>
 		<div class="col-md-1"></div><!-- Spacer -->
 	</div>
 
 	<!-- If there are no messages -->
-	<div ng-if="!messagesLoading && messages.length == 0" class="row listRow">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<span>-- No messages --</span>
-			</div>
+	<div ng-if="!messagesLoading && messages.length == 0" class="row listRow FadeInOutStagger">
+		<div class="col-md-12 text-center">
+			<span>-- No messages --</span>
 		</div>
 	</div>
 
-	<!-- Create 1 row for each message -->
-	<div ng-repeat="message in messages" ng-if="!messagesLoading" class="row listRow FadeInOutStagger">
-		<div class="col-md-1 text-left">
+	<!-- Create one row for each message -->
+	<div ng-if="!messagesLoading" ng-repeat="message in messages track by $index" class="row listRow FadeInOutStagger" ng-class="$index == messages.length-1 ? 'listRowLast' : 'listRow'">
+		
+		<!-- Checkbox -->
+		<div class="col-md-1">
 			<input type="checkbox" ng-checked="selectedMessages.indexOf(message._id) > -1" ng-click="toggleSelectedMessage(message._id)"/>	
 		</div>
+
+		<!-- Message Content -->
 		<div class="col-md-7">
-			
 			<div class="ellipsis">
             	<div class="itemCardContent">
             		<a ng-href="#/message/{{ message._id }}">{{ message.content }}</a>
             	</div>
 			</div>
-
 		</div>
+
+		<!-- Message Received Date -->
 		<div class="col-md-3">
 			<span>{{ formattedDateTime(message.created_at) }}</span>
 		</div>
-		<div class="col-md-1 text-left">
+
+		<!-- Message Mood -->
+		<div class="col-md-1">
 			<img class="moodIcon" ng-src="{{'img/faces/' + moodMap[message.mood] + '.png'}}"/>
 		</div>
 	</div>
 
 	<!-- List controls -->
-	<div class="row" style="margin-top:10px;">
-		<div class="col-md-2">
+	<div class="row listControls">
+		<div class="col-md-2" style="padding: 0px;">
 			<button ng-click="deleteMessages()" ng-disabled="selectedMessages.length == 0" type="button" class="btn btn-block btn-danger">
 				<span class="fa fa-trash-o"></span> Delete Selected
 			</button>
 		</div>
-		<div class="col-md-10"></div><!-- Spacer -->
+		<div class="col-md-8"></div><!-- Spacer -->
+		<div class="col-md-2" style="padding: 0px;">
+			<a class="btn btn-default btn-block" ng-href="#/account/inbox/edit/{{accountInboxesObject[inboxID]._id}}"><i class="fa fa-cog"></i> Configure Inbox</a>
+		</div>
 	</div>
 
+</div>
+
+<!-- Inbox URL Info Alert-->
+<div class="container">
+	<div class="row alert alert-info text-center">
+		<i class="fa fa-info-circle"></i> <span> URL for this inbox: <a style="margin-right:25px;" ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></span>
+	</div>
 </div>

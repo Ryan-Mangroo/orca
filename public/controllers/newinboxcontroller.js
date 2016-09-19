@@ -10,6 +10,7 @@ function newInboxController($scope, $location, Inbox) {
 		Inbox.create(newInbox, 
 		  function(newInbox){
 		  	$scope.inboxSubmitting = false;
+		  	$scope.loadAllInboxInfo();
 		  	$scope.changeView('account/inbox/edit/' + newInbox._id);
 		  },
 		  function() {

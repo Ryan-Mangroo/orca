@@ -32,6 +32,7 @@ function editInboxController($scope, $location, Inbox) {
 		  	$scope.selectedInbox = updatedInbox;
 		  	$scope.clearAlerts();
 		  	$scope.inboxSubmitting = false;
+		  	$scope.loadAllInboxInfo();
 		  	$scope.toggleAlert('success', true, 'Inbox updated');
 		  },
 		  function() {

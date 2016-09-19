@@ -198,7 +198,7 @@ function initializeApp() {
 		app.route('/createInbox').post(validateRequest(), inbox.create);
 
 		// Prediction & Reports
-		app.route('/getKeywordSummary').get(validateRequest(), homepage.getKeywordSummary);
+		app.route('/getHomepage').get(validateRequest(), homepage.getHomepage);
 		app.route('/updateKeywordSummary').post(validateRequest(), homepage.updateKeywordSummary);
 
 		// Account & User related (while authenticated)

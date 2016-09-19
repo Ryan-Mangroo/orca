@@ -32,17 +32,9 @@ exports.update = function(req, res) {
 							log.error('|account.update.save| Unknown  -> ' + error, widget);
 							utility.errorResponseJSON(res, 'Error occurred updating account');
 						} else {
-							// Repopulate the primary inbox info
-							account.populate('_primary_inbox', function(error) {
-								if(error) {
-									log.error('|account.update.save.populate| Unknown  -> ' + error, widget);
-									utility.errorResponseJSON(res, 'Error occurred populating primary inbox');
-								} else {
-									log.info('|account.update| Success  -> ' + account._id, widget);
-									req.session.userprofile.account = account;
-									res.send(JSON.stringify({ result: account }));
-								}
-							});
+							log.info('|account.update| Success  -> ' + account._id, widget);
+							req.session.userprofile.account = account;
+							res.send(JSON.stringify({ result: account }));
 						} 
 			    	});
 				}
@@ -99,4 +91,3 @@ exports.getSignedLogoURL = function(req, res) {
 	    utility.errorResponseJSON(res, 'Error while getting signed request');
 	}
 };
-

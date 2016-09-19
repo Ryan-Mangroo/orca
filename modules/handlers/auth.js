@@ -125,11 +125,11 @@ function createPrimaryInbox(req, acccountID, callback) {
 	});
 }
 
-function createAccountHomepage(req, acccountID, callback) {
+function createAccountHomepage(req, inboxID, callback) {
 	log.info('    Creating Homepage...', widget);
 	var newHomepage = new Homepage();
 	newHomepage.summaryKeywords = [];
-	newHomepage._account = acccountID;
+	newHomepage._inbox = inboxID;
 	newHomepage.save(function(error, homepage) {
 		if (error) {
 			callback(error);
@@ -175,7 +175,7 @@ exports.signup = function(req, res) {
 													utility.errorResponseJSON(res, 'Error updating account with new inbox');
 												} else {
 													// Finally, create the empty homepage for them to configure on the first visit
-													createAccountHomepage(req, account._id, function (error, homepage) {
+													createAccountHomepage(req, inbox._id, function (error, homepage) {
 														if (error) {
 															log.error('|auth.signup.createAccountHomepage| Unknown  -> ' + error, widget);
 															return utility.errorResponseJSON(res, 'Error occurred creating homepage');

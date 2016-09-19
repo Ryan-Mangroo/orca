@@ -1,7 +1,7 @@
 body {
 	font-family: 'Work Sans', sans-serif;
 	background-color: #fff;
-	color: #2596c3;
+	color: #6f8993;
 	font-weight: 300;
 	margin-bottom: 50px;
 }
@@ -10,8 +10,16 @@ body {
 	font-weight: 300;
 }
 
+.mainColor {
+	color: #2596c3;
+}
+
 .whiteText {
 	color: #fff;
+}
+
+.grayText {
+	color: #6f8993;
 }
 
 .noSpace {
@@ -102,7 +110,7 @@ a:hover {
 
 .btn-default {
 	color: #6f8993;
-	background-color: #f3f5f6;
+	background-color: #e4e9eb;
 	border-color: #d6dde0;
 }
 
@@ -139,14 +147,14 @@ a:hover {
 /*######################### ELLIPSIS #########################*/
 .ellipsis {
     overflow: hidden;
-    height: 50px;
-	line-height: 25px;
+    height: 30px;
+	line-height: 30px;
 }
 .ellipsis:before {
     content: "";
     float: left;
     width: 5px;
-    height: 50px;
+    height: 30px;
 }
 .ellipsis > *:first-child {
     float: right;
@@ -181,6 +189,7 @@ a:hover {
 /*######################### ALERTS #########################*/
 
 .alert {
+	margin-top: 25px;
 	font-size: 20px;
 	border-radius: 0px;
 	border: none;
@@ -198,7 +207,7 @@ a:hover {
 
 .alert-title-sm {
 	position: absolute;
-	top: -10px;
+	top: 0px;
 	left: 0px;
 	right: 0px;
 	margin: 0px;
