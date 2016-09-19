@@ -1,7 +1,6 @@
 // Config
-/*
-var cfg = require('../../config/config');
 
+var cfg = require('../../config/config');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -67,4 +66,3 @@ notificationSchema.pre('save', function(next) {
 var Notification = mongoose.model('Notification', notificationSchema);
 
 module.exports = Notification;
-*/

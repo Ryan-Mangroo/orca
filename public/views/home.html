@@ -6,7 +6,7 @@
 			<div class="dropdown pull-right" style="background-color:red;">
 				<h4 data-toggle="dropdown" class="inboxSwitcherControl">See feedback from another inbox <i class="fa fa-caret-down"></i></h4>
 				<ul class="dropdown-menu inboxSwitcher">
-					<li ng-repeat="inbox in accountInboxes" ng-if="inbox._id != inboxID"><a href="javascript:void(0)" ng-click="switchInbox(inbox._id)">{{ inbox.description }}</a></li>
+					<li ng-repeat="inbox in accountInboxes" ng-if="inbox._id != inboxID"><a ng-href="#/home/{{inbox._id}}">{{ inbox.description }}</a></li>
 				</ul>
 			</div>
 		</div>

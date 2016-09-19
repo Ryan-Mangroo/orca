@@ -4,8 +4,10 @@ var User = require('../models/user');
 var Account = require('../models/account');
 var Inbox = require('../models/inbox');
 var Homepage = require('../models/homepage');
-//var NotificationTemplate = require('workwoo-utils').notificationTemplate;
-//var mailer = require('workwoo-utils').mailer;
+
+var NotificationTemplate = require('../models/notificationtemplate');
+var mailer = require('../../utils/mailer');
+
 var utility = require('../../utils/utility');
 var validator = require('../../utils/validator');
 var log = require('../../utils/logger');
@@ -182,7 +184,7 @@ exports.signup = function(req, res) {
 														} else {
 
 															log.info('Account successfully created for ' + account.name + ' -> ' + account._id, widget);
-															/*
+															
 															NotificationTemplate.findOne({name: cfg.mailer.signupTemplate}, function (error, notificationTemplate) {
 																if (error) {
 																	log.error('|auth.signupRequest.NotificationTemplate| Unknown -> ' + error, widget);
@@ -191,11 +193,11 @@ exports.signup = function(req, res) {
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.tokenPlaceholder, user.verifyToken);
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.hostNamePlaceholder, cfg.hostname);
 																	mailer.sendMail(notificationTemplate, {to: user.email}, user._id);								
-																	return res.send(JSON.stringify({result: true}));
+																	return res.send(JSON.stringify({ result: true }));
 																}
 															});
-															*/
-															return res.send(JSON.stringify({ result: true }));
+														
+															
 														}
 													});
 												}

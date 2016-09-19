@@ -148,16 +148,25 @@ function homeController($scope, $location, $route, Homepage) {
 	  	}
 	};
 
-	$scope.switchInbox = function(inboxID) {
-		$scope.homeLoading = true;
-		$scope.inboxID = inboxID;
-		log.info(inboxID);
-		$scope.loadHomepage();
-	};
-
-
 	$scope.initHomeController = function() {
-		$scope.loadHomepage();
+		if(!$scope.ensureAuthenticated) {
+			$scope.changeView('login');
+			return;
+		}
+
+	    var currentURL = $location.url();
+
+	    if(currentURL.indexOf('home') > 0) {
+	    	var selectedInbox = currentURL.slice(6,currentURL.length);
+	    	if(selectedInbox) {
+	    		$scope.inboxID = selectedInbox
+	    	}
+	    }
+
+	    $scope.loadHomepage();
+
+	    return;
+
 	};
 
 	$scope.initHomeController();

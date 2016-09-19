@@ -1,12 +1,7 @@
-// Config
 var cfg = require('../config/config');
-
 var NodeMailer = require('nodemailer'); // http://nodemailer.com/
-
-// Custom modules
-var Notification = require('./models/notification');
+var Notification = require('../modules/models/notification');
 var log = require('./logger');
-
 var widget = 'mailer';
 log.registerWidget(widget);
 

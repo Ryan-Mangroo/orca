@@ -1,7 +1,4 @@
-// Config
-/*
 var cfg = require('../../config/config');
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -30,4 +27,3 @@ notificationTemplateSchema.pre('save', function(next) {
 var NotificationTemplate = mongoose.model('Notification_Template', notificationTemplateSchema);
 
 module.exports = NotificationTemplate;
-*/

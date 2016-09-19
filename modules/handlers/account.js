@@ -1,6 +1,6 @@
 var cfg = require('../../config/config');
 var Account = require('../models/account');
-var aws = require('../../utils/aws-utils')
+var aws = require('../../utils/aws-utils');
 var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
 var log = require('../../utils/logger');

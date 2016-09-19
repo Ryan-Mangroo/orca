@@ -27,9 +27,9 @@ App.directive('dateTimePicker', dateTimePicker);
 
 // Routes
 App.config(function($routeProvider) {
-	$routeProvider.when('/404', { templateUrl : 'views/404.html', controller: staticController});
 	$routeProvider.when('/', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/home', { templateUrl : 'views/home.html', controller: homeController});
+	$routeProvider.when('/home/:inboxID', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/login', { templateUrl : 'views/login.html', controller: loginController});
 	$routeProvider.when('/inbox/:inboxID', { templateUrl : 'views/inbox.html', controller: inboxController});
 	$routeProvider.when('/message/:messageID', { templateUrl : 'views/message.html', controller: messageController});

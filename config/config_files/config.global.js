@@ -10,7 +10,7 @@ config.platform.port = 1337;
 
 //mongo database
 config.mongo = {};
-config.mongo.uri = process.env.MONGO_URI || 'mongodb://heroku_2bffp60h:mn0tfokfo5bknhh691dom3om69@ds139655.mlab.com:39655/heroku_2bffp60h';
+config.mongo.uri = process.env.MONGODB_URI;
 config.mongo.poolSize = 10;
 config.mongo.keepAlive = 120; //milliseconds
 

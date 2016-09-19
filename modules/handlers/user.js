@@ -34,11 +34,7 @@ exports.update = function(req, res) {
 							// Repopulate the account & primary inbox info
 							var accountPopulation = {
 								path: '_account',
-								model: 'Account',
-								populate: {
-									path: '_primary_inbox',
-									model: 'Inbox'
-								}
+								model: 'Account'
 							};
 							user.populate(accountPopulation, function(error) {
 								if(error) {
