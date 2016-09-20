@@ -7,14 +7,22 @@
 		<div class="col-md-4">
 			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
 		</div>
-		<div class="col-md-4" style="margin-right:0px;padding-right:0px;">
-			<div class="dropdown pull-right" style="background-color:red;">
+
+		<!-- If there is more than 1 inbox, allow switching between them -->
+		<div ng-if="accountInboxes.length > 1" class="col-md-4" style="margin-right:0px;padding-right:0px;">
+			<div class="dropdown pull-right">
 				<h4 data-toggle="dropdown" class="inboxSwitcherControl">See feedback from another inbox <i class="fa fa-caret-down"></i></h4>
 				<ul class="dropdown-menu inboxSwitcher">
 					<li ng-repeat="inbox in accountInboxes" ng-if="inbox._id != inboxID"><a ng-href="#/inbox/{{inbox._id}}">{{ inbox.description }}</a></li>
 				</ul>
 			</div>
 		</div>
+
+		<!-- Otherwise, encourage creating additional inboxes -->
+		<div ng-if="accountInboxes.length == 1"  class="col-md-4 text-right">
+			<h4><a href="#/account">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
+		</div>
+
 	</div>
 </div>
 
@@ -31,14 +39,40 @@
 <div ng-if="!messagesLoading" class="container fadeInOut">
 	<div class="row">
 		<div class="col-md-6">
-			<h2 class="grayText"><i class="fa fa-inbox mainColor"></i> {{ accountInboxesObject[inboxID].description }}</h2>
+			<h2 class="grayText">
+				<i class="fa fa-inbox mainColor"></i>
+				<span> {{ accountInboxesObject[inboxID].description }}</span>
+			</h2>
+			<span ng-if="accountInboxesObject[inboxID].status == 'inactive'" class="inactiveInboxIndicator">INACTIVE</span>
 		</div>
 	</div>
 </div>
 
 
+<!-- If there are no messages -->
+<div ng-if="!messagesLoading && messages.length == 0" class="container fadeInOut">
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<h3>No feedback found</h3>
+			<h4>Make sure you're sharing the link for this inbox: <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
+		</div>
+	</div>
+</div>
+
+<!-- If the inbox is inactive, show a warning -->
+<div ng-if="!messagesLoading && accountInboxesObject[inboxID].status == 'inactive'" class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-warning text-center">
+			  <i class="fa fa-info-circle"></i>
+			  <span>This Inbox is inactive. <a ng-href="#/account/inbox/edit/{{accountInboxesObject[inboxID]._id}}">Activate it to enable feedback submission</a></span>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- List -->
-<div ng-if="!messagesLoading" class="container fadeInOut">
+<div ng-if="!messagesLoading && messages.length > 0" class="container fadeInOut">
 
 	<!-- List Header -->
 	<div ng-if="!messagesLoading" class="row listHeader">
@@ -51,7 +85,8 @@
 	<!-- If there are no messages -->
 	<div ng-if="!messagesLoading && messages.length == 0" class="row listRow FadeInOutStagger">
 		<div class="col-md-12 text-center">
-			<span>-- No messages --</span>
+			<h3>No feedback found</h3>
+			<h4>Make sure you're sharing the link for this inbox: <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
 		</div>
 	</div>
 
@@ -96,11 +131,4 @@
 		</div>
 	</div>
 
-</div>
-
-<!-- Inbox URL Info Alert-->
-<div class="container">
-	<div class="row alert alert-info text-center">
-		<i class="fa fa-info-circle"></i> <span> URL for this inbox: <a style="margin-right:25px;" ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></span>
-	</div>
 </div>

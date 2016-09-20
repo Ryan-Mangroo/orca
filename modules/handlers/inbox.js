@@ -85,6 +85,43 @@ exports.update = function(req, res) {
 	}
 };
 
+
+exports.delete = function(req, res) {
+	try {
+		log.info('|inbox.delete|', widget);
+		
+		var accountID = req.session.userprofile.account._id;
+		var inboxIDs = req.body.inboxIDs;
+
+		log.info('|inbox.delete| Deleting inboxes  -> ' + inboxIDs, widget);
+
+		// First, delete the inboxes.
+		var inboxDeleteQuery = { _id: { $in: inboxIDs } };			
+    	Inbox.remove(inboxDeleteQuery, function(error) {
+    		if (error) {
+				log.error('|inbox.delete.remove| Unknown  -> ' + error, widget);
+				utility.errorResponseJSON(res, 'Error occurred deleting inboxes');
+			} else {
+				// Then, delete any homepages for those inboxes.
+				var homepageDeleteQuery = { _inbox: { $in: inboxIDs } };			
+		    	Homepage.remove(homepageDeleteQuery, function(error) {
+		    		if (error) {
+						log.error('|inbox.delete.homepage.remove| Unknown  -> ' + error, widget);
+						utility.errorResponseJSON(res, 'Error occurred deleting inbox homepages');
+					} else {
+						res.send(JSON.stringify({result: true}));
+					}
+		    	});
+			}
+    	});
+
+	} catch (error) {
+		log.error('|inbox.delete| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error occurred deleting inboxes');
+	}
+};
+
+
 exports.resetToken = function(req, res) {
 	try {
 		log.info('|inbox.resetToken|', widget);

@@ -2,14 +2,22 @@
 <div class="container-fluid pageTitle">
 	<div class="row">
 		<div class="col-md-8"></div><!-- Spacer -->
-		<div class="col-md-4" style="margin-right:0px;padding-right:0px;">
-			<div class="dropdown pull-right" style="background-color:red;">
+		
+		<!-- If there is more than 1 inbox, allow switching between them -->
+		<div ng-if="!homeLoading && accountInboxes.length > 1" class="col-md-4" style="margin-right:0px;padding-right:0px;">
+			<div class="dropdown pull-right">
 				<h4 data-toggle="dropdown" class="inboxSwitcherControl">See feedback from another inbox <i class="fa fa-caret-down"></i></h4>
 				<ul class="dropdown-menu inboxSwitcher">
 					<li ng-repeat="inbox in accountInboxes" ng-if="inbox._id != inboxID"><a ng-href="#/home/{{inbox._id}}">{{ inbox.description }}</a></li>
 				</ul>
 			</div>
 		</div>
+
+		<!-- Otherwise, encourage creating additional inboxes -->
+		<div ng-if="accountInboxes.length == 1"  class="col-md-4 text-right">
+			<h4><a href="#/account">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
+		</div>
+
 	</div>
 </div>
 
@@ -23,7 +31,7 @@
 </div>
 
 <!-- Page Title -->
-<div ng-if="!homeLoading" class="container fadeInOut">
+<div class="container fadeInOut">
 	<div class="row">
 		<div class="col-md-6">
 			<h2 class="grayText"> {{ accountInboxesObject[inboxID].description }}</h2>
@@ -37,9 +45,10 @@
 	<!-- If nothing is set up -->
 	<div ng-if="!homeLoading && homeKeywords.length == 0 && !allowEditKeywordSummary" class="row fadeInOut">
 		<div class="col-md-12 text-center" style="padding: 10px 0px 10px 0px;">
-			<h3>Oh no! Your homepage isnt set up yet.</h3>
-			<h3>Let's add a key phrase or idea that you want to track</h3>
-			<button type="button" ng-click="getStarted()" class="btn btn-lg btn-primary"> Add One Now</button>
+			<h3>This dashboard isn't set up yet.</h3>
+			<h3>Let's add some key phrases or ideas that you want to track</h3>
+			<button type="button" ng-click="getStarted()" class="btn btn-lg btn-primary"> Get Started</button>
+
 		</div>
 	</div>
 

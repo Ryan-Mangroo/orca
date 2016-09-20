@@ -218,52 +218,58 @@ exports.signup = function(req, res) {
 };
 
 
-/*
-exports.forgotPasswordRequest = function(req, res) {
+exports.requestPasswordReset = function(req, res) {
 	try {
+		log.info('|auth.requestPasswordReset|', widget);
+
 		var emailAddress = req.body.emailAddress;
 
 		var error = null;
-		if (validator.checkNull(emailAddress)) { error = 'Email Address is Null'; } 
-		else if (!validator.checkEmail(emailAddress)) { error = 'Email Address is not valid: ' + emailAddress; } 
+		if (validator.checkNull(emailAddress)) {
+			error = 'Email Address is Null';
+		} else if (!validator.checkEmail(emailAddress)) {
+			error = 'Email Address is not valid: ' + emailAddress;
+		} 
 
 		if (error) {
-			log.error('|auth.forgotPasswordRequest| ' + error, widget);
+			log.error('|auth.requestPasswordReset| -> ' + error, widget);
 			return utility.errorResponseJSON(res, 'Error while processing forgot password request');
 		}
 
-		log.info('|auth.forgotPasswordRequest| Email -> ' + emailAddress, widget);
+		log.info('|auth.requestPasswordReset| Password reset requested -> ' + emailAddress, widget);
 		
-		User.forgotPassword(emailAddress, function (error, user, token){
+		User.requestPasswordReset(emailAddress, function (error, user, token){
 			if (error) {
-				log.error('|auth.forgotPasswordRequest.forgetPassword| Unknown -> ' + error, widget);
-				return utility.errorResponseJSON(res, 'Error while processing forgot password request');
+				log.error('|auth.requestPasswordReset.requestPasswordReset| Unknown -> ' + error, widget);
+				return utility.errorResponseJSON(res, 'Error while requesting password reset');
 			}
 
-			if (!user.emailAddress) { 
-				log.error('|auth.forgotPasswordRequest.forgetPassword| User not found -> ' + emailAddress, widget);
-				return res.send(JSON.stringify({result: false}));
+			if (!user.email) { 
+				log.error('|auth.requestPasswordReset.requestPasswordReset| User not found -> ' + emailAddress, widget);
+				return res.send(JSON.stringify({ result: false }));
 			}
 
-			NotificationTemplate.findOne({name: cfg.mailer.forgotPasswordTemplate}, function (error, notificationTemplate) {
+			NotificationTemplate.findOne({ name: cfg.mailer.forgotPasswordTemplate }, function (error, notificationTemplate) {
 				if (error) {
-					log.error('|auth.forgotPasswordRequest.NotificationTemplate| Unknown -> ' + error, widget);
-					return utility.errorResponseJSON(res, 'Error while processing forgot password request');
+					log.error('|auth.requestPasswordReset.NotificationTemplate| Unknown -> ' + error, widget);
+					return utility.errorResponseJSON(res, 'Error while getting password reset email template');
 				} else {
+
+					// Send an email user's email containing the tokenized link to reset their password
 					notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.tokenPlaceholder, token);
 					notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.hostNamePlaceholder, cfg.hostname);	
-					mailer.sendMail(notificationTemplate, {to: user.emailAddress}, user._id);
+					mailer.sendMail(notificationTemplate, {to: user.email}, user._id);
 				}
 			});
 
 		    return res.send(JSON.stringify({result: true}));
 		});
 	} catch (error) {
-		log.error('|auth.forgotPasswordRequest| Unknown -> ' + error, widget);
-	    utility.errorResponseJSON(res, 'Error while processing forgot password request');
+		log.error('|auth.requestPasswordReset| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error while requesting password reset');
 	}
 };
-*/
+
 
 /*
 exports.resetPasswordRequest = function(req, res) {

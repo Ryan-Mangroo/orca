@@ -194,8 +194,9 @@ function initializeApp() {
 		app.route('/getAllInboxInfo').get(validateRequest(), inbox.getAllInfo);
 		app.route('/getOneInboxInfo').get(validateRequest(), inbox.getOneInfo);
 		app.route('/getSignedInboxImageURL').get(validateRequest(), inbox.getSignedImageURL);
-		app.route('/updateInbox').post(validateRequest(), inbox.update);
 		app.route('/createInbox').post(validateRequest(), inbox.create);
+		app.route('/updateInbox').post(validateRequest(), inbox.update);
+		app.route('/deleteInboxes').post(validateRequest(), inbox.delete);
 
 		// Prediction & Reports
 		app.route('/getHomepage').get(validateRequest(), homepage.getHomepage);
@@ -210,6 +211,7 @@ function initializeApp() {
 
 		// Account related (unauthenticated)
 		app.route('/signup').post(auth.signup);
+		app.route('/requestPasswordReset').post(auth.requestPasswordReset);
 
 		/*
 		app.route('/forgotPwd').get(function(req, res) {

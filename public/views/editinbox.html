@@ -7,6 +7,9 @@
 		<div class="col-md-4">
 			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
 		</div>
+		<div class="col-md-4 text-right">
+			<h4><a ng-href="#/inbox/{{selectedInbox._id}}">See the messages in this Inbox</a> <i class="fa fa-arrow-right"></i></h4>
+		</div>
 	</div>
 </div>
 
@@ -61,10 +64,10 @@
 							<label>Inbox Status: </label>
 							<!-- If Active -->
 							<span ng-if="selectedInbox.status == 'active'" class="activeInboxIndicator fadeInOut">ACTIVE</span>
-							<button ng-disabled="inboxLoading || inboxSubmitting" ng-if="selectedInbox.status == 'active'" type="button" ng-click="toggleInboxStatus('inactive')" class="btn btn-default btn-sm fadeInOut">Make Inactive</button>
+							<button ng-disabled="inboxLoading || inboxSubmitting" ng-if="selectedInbox.status == 'active'" type="button" data-toggle="modal" data-target="#inactivateModal" class="btn btn-warning btn-sm fadeInOut"><i class="fa fa-warning"></i> Make Inactive</button>
 							<!-- If Inactive -->
 							<span ng-if="selectedInbox.status == 'inactive'" class="inactiveInboxIndicator fadeInOut">INACTIVE</span>
-							<button ng-disabled="inboxLoading || inboxSubmitting" ng-if="selectedInbox.status == 'inactive'" type="button" ng-click="toggleInboxStatus('active')" class="btn btn-default btn-sm fadeInOut">Make Active</button>
+							<button ng-disabled="inboxLoading || inboxSubmitting" ng-if="selectedInbox.status == 'inactive'" type="button" ng-click="toggleInboxStatus('active')" class="btn btn-success btn-sm fadeInOut">Make Active</button>
 						</div>
 					</div>
 
@@ -95,8 +98,14 @@
 				</form>
 
 				<div class="row fadeInOut">
-					<div class="col-md-6"></div><!-- Spacer -->
-					<div class="col-md-6">
+					<div class="col-md-4"></div><!-- Spacer -->
+					<div class="col-md-4">
+						<button ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#deleteInboxModal" type="button" class="btn btn-danger btn-block">
+							<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Delete Inbox</span>
+							<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
+						</button>
+					</div>
+					<div class="col-md-4">
 						<button ng-disabled="inboxLoading || inboxSubmitting" type="button" ng-click="saveInbox(selectedInbox)" class="btn btn-success btn-block">
 							<span ng-if="!inboxSubmitting">Save Changes</span>
 							<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
@@ -106,6 +115,61 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+
+<!-- Delete Inbox modal -->
+<div id="deleteInboxModal" class="modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      	<h3 class="text-center">Are you sure?</h3>
+      </div>
+      <div class="modal-body text-center">
+        <h4>Deleting an inbox is permanent and you will lose all feedback</h4>
+        <h4>Consider Inactivating it instead</h4>
+      </div>
+      <div class="modal-footer">
+      	<div class="col-md-3"></div><!-- Spacer -->
+      	<div class="col-md-3">
+        	<button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+      	</div>
+      	<div class="col-md-3">
+      		<button type="button" class="btn btn-danger btn-block" ng-click="deleteInbox()">Delete it</button>
+      	</div>
+      	<div class="col-md-3"></div><!-- Spacer -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Inactivate modal -->
+<div id="inactivateModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      	<h3 class="text-center">Are you sure?</h3>
+      </div>
+      <div class="modal-body text-center">
+        <h4>After you do this, people will be unable to submit feedback through this inbox</h4>
+      </div>
+      <div class="modal-footer">
+      	<div class="col-md-3"></div><!-- Spacer -->
+      	<div class="col-md-3">
+        	<button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+      	</div>
+      	<div class="col-md-3">
+      		<button type="button" class="btn btn-warning btn-block" ng-click="toggleInboxStatus('inactive')">I'm sure</button>
+      	</div>
+      	<div class="col-md-3"></div><!-- Spacer -->
+      </div>
+    </div>
+  </div>
 </div>
 
 

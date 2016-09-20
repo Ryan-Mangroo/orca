@@ -109,6 +109,27 @@ function editInboxController($scope, $location, Inbox) {
 		);
 	};
 
+	  $scope.deleteInbox = function() {
+  		$scope.inboxSubmitting = true;
+		Inbox.delete([$scope.selectedInbox._id],
+			function(result){
+				$('#deleteInboxModal').modal('hide');
+
+			  	$scope.clearAlerts();
+			  	$scope.inboxSubmitting = false;
+			  	$scope.loadAllInboxInfo();
+			  	$scope.toggleAlert('success', true, 'Inbox Deleted');
+			  	$scope.changeView('account');
+			},
+			function() {
+				$('#deleteInboxModal').modal('hide');
+				$scope.inboxSubmitting = false;
+		  		$scope.clearAlerts();
+		  		$scope.toggleAlert('danger', true, 'Something bad happened while deleting Inbox');
+			}
+		);
+	};
+
 	$scope.cancelChangeImage = function() {
 		$scope.setInboxImageSource($scope.selectedInbox.image);
 		$scope.allowEditImage = false;
@@ -119,6 +140,7 @@ function editInboxController($scope, $location, Inbox) {
 	};
 
 	$scope.toggleInboxStatus = function(status) {
+		$("#inactivateModal").modal('hide');
 		$scope.selectedInbox.status = status;
 	};
 

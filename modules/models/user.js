@@ -26,7 +26,7 @@ var userSchema = new Schema({
 
 userSchema.statics.authenticate = function(email, password, callback) {
 	log.info('|User.authenticate|', widget);
-	
+
 	var accountPopulation = {
 		path: '_account',
 		model: 'Account',
@@ -113,16 +113,16 @@ userSchema.statics.changePassword = function(userID, currentPassword, newPasswor
 };
 
 
-/*
-userSchema.statics.forgotPassword = function(emailAddress, callback) {
-	log.info('|User.forgotPassword|', widget);
-	this.findOne({emailAddress: emailAddress}, function (error, user) {
+userSchema.statics.requestPasswordReset = function(emailAddress, callback) {
+	log.info('|User.requestPasswordReset|', widget);
+	this.findOne({ email: emailAddress }, function (error, user) {
 		if (error) {
+			log.error('|User.requestPasswordReset| Unknown -> ' + error, widget);
 			return callback(error);
 		}
 			
 		if (!user) { 
-			log.error('|User.forgotPassword| User not found -> ' + emailAddress, widget);
+			log.error('|User.requestPasswordReset| User not found -> ' + emailAddress, widget);
 			return callback(null, false);
 		}
 
@@ -135,13 +135,17 @@ userSchema.statics.forgotPassword = function(emailAddress, callback) {
 		user.resetPwdExpiration = now.toString();
 
 		user.save(function (error) {
-			if (error) { return callback(error); }
-				log.info('|User.forgotPassword| Request successfull -> ' + emailAddress, widget);
+			if (error) {
+				log.error('|User.requestPasswordReset| Error saving password reset token -> ' + error, widget);
+				return callback(error);
+			} else {
+				log.info('|User.requestPasswordReset| Password reset token generated -> ' + emailAddress, widget);
 				return callback(null, user, token);
+			}
 		});
 	});
 };
-*/
+
 
 /*
 userSchema.statics.resetPassword = function(token, newPassword, callback) {
@@ -218,20 +222,8 @@ userSchema.pre('save', function(next) {
 		next();	
 	}
 });		
-/*
-// Set counter when creating a new user
-userSchema.pre('save', function(next) {
-	var user = this;
-	if (this.isNew) {
-		Counter.increment('users', this._org, function(error, autonumber) {
-			user.number = autonumber;
-			next();
-		});
-	} else {
-		next();
-	}
-});	
-*/
+
+
 // Remove user data not needed by app
 userSchema.post('save', function(user, next) {
 	user.password = '';
@@ -240,13 +232,6 @@ userSchema.post('save', function(user, next) {
     next();
 });
 
-// Populate org reference
-userSchema.post('save', function(user, next) {
-	user.populate('_org', function(error, user) {
-		if (error) { next(error); }
-		next();
-	});
-});
 
 var User = mongoose.model('User', userSchema);
 

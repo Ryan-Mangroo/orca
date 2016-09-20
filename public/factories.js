@@ -53,6 +53,7 @@ function Message($http) {
 /* ######################### USER ######################### */
 function User($http) {
   var User = {};
+  
   User.login = function (credentials, onSuccess, onFail) {
     $http.defaults.headers.common.Authorization = 'Basic ' + window.btoa(credentials.emailAddress + ':' + credentials.password);
     $http({ url: '/login', method: 'POST', withCredentials: true})
@@ -65,6 +66,7 @@ function User($http) {
       }
     );
   };
+
   User.getProfile = function(onSuccess, onFail) {
     $http({ url: '/getUserProfile', method: 'GET', params: {} })
       .then(function success(response) {
@@ -76,6 +78,19 @@ function User($http) {
       }
     );
   };
+
+  User.requestPasswordReset = function(emailAddress, onSuccess, onFail) {
+    $http({ url: '/requestPasswordReset', method: 'POST', data: { emailAddress: emailAddress } })
+      .then(function success(response) {
+        onSuccess(response.data);
+      },
+      function fail(response) {
+        log.error('User.requestPasswordReset: Fail');
+        onFail();
+      }
+    );
+  };
+
   return User;
 }
 
@@ -218,6 +233,18 @@ function Inbox($http) {
       },
       function fail(response) {
         log.error('Inbox.update: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Inbox.delete = function (inboxIDs, onSuccess, onFail) {
+    $http({ url: '/deleteInboxes', method: 'POST', data: { inboxIDs: inboxIDs } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Inbox.delete: Fail');
         onFail();
       }
     );
