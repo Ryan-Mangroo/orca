@@ -3,6 +3,8 @@ function inboxController($scope, $location, Message) {
 
 	$scope.messages = [];
 	$scope.messagesLoading = true;
+	$scope.firstLoad = true;
+	$scope.searched = false;
 	$scope.selectedMessages = [];
 	$scope.listTitle = 'All Feedback'
 
@@ -30,6 +32,12 @@ function inboxController($scope, $location, Message) {
 		$scope.selectAll = !$scope.selectAll; // The opposite action will happen on next click
 	};
 
+	$scope.search = function(searchTerm) {
+		log.info('Searching');
+		$scope.searchTerm = searchTerm;
+		$scope.searched = true;
+		$scope.loadInbox();
+	};
 
 	$scope.loadInbox = function() {
 		$scope.messagesLoading = true;
@@ -53,9 +61,11 @@ function inboxController($scope, $location, Message) {
 	        $scope.anchorValue = result.newAnchorValue;
 	        $scope.anchorID = result.newAnchorID;
 	        $scope.messages = result.messages
+	        $scope.firstLoad = false;
 	      },
 	      function() {
 	      	$scope.messagesLoading = false;
+	      	$scope.firstLoad = false;
 	        log.info('FAIL');
 	      }
 	    );

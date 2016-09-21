@@ -26,6 +26,28 @@
 	</div>
 </div>
 
+<!-- Page Title -->
+<div class="container fadeInOut" style="margin-top:25px;">
+	<div class="row">
+
+		<!-- Inbox title -->
+		<div class="col-md-8">
+			<h2 class="grayText noSpace">
+				<i class="fa fa-inbox mainColor"></i>
+				<span> {{ accountInboxesObject[inboxID].description }}</span>
+			</h2>
+			<span ng-if="accountInboxesObject[inboxID].status == 'inactive'" class="inactiveInboxIndicator">INACTIVE</span>
+		</div>
+
+		<!-- Search input -->
+		<div ng-if="!firstLoad" class="col-md-4">
+			<form ng-submit="search(searchTerm)">
+				<input ng-disabled="messagesLoading" placeholder="Search Inbox" ng-model="searchTerm" type="text" class="form-control"/>
+			</form>
+		</div>
+	</div>
+</div>
+
 <!-- Loading -->
 <div ng-if="messagesLoading" class="container fadeInOut">
 	<div class="row">
@@ -35,22 +57,8 @@
 	</div>
 </div>
 
-<!-- Page Title -->
-<div ng-if="!messagesLoading" class="container fadeInOut">
-	<div class="row">
-		<div class="col-md-6">
-			<h2 class="grayText">
-				<i class="fa fa-inbox mainColor"></i>
-				<span> {{ accountInboxesObject[inboxID].description }}</span>
-			</h2>
-			<span ng-if="accountInboxesObject[inboxID].status == 'inactive'" class="inactiveInboxIndicator">INACTIVE</span>
-		</div>
-	</div>
-</div>
-
-
 <!-- If there are no messages -->
-<div ng-if="!messagesLoading && messages.length == 0" class="container fadeInOut">
+<div ng-if="!messagesLoading && messages.length == 0 && !searched" class="container fadeInOut">
 	<div class="row">
 		<div class="col-md-12 text-center">
 			<h3>No feedback found</h3>
@@ -72,7 +80,7 @@
 </div>
 
 <!-- List -->
-<div ng-if="!messagesLoading && messages.length > 0" class="container fadeInOut">
+<div ng-if="!messagesLoading && messages.length > 0 || searched" class="container fadeInOut">
 
 	<!-- List Header -->
 	<div ng-if="!messagesLoading" class="row listHeader">
@@ -86,7 +94,8 @@
 	<div ng-if="!messagesLoading && messages.length == 0" class="row listRow FadeInOutStagger">
 		<div class="col-md-12 text-center">
 			<h3>No feedback found</h3>
-			<h4>Make sure you're sharing the link for this inbox: <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
+			<h4>Try adjusting your search</h4>
+			<h4>Also, make sure you're sharing the link for this inbox: <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
 		</div>
 	</div>
 

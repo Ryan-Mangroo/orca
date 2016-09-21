@@ -29,7 +29,7 @@ function homeController($scope, $location, $route, Homepage) {
 
 		}
 		// Re-cycle the charts
-		$scope.showGauges();
+		$scope.showHomepageGauges();
 	};
 
 	$scope.addSummaryKeyword = function() {
@@ -86,7 +86,7 @@ function homeController($scope, $location, $route, Homepage) {
 		  },
 		  function() {
 		  	$scope.clearAlerts();
-		  	$scope.showGauges();
+		  	$scope.showHomepageGauges();
 			$scope.toggleAlert('danger', true, 'Unknown error trying to update homepage keywords');
 		  }
 		);
@@ -100,10 +100,6 @@ function homeController($scope, $location, $route, Homepage) {
 
 		  	$scope.homeKeywords = result.keywordData;
 		  	$scope.homepageID = result.homepageID;
-			
-			setTimeout(function(){
-			  	$scope.showGauges();
-		  	},100);
 			$scope.homeLoading = false;
 		  },
 		  function() {
@@ -113,40 +109,54 @@ function homeController($scope, $location, $route, Homepage) {
 		);
 	};
 
-	$scope.showGauges = function() {
-	  	for(var i=0; i<$scope.homeKeywords.length; i++) {
-	  		// Grab variables & prep the chart
-	  		var keywordLink = '<a href="#">' + $scope.homeKeywords[i].title + '</a>';
-	  		var value = $scope.homeKeywords[i].value;
-	  		var elementID = '#keyword_' + i + '_gauge';
-			$(elementID).empty();
+	$scope.loadKeywordChart = function(keyword, keywordIndex) {
+		Homepage.classifyKeyword($scope.inboxID, keyword,
+		  function(result){
+		  	var chartID = '#keyword_' + keywordIndex + '_gauge';
+		  	$scope.showChart(chartID, result);
+		  	log.info('Classification for ' + keyword + ': ' + result);
+		  },
+		  function() {
+		  	$scope.homeLoading = false;
+		  	log.error('Something bad happened getting classification');
+		  }
+		);
 
-	  		// Determine the gauge color
-			var backgroundColor = '';
-			if($scope.allowEditKeywordSummary) {
-				backgroundColor = '#a1a9ac';
-			} else if(value < 33) {
-				backgroundColor = '#d9534f';
-			} else if(value >= 33 && value < 50) {
-				backgroundColor = '#f0ad4e';
-			}else if(value >= 50) {
-				backgroundColor = '#5cb85c';
-			}
 
-			// Show the chart
-			$(elementID).circliful({
-				backgroundColor: '#f3f5f6',
-				foregroundColor: backgroundColor,
-				foregroundBorderWidth: 20,
-				textAdditionalCss: 'display:none;',
-				halfCircle: true,
-				animation: !$scope.allowEditKeywordSummary,
-		        animationStep: 5,
-		        backgroundBorderWidth: 20,
-		        percent: value,
-			});
-	  	}
+	
+
+
 	};
+
+	$scope.showChart = function(chartID, value) {
+  		// Prep the chart
+		$(chartID).empty();
+
+  		// Determine the gauge color
+		var backgroundColor = '';
+		if($scope.allowEditKeywordSummary) {
+			backgroundColor = '#a1a9ac';
+		} else if(value < 33) {
+			backgroundColor = '#d9534f';
+		} else if(value >= 33 && value < 50) {
+			backgroundColor = '#f0ad4e';
+		}else if(value >= 50) {
+			backgroundColor = '#5cb85c';
+		}
+
+		// Show the chart
+		$(chartID).circliful({
+			backgroundColor: '#f3f5f6',
+			foregroundColor: backgroundColor,
+			foregroundBorderWidth: 20,
+			textAdditionalCss: 'display:none;',
+			halfCircle: true,
+			animation: !$scope.allowEditKeywordSummary,
+	        animationStep: 5,
+	        backgroundBorderWidth: 20,
+	        percent: value,
+		});
+	}
 
 	$scope.initHomeController = function() {
 		if(!$scope.ensureAuthenticated) {
@@ -155,18 +165,13 @@ function homeController($scope, $location, $route, Homepage) {
 		}
 
 	    var currentURL = $location.url();
-
 	    if(currentURL.indexOf('home') > 0) {
 	    	var selectedInbox = currentURL.slice(6,currentURL.length);
 	    	if(selectedInbox) {
 	    		$scope.inboxID = selectedInbox
 	    	}
 	    }
-
 	    $scope.loadHomepage();
-
-	    return;
-
 	};
 
 	$scope.initHomeController();

@@ -58,87 +58,83 @@ messageSchema.statics.search = function(options, callback) {
 			if (error) {
 				log.error('|Message.search.count| Unknown -> ' + error, widget);
 				return callback(error, null);
-			}
-
-			// If the count was zero, we can return now since we know there are no matching messages
-			result.total = count;
-			if (result.total == 0) {
-				log.info('|Message.search.count| No messages found', widget);
+			} else if(count == 0)  {
 				return callback(null, result);
-			}
-
-			// Define the sort criteria if given. If not, add a default "_id desc" criteria.
-			var sortCriteria = {}
-			if (options.sortField && options.sortOrder) {
-				sortCriteria[options.sortField] = options.sortOrder;
-				// Add "_id desc" as a second level sort, to handle sorting on non-unique values
-				sortCriteria._id = 'desc';
 			} else {
-				// If no sort was given, default to just the _id.
-				options.sortField = '_id';
-				options.sortOrder = 'desc'; // assign values to the sort options so they can be passed to the anchor criteria
-				sortCriteria[options.sortField] = options.sortOrder;
-			}
-			
+				result.total = count;
 
-			// Begin building the full search query.
+				// Define the sort criteria if given. If not, add a default "_id desc" criteria.
+				var sortCriteria = {}
+				if (options.sortField && options.sortOrder) {
+					sortCriteria[options.sortField] = options.sortOrder;
+					// Add "_id desc" as a second level sort, to handle sorting on non-unique values
+					sortCriteria._id = 'desc';
+				} else {
+					// If no sort was given, default to just the _id.
+					options.sortField = '_id';
+					options.sortOrder = 'desc'; // assign values to the sort options so they can be passed to the anchor criteria
+					sortCriteria[options.sortField] = options.sortOrder;
+				}
+				
 
-			// Base query criteria
-			var baseQuery = {};
-			baseQuery._inbox = options.inboxID;
+				// Begin building the full search query.
+				var searchQuery = {};
+				searchQuery._inbox = options.inboxID;
 
-			// Add the search term, if one was given
-			var searchQuery = {};
-			if (options.searchTerm) {
-				searchQuery['$text'] = { $search: options.searchTerm.toLowerCase() };
-			}
+				// Add the search term, if one was given
+				if (options.searchTerm) {
+					searchQuery['$text'] = { $search: options.searchTerm.toLowerCase() };
+				}
 
-			// Add the additional query criteria, if given
-			if (options.additionalQuery) {
-				for (var property in options.additionalQuery) {
-					if(options.additionalQuery[property] == 'null') {
-						searchQuery[property] = { '$exists' : false };
-					} else {
-						searchQuery[property] = options.additionalQuery[property];
+				// Add the additional query criteria, if given
+				if (options.additionalQuery) {
+					for (var property in options.additionalQuery) {
+						if(options.additionalQuery[property] == 'null') {
+							searchQuery[property] = { '$exists' : false };
+						} else {
+							searchQuery[property] = options.additionalQuery[property];
+						}
 					}
 				}
-			}
 
-			// Add ther anchor query, if anchor criteria was given
-			var anchorQuery = {};
-			if (options.anchorFieldValue && options.anchorID) {
-				anchorQuery = createMessageAnchorQuery(options.sortOrder, options.sortField, options.anchorFieldValue, options.anchorID);
-			}
+				// Add ther anchor query, if anchor criteria was given
+				/*
+				var anchorQuery = {};
+				if (options.anchorFieldValue && options.anchorID) {
+					anchorQuery = createMessageAnchorQuery(options.sortOrder, options.sortField, options.anchorFieldValue, options.anchorID);
+				}
 
-			var fullQuery = { $and: [baseQuery, searchQuery, anchorQuery] };
+				var fullQuery = { $and: [baseQuery, searchQuery, anchorQuery] };
+				*/
 
-			// Lastly, grab the limit
-			var messagesPerPage = options.messagesPerPage;
+				// Lastly, grab the limit
+				var messagesPerPage = options.messagesPerPage;
 
-			this.find(fullQuery)
-				.sort(sortCriteria)
-				.limit(messagesPerPage)
-				.exec( function (error, messages) {
-					if (error) {
-						log.error('|Message.search.find| Unknown -> ' + error, widget);
-						return callback(error, result);
-					}
+				this.find(searchQuery)
+					.sort(sortCriteria)
+					.limit(messagesPerPage)
+					.exec( function (error, messages) {
+						if (error) {
+							log.error('|Message.search.find| Unknown -> ' + error, widget);
+							return callback(error, result);
+						}
 
-					if (!messages || messages.length == 0) { // Should have been handled in count
-						log.info('|Message.search.find| No messages found', widget);
+						if (!messages || messages.length == 0) { // Should have been handled in count
+							log.info('|Message.search.find| No messages found', widget);
+							return callback(null, result);
+						}
+
+						// Now that we have the messages, build the result set
+						result.newAnchorValue = messages[messages.length-1][options.sortField];
+						result.newAnchorID = messages[messages.length-1]._id;
+						result.messages = messages;
+
+						// Log and return the result
+						log.info('|Message.search| Returning [' + messages.length + '] messages out of [' + result.total + ']', widget);
 						return callback(null, result);
 					}
-
-					// Now that we have the messages, build the result set
-					result.newAnchorValue = messages[messages.length-1][options.sortField];
-					result.newAnchorID = messages[messages.length-1]._id;
-					result.messages = messages;
-
-					// Log and return the result
-					log.info('|Message.search| Returning [' + messages.length + '] messages out of [' + result.total + ']', widget);
-					return callback(null, result);
-				}
-			);
+				);
+			}
 		});
 	} catch (error) {
 		log.error('|Message.search| Unknown -> ' + error, widget);

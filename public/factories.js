@@ -110,6 +110,23 @@ function Homepage($http) {
     );
   };
 
+  Homepage.classifyKeyword = function(inboxID, keyword, onSuccess, onFail) {
+    $http({ url: '/classifyKeyword', method: 'GET', params: { inboxID: inboxID, keyword: keyword } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Homepage.classifyKeyword: Fail');
+        onFail();
+      }
+    );
+  };
+
+
+
+
+  
+
   Homepage.updateKeywordSummary = function(keywordList, homepageID, onSuccess, onFail) {
     $http({ url: '/updateKeywordSummary', method: 'POST', data: { keywordList: keywordList, homepageID: homepageID } })
       .then(function success(response) {

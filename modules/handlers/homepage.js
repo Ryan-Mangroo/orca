@@ -1,18 +1,18 @@
 var cfg = require('../../config/config');
-var request = require('request')
 var Homepage = require('../models/homepage');
+var Message = require('../models/message');
 var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
 var log = require('../../utils/logger');
 var widget = 'homepage';
 log.registerWidget(widget);
 
+// Get the homepage for the given Inbox. Set the summary for all keywords to start at 0.
+// The actual classification of the keywords will be done after the page is loaded.
 exports.getHomepage = function(req, res) {
 	try {
 		log.info('|homepage.getHomepage|', widget);
-
 		var inboxID = req.query.inboxID;
-		log.info('Getting homepage: ' + inboxID);
 
 		Homepage.findOne({ _inbox: inboxID })
 			.exec(
@@ -25,42 +25,89 @@ exports.getHomepage = function(req, res) {
 					utility.errorResponseJSON(res, 'Homepage not found');
 				} else {
 
-
-					log.info('Requesting classification');
-
-					var classifyRequestOptions = {
-						url: 'http://127.0.0.1:5000/classify',
-						method: 'GET',
-						qs: { token: '1234', keywords: 'TEST' },
-					};
-
-					request(classifyRequestOptions, function (error, response, predictions) {
-						if (!error && response.statusCode == 200) {
-							predictions = JSON.parse(predictions);
-												
-							var moodValue = 50;
-							moodValue -= predictions['1']/2, 10;
-							moodValue -= predictions['2']/4, 10;
-							moodValue += predictions['4']/4, 10;
-							moodValue += predictions['5']/2, 10;
-
-							var keywordData = [];	
-							for(var i=0; i<homepage.summaryKeywords.length; i++) {
-								var singleKeyword = { title: homepage.summaryKeywords[i], value: moodValue };
-								keywordData.push(singleKeyword);
-							}
-							log.info('Classification Success');
-							return res.send(JSON.stringify({ result: { keywordData: keywordData, homepageID: homepage._id }}));
-
-					  }
-					})
-
+					var keywordData = [];	
+					for(var i=0; i<homepage.summaryKeywords.length; i++) {
+						var singleKeyword = { title: homepage.summaryKeywords[i], value: 30 };
+						keywordData.push(singleKeyword);
+					}
+					return res.send(JSON.stringify({ result: { keywordData: keywordData, homepageID: homepage._id }}));
 				}
 			});
 	} catch (error) {
 		log.error('|homepage.getHomepage| Unknown -> ' + error, widget);
 		utility.errorResponseJSON(res, 'Unknown error getting homepage');
 	}
+};
+
+
+exports.classifyKeyword = function(req, res) {
+	try {
+		log.info('|homepage.classifyKeyword|', widget);
+
+		var inboxID = req.query.inboxID;
+		var keyword = req.query.keyword;
+
+		log.info('    Keyword: ' + keyword, widget);
+		log.info('    Inbox: ' + inboxID, widget);
+
+		var searchOptions = {
+			inboxID: inboxID,
+			sortField: 'created_at',
+			sortOrder: 'desc',
+			anchorFieldValue: null,
+			anchorID: null,
+			searchTerm: keyword,
+			messagesPerPage: 10000,
+			additionalQuery: null
+		};
+		Message.search(searchOptions, function(error, result){
+			if (error) {
+				log.error('|homepage.getHomepage| Error getting classification -> ' + keyword, widget);
+				utility.errorResponseJSON(res, 'Error getting classification');
+			} else {
+				log.info('Messages found: ' + result.total);
+
+				var moodValue = 50;
+				var moodCounts = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, };
+				var moodPercentages = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, };
+
+				if(result.total == 0) {
+					return res.send(JSON.stringify({ result: moodValue }));
+				} else {
+					
+					// Increment the counts of each of the moods in the result set
+					for(var i=0; i<result.messages.length; i++) {
+						moodCounts[result.messages[i].mood] = moodCounts[result.messages[i].mood] + 1;
+					}
+
+					// Now iterate through the counts to determine the percentage for each mood
+					for(var count in moodCounts) {
+						var value = moodCounts[count];
+						var percentage = (value * 100) / result.total;
+						moodPercentages[count] = percentage;
+					}
+
+					moodValue -= moodPercentages['1']/2, 10;
+					moodValue -= moodPercentages['2']/4, 10;
+					moodValue += moodPercentages['4']/4, 10;
+					moodValue += moodPercentages['5']/2, 10;
+
+					return res.send(JSON.stringify({ result: moodValue }));
+				}
+			}
+		});
+
+	} catch (error) {
+		log.error('|homepage.classifyKeyword| Unknown -> ' + error, widget);
+		utility.errorResponseJSON(res, 'Unknown error getting homepage');
+	}
+};
+
+
+// Get the messages that match the given keyword within the given inbox.
+// We don't care about pagination and need the entire result set.
+function getKeywordSummary(inboxID, keyword, callback) {
+
 };
 
 

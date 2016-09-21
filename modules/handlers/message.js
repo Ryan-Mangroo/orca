@@ -101,7 +101,7 @@ exports.search = function(req, res) {
 	    var searchTerm = req.query.searchTerm;
 	    var additionalQuery = req.query.queryCriteria;
 
-		var messagesPerPage = 10;
+		var messagesPerPage = 10000;
 
 		log.info('|message.search| inboxID -> ' + inboxID, widget);
 		log.info('|message.search| sortField -> ' + sortField, widget);

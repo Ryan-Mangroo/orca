@@ -201,6 +201,7 @@ function initializeApp() {
 		// Prediction & Reports
 		app.route('/getHomepage').get(validateRequest(), homepage.getHomepage);
 		app.route('/updateKeywordSummary').post(validateRequest(), homepage.updateKeywordSummary);
+		app.route('/classifyKeyword').get(validateRequest(), homepage.classifyKeyword);
 
 		// Account & User related (while authenticated)
 		app.route('/getUserProfile').get(validateRequest(), user.getUserProfile);
