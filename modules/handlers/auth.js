@@ -4,7 +4,7 @@ var User = require('../models/user');
 var Account = require('../models/account');
 var Inbox = require('../models/inbox');
 var Homepage = require('../models/homepage');
-var NotificationTemplate = require('../models/notification_template');
+var NotificationTemplate = require('../models/notificationtemplate');
 
 var mailer = require('../../utils/mailer');
 
