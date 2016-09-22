@@ -69,6 +69,18 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
   		$scope.currentUser = personalInfo;
   	};
 
+  	$scope.computeRequiredInputStyle = function(formField) {
+  		var inputClass = '';
+  		if(formField.$valid && !formField.$dirty) {
+  			inputClass = 'inputRequiredValid';
+  		} else if(formField.$valid && formField.$dirty) {
+  			inputClass = 'inputRequiredValidDirty';
+  		} else if(formField.$invalid) {
+  			inputClass = 'inputRequiredInvalid';
+  		}
+  		return inputClass;
+  	};
+
 
   	$scope.loadAllInboxInfo = function() {
   		log.info('Loading inboxes')
