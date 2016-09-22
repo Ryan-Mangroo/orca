@@ -67,13 +67,42 @@ a[target="_blank"]:after {
 
 
 /*######################### INPUTS #########################*/
+textarea {
+	resize: vertical ;
+}
+
 .form-control {
 	font-size: 20px;
-	padding: 15px 10px 15px 10px;
+	padding: 25px 10px 25px 10px;
 	border-radius: 0px;
 	box-shadow: none;
 	border-color: #d2d5da;
 }
+
+.addonIcon {
+  color: #56B8DF;
+  font-size: 20px;
+  top:5px;
+}
+
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .fa {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .fa  { left:  10px;}
+.right-addon .fa { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  60px; }
+.right-addon input { padding-right: 30px; }
 /*######################### INPUTS #########################*/
 
 
@@ -87,7 +116,7 @@ a[target="_blank"]:after {
 	border-radius: 0px;
 	padding: 10px;
 	border: none;
-	border-left: 5px solid;
+	border-left: 10px solid;
 }
 
 .btn-sm {
@@ -122,13 +151,24 @@ a[target="_blank"]:after {
 .btn-default {
 	color: #6f8993;
 	background-color: #e4e9eb;
-	border-color: #d6dde0;
+	border-color: #c7d1d5;
+}
+
+.btn-default:hover {
+	color: #6f8993;
+	background-color: #c7d1d5;
+	border-color: #c7d1d5;
 }
 
 .btn-primary {
 	color: #fff;
+	background-color: #56B8DF;
+	border-color: #2596c3;
+}
+
+.btn-primary:hover {
+	border-color: #2596c3;
 	background-color: #2596c3;
-	border-color: #1d7598;
 }
 
 .btn-success {

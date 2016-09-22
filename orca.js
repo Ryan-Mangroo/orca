@@ -200,7 +200,8 @@ function initializeApp() {
 
 		// Prediction & Reports
 		app.route('/getHomepage').get(validateRequest(), homepage.getHomepage);
-		app.route('/updateKeywordSummary').post(validateRequest(), homepage.updateKeywordSummary);
+		app.route('/saveHomepageKeyword').post(validateRequest(), homepage.saveKeyword);
+		app.route('/removeHomepageKeyword').post(validateRequest(), homepage.removeKeyword);
 		app.route('/classifyKeyword').get(validateRequest(), homepage.classifyKeyword);
 
 		// Account & User related (while authenticated)

@@ -122,18 +122,25 @@ function Homepage($http) {
     );
   };
 
-
-
-
-  
-
-  Homepage.updateKeywordSummary = function(keywordList, homepageID, onSuccess, onFail) {
-    $http({ url: '/updateKeywordSummary', method: 'POST', data: { keywordList: keywordList, homepageID: homepageID } })
+  Homepage.saveKeyword = function(keyword, homepageID, onSuccess, onFail) {
+    $http({ url: '/saveHomepageKeyword', method: 'POST', data: { keyword: keyword, homepageID: homepageID } })
       .then(function success(response) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Homepage.updateKeywordSummary: Fail');
+        log.error('Homepage.saveKeyword: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Homepage.removeKeyword = function(keywordIndex, homepageID, onSuccess, onFail) {
+    $http({ url: '/removeHomepageKeyword', method: 'POST', data: { keywordIndex: keywordIndex, homepageID: homepageID } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Homepage.removeKeyword: Fail');
         onFail();
       }
     );

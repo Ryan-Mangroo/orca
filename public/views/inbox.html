@@ -31,7 +31,7 @@
 	<div class="row">
 
 		<!-- Inbox title -->
-		<div class="col-md-8">
+		<div class="col-md-8" style="padding-left:0px;">
 			<h2 class="grayText noSpace">
 				<i class="fa fa-inbox mainColor"></i>
 				<span> {{ accountInboxesObject[inboxID].description }}</span>
@@ -40,9 +40,12 @@
 		</div>
 
 		<!-- Search input -->
-		<div ng-if="!firstLoad" class="col-md-4">
+		<div ng-if="!firstLoad" class="col-md-4" style="padding-right:0px;">
 			<form ng-submit="search(searchTerm)">
-				<input ng-disabled="messagesLoading" placeholder="Search Inbox" ng-model="searchTerm" type="text" class="form-control"/>
+				<div class="inner-addon left-addon">
+					<i class="fa fa-search addonIcon"></i>
+					<input ng-disabled="messagesLoading" placeholder="Search Inbox" ng-model="searchTerm" type="text" class="form-control"/>
+				</div>
 			</form>
 		</div>
 	</div>

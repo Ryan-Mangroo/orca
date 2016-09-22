@@ -2,102 +2,47 @@ function homeController($scope, $location, $route, Homepage) {
 	log.info('|homeController|');
 	$scope.homeLoading = true;
 
-	// Start by showing the primary inbox
+	// Assume primary inbox by default (will be used if no inbox is passed in URL)
 	$scope.inboxID = $scope.currentUser.account._primary_inbox._id
-
 	$scope.homepageID = null;
 	$scope.homeKeywords = [];
-	$scope.homeKeywordsOriginal = [];
-	$scope.editableHomeKeywords = [];
+	$scope.newKeywordForm = {};
 
-	$scope.allowEditKeywordSummary = false;
+	$scope.saveNewKeyword = function(keyword) {
+		$scope.homeKeywords.push({ title: keyword, value: 0 });
+		log.info('Saving keyword');
 
-	$scope.toggleEditKeywordSummary = function() {
-		$scope.allowEditKeywordSummary = !$scope.allowEditKeywordSummary;
-		if($scope.allowEditKeywordSummary) {
-			// Copy the homepage keywords into a new array
-			for(var i=0; i<$scope.homeKeywords.length; i++) {
-				var keyword = { title: $scope.homeKeywords[i].title, value: $scope.homeKeywords[i].value }
-				$scope.editableHomeKeywords.push(keyword);
-				$scope.homeKeywordsOriginal.push(keyword);
+		Homepage.saveKeyword(keyword, $scope.homepageID,
+			function(result){
+				$("#addKeywordModal").modal('hide');
+				$scope.newKeywordForm = {};
+		  		log.info('Saving keyword SUCCESS');
+			},
+			function() {
+				$("#tokenResetModal").modal('hide');
+				log.info('Saving keyword FAIL');
 			}
-		} else {
-			$scope.homeKeywords = $scope.homeKeywordsOriginal;
-			$scope.homeKeywordsOriginal = [];
-			$scope.editableHomeKeywords = [];
-			$scope.allowEditKeywordSummary = false;
-
-		}
-		// Re-cycle the charts
-		$scope.showHomepageGauges();
-	};
-
-	$scope.addSummaryKeyword = function() {
-		var newKeyword = { title: 'New Word', value: 0 };
-		$scope.editableHomeKeywords.push(newKeyword);
-		$scope.homeKeywords.push(newKeyword);
-
-		var keywordIndex = $scope.homeKeywords.length - 1;
-  		var elementID = '#keyword_' + keywordIndex + '_gauge';
-		$(elementID).empty();
-
-		// Show the chart
-		setTimeout(function(){
-		  	$(elementID).circliful({
-				backgroundColor: '#f3f5f6',
-				foregroundColor: '#f3f5f6',
-				foregroundBorderWidth: 20,
-				textAdditionalCss: 'display:none;',
-				halfCircle: true,
-				animation: !$scope.allowEditKeywordSummary,
-		        animationStep: 5,
-		        backgroundBorderWidth: 20,
-		        percent: 0,
-			});
-	  	},100);
-	}
-
-	$scope.getStarted = function() {
-		$scope.toggleEditKeywordSummary();
-		$scope.addSummaryKeyword();
-	}
-
-	$scope.removeSummaryKeyword = function(keywordIndex) {
-		$scope.editableHomeKeywords.splice(keywordIndex, 1);
-		$scope.homeKeywords.splice(keywordIndex, 1);
-	};
-
-	$scope.saveKeywordSummary = function(keywords) {
-		var keywordList = [];
-		for(var i=0; i<keywords.length; i++) {
-			keywordList.push(keywords[i].title);
-		}
-		Homepage.updateKeywordSummary(keywordList, $scope.homepageID,
-		  function(result){
-		  	if(result.error) {
-		  		$scope.homeLoading = false;
-				$scope.toggleAlert('danger', true, result.message);
-		  	} else {
-		  		// If save was successful, reload the page
-		  		$scope.allowEditKeywordSummary = false;
-		  		$scope.homeLoading = true;
-				$scope.loadHomepage();
-		  	}
-		  },
-		  function() {
-		  	$scope.clearAlerts();
-		  	$scope.showHomepageGauges();
-			$scope.toggleAlert('danger', true, 'Unknown error trying to update homepage keywords');
-		  }
 		);
-
-	}
+	};
+	$scope.removeKeyword = function(keywordIndex) {
+		log.info('Removing keyword: ' + keywordIndex);
+		$('#keyword_' + keywordIndex + '_gauge_overlay').show();
+		Homepage.removeKeyword(keywordIndex, $scope.homepageID,
+			function(result){
+		  		$('#keyword_' + keywordIndex + '_gauge_overlay').hide();
+		  		$scope.homeKeywords.splice(keywordIndex, 1);
+			},
+			function() {
+				log.info('Removing keyword FAIL');
+			}
+		);
+		
+	};
 
 	$scope.loadHomepage = function() {
 		$scope.homeLoading = true;
 		Homepage.getHomepage($scope.inboxID,
 		  function(result){
-
 		  	$scope.homeKeywords = result.keywordData;
 		  	$scope.homepageID = result.homepageID;
 			$scope.homeLoading = false;
@@ -121,11 +66,6 @@ function homeController($scope, $location, $route, Homepage) {
 		  	log.error('Something bad happened getting classification');
 		  }
 		);
-
-
-	
-
-
 	};
 
 	$scope.showChart = function(chartID, value) {
@@ -146,7 +86,7 @@ function homeController($scope, $location, $route, Homepage) {
 
 		// Show the chart
 		$(chartID).circliful({
-			backgroundColor: '#f3f5f6',
+			backgroundColor: '#e4e9eb',
 			foregroundColor: backgroundColor,
 			foregroundBorderWidth: 20,
 			textAdditionalCss: 'display:none;',
@@ -175,5 +115,4 @@ function homeController($scope, $location, $route, Homepage) {
 	};
 
 	$scope.initHomeController();
-
 }

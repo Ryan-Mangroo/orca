@@ -27,7 +27,7 @@ exports.getHomepage = function(req, res) {
 
 					var keywordData = [];	
 					for(var i=0; i<homepage.summaryKeywords.length; i++) {
-						var singleKeyword = { title: homepage.summaryKeywords[i], value: 30 };
+						var singleKeyword = { title: homepage.summaryKeywords[i], value: 0 };
 						keywordData.push(singleKeyword);
 					}
 					return res.send(JSON.stringify({ result: { keywordData: keywordData, homepageID: homepage._id }}));
@@ -43,12 +43,8 @@ exports.getHomepage = function(req, res) {
 exports.classifyKeyword = function(req, res) {
 	try {
 		log.info('|homepage.classifyKeyword|', widget);
-
 		var inboxID = req.query.inboxID;
 		var keyword = req.query.keyword;
-
-		log.info('    Keyword: ' + keyword, widget);
-		log.info('    Inbox: ' + inboxID, widget);
 
 		var searchOptions = {
 			inboxID: inboxID,
@@ -104,35 +100,29 @@ exports.classifyKeyword = function(req, res) {
 };
 
 
-// Get the messages that match the given keyword within the given inbox.
-// We don't care about pagination and need the entire result set.
-function getKeywordSummary(inboxID, keyword, callback) {
-
-};
-
-
-exports.updateKeywordSummary = function(req, res) {
+exports.saveKeyword = function(req, res) {
 	try {
-		log.info('|homepage.updateKeywordSummary|', widget);
+		log.info('|homepage.saveKeyword|', widget);
 		// TODO: Scrub incoming 
 		var homepageID = req.body.homepageID;
-		log.info('|homepage.updateKeywordSummary| Updating homepage  -> ' + homepageID, widget);
+		var keyword = req.body.keyword;
+		log.info('|homepage.saveKeyword| Updating keyword on homepage  -> ' + homepageID, widget);
 
 		Homepage.findOne({ _id: homepageID })
     		.exec(
     		function(error, homepage) {
 	    		if (error) {
-					log.error('|homepage.updateKeywordSummary.findById| Unknown  -> ' + error, widget);
-					utility.errorResponseJSON(res, 'Error occurred updating homepage');
+					log.error('|homepage.saveKeyword.findById| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred saving keyword');
 				} else if(!homepage) {
-					log.error('|homepage.updateKeywordSummary.findById| Homepage not found -> ' + error, widget);
+					log.error('|homepage.saveKeyword.findById| Homepage not found -> ' + error, widget);
 					utility.errorResponseJSON(res, 'Homepage not found');
 				} else {			
-					homepage.summaryKeywords = req.body.keywordList;
+					homepage.summaryKeywords.push(keyword);
 			    	homepage.save(function(error){
 						if (error) {
-							log.error('|homepage.updateKeywordSummary.save| Unknown  -> ' + error, widget);
-							utility.errorResponseJSON(res, 'Error occurred updating');
+							log.error('|homepage.saveKeyword.save| Unknown  -> ' + error, widget);
+							utility.errorResponseJSON(res, 'Error occurred saving keyword');
 						} else {
 							res.send(JSON.stringify({ result: true }));
 						}
@@ -140,7 +130,42 @@ exports.updateKeywordSummary = function(req, res) {
 				}
 	    	});
 	} catch (error) {
-		log.error('|homepage.updateKeywordSummary| Unknown -> ' + error, widget);
-	    utility.errorResponseJSON(res, 'Error while updating homepage');
+		log.error('|homepage.saveKeyword| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error occurred saving keyword');
+	}
+};
+
+exports.removeKeyword = function(req, res) {
+	try {
+		log.info('|homepage.removeKeyword|', widget);
+		// TODO: Scrub incoming 
+		var homepageID = req.body.homepageID;
+		var keywordIndex = req.body.keywordIndex;
+		log.info('|homepage.removeKeyword| Removing keyword on homepage  -> ' + homepageID, widget);
+
+		Homepage.findOne({ _id: homepageID })
+    		.exec(
+    		function(error, homepage) {
+	    		if (error) {
+					log.error('|homepage.removeKeyword.findById| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred removing keyword');
+				} else if(!homepage) {
+					log.error('|homepage.removeKeyword.findById| Homepage not found -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Homepage not found');
+				} else {
+					homepage.summaryKeywords.splice(keywordIndex, 1);
+			    	homepage.save(function(error){
+						if (error) {
+							log.error('|homepage.removeKeyword.save| Unknown  -> ' + error, widget);
+							utility.errorResponseJSON(res, 'Error occurred removing keyword');
+						} else {
+							res.send(JSON.stringify({ result: true }));
+						}
+			    	});
+				}
+	    	});
+	} catch (error) {
+		log.error('|homepage.removeKeyword| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error occurred removing keyword');
 	}
 };

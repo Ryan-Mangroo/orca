@@ -27,6 +27,11 @@
 	color: #f3f5f6;
 }
 
+.moodIcon {
+	height: 30px;
+	width: 30px;
+}
+
 /*######################### GLOBAL #########################*/
 
 
@@ -97,60 +102,60 @@
 /*######################### USER MENU #########################*/
 
 
-/*######################### MOOD SCALE #########################*/
-.moodScaleContainer {
-	margin-left: auto;
-	margin-right: auto;
-	width: 227px;
-}
-.moodScale {
-	position: relative;
-	background-color: #d2d5da;
-	width: 202px;
-	left: 15px;
-}
-.moodScaleSegment {
-	position: relative;
-	float: left;
-	height: 20px;
-	width: 2px;
-}
-.moodScaleMarker {
-	border-radius: 5px;
-	border: 2px solid #00274E;
-	background-color: #00274E;
-	position: absolute;
-	top: -4px;
-	left: -6px;
-	width: 8px; 
-	height: 28px; 
-	opacity: 0;
-}
-.moodIcon {
-
-	height: 30px;
-	width: 30px;
-}
-/*######################### MOOD SCALE #########################*/
-
-
 /*######################### HOMEPAGE #########################*/
-
-.homeKeywordValueBar {
-	height: 30px;
-	background-color: #EEEFF1;
-	box-shadow: none;
+.removeKeywordOverlay {
+	display: none;
+	font-size: 30px;
+	text-align: center;
+	padding-top: 50px;
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	bottom: 0px;
+	color: #fff;
+	background-color: #e4e9eb;
+	opacity: .75
 }
 
-.homeMoodIconContainer {
-    display: -webkit-flex; /* Safari */
-    -webkit-justify-content: space-around; /* Safari 6.1+ */
-    display: flex;
-    justify-content: space-around;
+.keywordWidget {
+	margin-bottom: 25px;
+	position: relative;
+	background-color: #fbfcfc;
+	border: 5px solid #f3f5f6;
 }
 
-.removeTopicIcon {
-	color: #d16d5f;
+.keywordGauge {
+	height: 135px;
+}
+
+.keywordWidget .removeKeywordIcon {
+	display: none;
+	font-size: 25px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	color: #d9534f;
+}
+
+.keywordWidget:hover .removeKeywordIcon {
+	display: block;
+	opacity: 1;
+	font-size: 25px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	color: #e4e9eb;
+}
+
+.keywordWidget:hover .removeKeywordIcon:hover {
+	cursor: pointer;
+	display: block;
+	opacity: 1;
+	font-size: 25px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	color: #d9534f;
 }
 
 /*######################### HOMEPAGE #########################*/

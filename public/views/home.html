@@ -6,7 +6,7 @@
 		<!-- If there is more than 1 inbox, allow switching between them -->
 		<div ng-if="!homeLoading && accountInboxes.length > 1" class="col-md-4" style="margin-right:0px;padding-right:0px;">
 			<div class="dropdown pull-right">
-				<h4 data-toggle="dropdown" class="inboxSwitcherControl">See feedback from another inbox <i class="fa fa-caret-down"></i></h4>
+				<h4 data-toggle="dropdown" class="inboxSwitcherControl">See dashboard for another Inbox <i class="fa fa-caret-down"></i></h4>
 				<ul class="dropdown-menu inboxSwitcher">
 					<li ng-repeat="inbox in accountInboxes" ng-if="inbox._id != inboxID"><a ng-href="#/home/{{inbox._id}}">{{ inbox.description }}</a></li>
 				</ul>
@@ -15,7 +15,7 @@
 
 		<!-- Otherwise, encourage creating additional inboxes -->
 		<div ng-if="accountInboxes.length == 1"  class="col-md-4 text-right">
-			<h4><a href="#/account">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
+			<h4><a href="#/account/inbox/new">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
 		</div>
 
 	</div>
@@ -34,8 +34,7 @@
 <div class="container fadeInOut">
 	<div class="row">
 		<div class="col-md-6">
-			<h2 class="grayText"> {{ accountInboxesObject[inboxID].description }}</h2>
-			<a ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h4> See feedback <span class="fa fa-arrow-right"></span></h4></a>
+			<h2 class="grayText"> {{ accountInboxesObject[inboxID].description }} Dashboard</h2>
 		</div>
 	</div>
 </div>
@@ -44,66 +43,91 @@
 <div class="container">
 
 	<!-- If nothing is set up -->
-	<div ng-if="!homeLoading && homeKeywords.length == 0 && !allowEditKeywordSummary" class="row fadeInOut">
+	<div ng-if="!homeLoading && homeKeywords.length == 0" class="row fadeInOut">
 		<div class="col-md-12 text-center" style="padding: 10px 0px 10px 0px;">
-			<h3>This dashboard isn't set up yet.</h3>
+			<h3>This dashboard has nothing to show</h3>
 			<h3>Let's add some key phrases or ideas that you want to track</h3>
-			<button type="button" ng-click="getStarted()" class="btn btn-lg btn-primary"> Get Started</button>
+			<button type="button" data-toggle="modal" data-target="#addKeywordModal" class="btn btn-lg btn-primary"> Get Started</button>
 
 		</div>
 	</div>
 
-	<!-- Create a row for each homepage keyword -->
-	<form ng-if="!homeLoading" ng-model="editableHomeKeywords" class="fadeInOut">
-		<div class="row">
-			<div ng-repeat="keyword in homeKeywords track by $index" class="col-md-3 fadeInOutStagger">
-				<div ng-attr-id="keyword_{{$index}}_gauge" ng-init="loadKeywordChart(keyword.title, $index)"></div>
-				<button type="button" ng-if="allowEditKeywordSummary" style="position:relative;top:-50px;" ng-click="removeSummaryKeyword($index)" class="btn btn-default btn-block fadeInOut"><i class="removeTopicIcon fa fa-remove"></i> Remove topic</button>
-				<h4 ng-if="!allowEditKeywordSummary" style="position:relative;top:-100px;" class="text-center">{{ keyword.title }}</h4>
-				<input ng-if="allowEditKeywordSummary" style="position:relative;top:-140px;" type="text" ng-model="editableHomeKeywords[$index].title" class="fadeInOut form-control"/>
+	
+	<div class="row">
+		<!-- Create a row for each homepage keyword -->
+		<div ng-repeat="keyword in homeKeywords track by $index" class="col-md-3 fadeInOut">
+			<div class="keywordWidget">
+				<div class="removeKeywordOverlay" ng-attr-id="keyword_{{$index}}_gauge_overlay"></div>
+				<span title="Remove Keyword" ng-click="removeKeyword($index)" class="fa fa-remove removeKeywordIcon"></span>
+				<div class="keywordGauge" ng-attr-id="keyword_{{$index}}_gauge" ng-init="loadKeywordChart(keyword.title, $index)"></div>
+				<h4 class="text-center">{{ keyword.title }}</h4>
 			</div>
 		</div>
-	</form>
-
-	<div ng-if="homeKeywords.length == 0 && allowEditKeywordSummary" class="row fadeInOut text-center">
-		<div class="col-md-12" style="padding: 10px 0px 10px 0px;">
-			<h4>Oh no! You've removed all keywords! What are you going to look at now?</h4>
-		</div>
 	</div>
 
-	<!-- Control buttons for editing -->
-	<div ng-if="allowEditKeywordSummary" class="row fadeInOut">
-		<div class="col-md-2">
-			<button type="button" ng-click="addSummaryKeyword()" class="btn btn-primary btn-block"><i class="fa fa-plus"></i> Add Keyword</button>
+	<!-- Feedback Link -->
+	<div ng-if="!homeLoading && homeKeywords.length > 0" class="row fadeInOut">
+		<div class="col-md-3">
+			<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addKeywordModal"><i class="fa fa-plus"></i> Add Keyword</button>
 		</div>
-
-		<div class="col-md-6"></div><!-- Spacer -->
-
-		<div class="col-md-2">
-			<button type="button" ng-click="toggleEditKeywordSummary()" class="btn btn-primary btn-block">Cancel</button>
+		<div class="col-md-3">
+			<a ng-href="#/account/inbox/edit/{{accountInboxesObject[inboxID]._id}}" class="btn btn-default btn-block"><i class="fa fa-cog"></i> Configure Inbox</a>
 		</div>
+		<div class="col-md-4"></div><!-- Spacer -->
 		<div class="col-md-2">
-			<button type="button" ng-click="saveKeywordSummary(editableHomeKeywords)" class="btn btn-success btn-block">Save Changes</button>
-		</div>
-	</div>
-
-	<!-- Edit button -->
-	<div ng-if="!homeLoading && homeKeywords.length > 0 && !allowEditKeywordSummary" class="row fadeInOut">
-		<div class="col-md-10"></div><!-- Spacer -->
-		<div class="col-md-2">
-			<button type="button" ng-click="toggleEditKeywordSummary()" class="btn btn-default btn-block"><i class="fa fa-cog"></i> Configure</button>
+			<a ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h4> See feedback <span class="fa fa-arrow-right"></span></h4></a>
 		</div>
 	</div>
 </div>
 
 <!-- Adspace -->
-<div ng-if="!homeLoading && homeKeywords.length > 0 && !allowEditKeywordSummary" class="container fadeInOut">
+<div ng-if="!homeLoading && homeKeywords.length > 0" class="container fadeInOut">
 	<div class="row" style="margin-top:25px;">
 		<div class="col-md-12">
 			<div class="alert alert-info text-center">
 			  <i class="fa fa-info-circle"></i>
 			  <span>Have you <a ng-href="{{baseURL}}/inbox/#/{{currentUser.account._primary_inbox.number}}?t={{currentUser.account._primary_inbox.token}}">shared this feedback form</a> with your employees?</span>
 			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Add Keyword modal -->
+<div id="addKeywordModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<form name="newKeywordInput" id="newKeywordInput" ng-model="newKeywordForm">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="text-center">New Dashboard Topic</h3>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-2"></div><!-- Spacer -->
+						<div class="col-md-8">
+							<input tpye="text" tabindex="1" name="newKeyword" id="newKeyword" placeholder="Keyword or phrase" ng-model="newKeywordForm.keyword" class="form-control" required/>
+						</div>
+						<div class="col-md-2"></div><!-- Spacer -->
+					</div>
+				</div>
+
+				<!-- Modal Footer -->
+				<div class="modal-footer">
+					<div class="row">
+						<div class="col-md-2"></div><!-- Spacer -->
+						<div class="col-md-4">
+							<button type="button" tabindex="2" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+						</div>
+						<div class="col-md-4">
+							<button ng-disabled="newKeywordInput.$invalid" tabindex="3" type="submit" class="btn btn-success btn-block" ng-click="saveNewKeyword(newKeywordForm.keyword)">Save</button>
+						</div>
+						<div class="col-md-2"></div><!-- Spacer -->
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

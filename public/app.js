@@ -39,6 +39,6 @@ App.config(function($routeProvider) {
 	$routeProvider.when('/account/inbox/edit/:inboxID', { templateUrl : 'views/editinbox.html', controller: editInboxController});
 	$routeProvider.when('/account/inbox/new', { templateUrl : 'views/newinbox.html', controller: newInboxController});
 
-	$routeProvider.when('/upgrade', { templateUrl : 'views/upgrade.html', controller: supportController});
 	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});
+	$routeProvider.when('/support/submitted', { templateUrl : 'views/supportsubmitted.html', controller: supportController});
 });
