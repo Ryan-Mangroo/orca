@@ -16,6 +16,7 @@ var messageSchema = new Schema({
 	mood: { type: Number },
 	content: { type: String },
 	comments: [commentSchema],
+	_account: { type: Schema.Types.ObjectId, ref: 'Account' },
 	_inbox: { type: Schema.Types.ObjectId, ref: 'Inbox' }
 }, cfg.mongoose.options);
 
@@ -98,19 +99,17 @@ messageSchema.statics.search = function(options, callback) {
 				}
 
 				// Add ther anchor query, if anchor criteria was given
-				/*
 				var anchorQuery = {};
 				if (options.anchorFieldValue && options.anchorID) {
 					anchorQuery = createMessageAnchorQuery(options.sortOrder, options.sortField, options.anchorFieldValue, options.anchorID);
 				}
 
-				var fullQuery = { $and: [baseQuery, searchQuery, anchorQuery] };
-				*/
+				var fullQuery = { $and: [searchQuery, anchorQuery] };
 
 				// Lastly, grab the limit
 				var messagesPerPage = options.messagesPerPage;
 
-				this.find(searchQuery)
+				Message.find(fullQuery)
 					.sort(sortCriteria)
 					.limit(messagesPerPage)
 					.exec( function (error, messages) {

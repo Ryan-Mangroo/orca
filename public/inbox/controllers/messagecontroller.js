@@ -43,7 +43,8 @@ function messageController($scope, $location, $routeParams, Message, Inbox) {
 
 	$scope.createMessage = function(messageContent) {
 		var newMessage = {
-			_inbox: $scope.inboxInfo._id,
+			inbox: $scope.inboxInfo._id,
+			account: $scope.inboxInfo._account,
 			mood: $scope.selectableMoods[$scope.selectedMood],
 			content: messageContent
 		};

@@ -10,7 +10,8 @@ log.registerWidget(widget);
 
 exports.create = function(req, res) {
 	try {
-		var inbox = req.body._inbox;
+		var inbox = req.body.inbox;
+		var account = req.body.account;
 		var mood = req.body.mood;
 		var content = req.body.content;
 
@@ -30,6 +31,7 @@ exports.create = function(req, res) {
 
 		var newMessage = new Message();
 		newMessage._inbox = inbox;
+		newMessage._account = account;
 		newMessage.mood = mood;
 		newMessage.content = content;
 		newMessage.save(function(error, message) {
@@ -53,6 +55,7 @@ exports.getOne = function(req, res) {
 	try {
 		log.info('|message.getOne|', widget);
 		var messageID = req.query.messageID;
+		var accountID = req.session.userprofile.account._id;
 
 		var error = null;
 		if (validator.checkNull(messageID)) {
@@ -63,13 +66,21 @@ exports.getOne = function(req, res) {
 			log.error('|message.getOne| ' + error, widget);
 			return utility.errorResponseJSON(res, 'Error occurred getting message');
 		}
+
 		log.info('|message.getOne| Getting message -> ' + messageID);
-		Message.findById(messageID)
+		log.info('|message.getOne| Account -> ' + accountID);
+
+		var query = {
+			_id: messageID,
+			_account: accountID
+		};
+
+		Message.findOne(query)
 			.populate('comments._created_by', '-password')
 			.exec(
 			function (error, message) {
 				if (error) {
-					log.error('|message.getOne.findById| Unknown  -> ' + error, widget);
+					log.error('|message.getOne.findOne| Unknown  -> ' + error, widget);
 					utility.errorResponseJSON(res, 'Error occurred getting message');
 				} else if(!message) {
 					log.info('|message.getOne| Message not found -> ' + messageID);
@@ -101,7 +112,7 @@ exports.search = function(req, res) {
 	    var searchTerm = req.query.searchTerm;
 	    var additionalQuery = req.query.queryCriteria;
 
-		var messagesPerPage = 10000;
+		var messagesPerPage = 5;
 
 		log.info('|message.search| inboxID -> ' + inboxID, widget);
 		log.info('|message.search| sortField -> ' + sortField, widget);

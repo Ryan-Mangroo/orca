@@ -189,7 +189,7 @@ exports.getPublicInfo = function(req, res) {
 
 		log.info('|inbox.getPublicInfo| Getting inbox info -> ' + inboxNumber + ', token -> ' + token, widget);
 
-		Inbox.findOne({ number: inboxNumber, token: token }, '-_account')
+		Inbox.findOne({ number: inboxNumber, token: token })
 			.exec(
 			function (error, inboxInfo) {
 				if (error) {

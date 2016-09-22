@@ -18,14 +18,14 @@ function messageController($scope, $location, Message) {
 		);
 	};
 
-	$scope.deleteSingleMessage = function(messageID) {
+	$scope.deleteSingleMessage = function(messageID, inboxID) {
 	    Message.delete([messageID],
 	      function(){
 	        // Success
 	        log.info('Delete success');
 	        $scope.clearAlerts();
 			$scope.toggleAlert('success', true, 'Message deleted');
-	        $scope.changeView('messages');
+	        $scope.changeView('inbox/' + inboxID);
 	      },
 	      function() {
 	        // Fail
