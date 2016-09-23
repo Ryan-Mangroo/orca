@@ -300,7 +300,7 @@ exports.resetPassword = function(req, res) {
 				return utility.errorResponseJSON(res, 'Error resetting password');
 			}
 
-			if (!user.emailAddress) { 
+			if (!user.email) { 
 				log.error('|auth.resetPassword.resetPassword| User not found -> ' + token, widget);
 				return utility.errorResponseJSON(res, 'Error resetting password');
 			}
@@ -310,7 +310,7 @@ exports.resetPassword = function(req, res) {
 					log.error('|auth.resetPassword.NotificationTemplate| Unknown -> ' + error, widget);
 					return utility.errorResponseJSON(res, 'Error resetting password');
 				} else {
-					mailer.sendMail(notificationTemplate, {to: user.emailAddress}, user._id);
+					mailer.sendMail(notificationTemplate, { to: user.email }, user._id);
 				}
 			});
 
