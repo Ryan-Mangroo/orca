@@ -91,6 +91,18 @@ function User($http) {
     );
   };
 
+  User.resetPassword = function(password, token, onSuccess, onFail) {
+    $http({ url: '/resetPassword', method: 'POST', data: { password: password, token: token } })
+      .then(function success(response) {
+        onSuccess(response.data);
+      },
+      function fail(response) {
+        log.error('User.resetPassword: Fail');
+        onFail();
+      }
+    );
+  };
+
   return User;
 }
 

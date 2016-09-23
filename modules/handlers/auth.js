@@ -5,9 +5,7 @@ var Account = require('../models/account');
 var Inbox = require('../models/inbox');
 var Homepage = require('../models/homepage');
 var NotificationTemplate = require('../models/notificationtemplate');
-
 var mailer = require('../../utils/mailer');
-
 var utility = require('../../utils/utility');
 var validator = require('../../utils/validator');
 var log = require('../../utils/logger');
@@ -193,10 +191,9 @@ exports.signup = function(req, res) {
 																	return res.send(JSON.stringify({ result: true }));
 																}
 															});
-														
-															
 														}
 													});
+													console.log('Hello')
 												}
 											});
 										}
@@ -268,106 +265,60 @@ exports.requestPasswordReset = function(req, res) {
 };
 
 
-/*
-exports.resetPasswordRequest = function(req, res) {
+exports.resetPassword = function(req, res) {
 	try {
 		var newPassword = req.body.newPassword;
 		var token = req.body.token;
 
 		var errors = {};
-		if (validator.checkNull(newPassword)) { errors.newPassword = 'New Password is Null'; } 
-		if (validator.checkNull(token)) { errors.token = 'Reset Password Token is Null' } 
+		if (validator.checkNull(newPassword)) {
+			errors.newPassword = 'Empty password';
+		}
+
+		if (validator.checkNull(token)) {
+			errors.token = 'Empty token'
+		} 
 
 		if (!validator.checkEmptyObject(errors)) {
-			log.error('|auth.resetPasswordRequest| ' + JSON.stringify(errors), widget);
-			return utility.errorResponseJSON(res, 'Error while resetting password');
+			log.error('|auth.resetPassword| ' + JSON.stringify(errors), widget);
+			return utility.errorResponseJSON(res, 'Error resetting password');
 		}
 		
 		var passwordComplexityResult = validator.checkPasswordComplexity(newPassword);
-
 		for (var option in passwordComplexityResult) {
 			if (!passwordComplexityResult[option]) {
-				log.error('|auth.resetPasswordRequest| Password complexity check failed: ' + JSON.stringify(passwordComplexityResult), widget);
-				return utility.errorResponseJSON(res, 'Error while resetting password');
+				log.error('|auth.resetPassword| Password complexity check failed: ' + JSON.stringify(passwordComplexityResult), widget);
+				return utility.errorResponseJSON(res, 'Error resetting password');
 			}
 		}
 
-		log.info('|auth.resetPasswordRequest| Token -> ' + token, widget);
+		log.info('|auth.resetPassword| Resetting password, Token -> ' + token, widget);
 
 		User.resetPassword(token, newPassword, function(error, user) {
 			if (error) {
-				log.error('|auth.resetPasswordRequest.resetPassword| Unknown -> ' + error, widget);
-				return utility.errorResponseJSON(res, 'Error while resetting password');
+				log.error('|auth.resetPassword.resetPassword| Unknown -> ' + error, widget);
+				return utility.errorResponseJSON(res, 'Error resetting password');
 			}
 
 			if (!user.emailAddress) { 
-				log.error('|auth.resetPasswordRequest.resetPassword| User not found for token -> ' + token, widget);
-				return utility.errorResponseJSON(res, 'Error while resetting password');
+				log.error('|auth.resetPassword.resetPassword| User not found -> ' + token, widget);
+				return utility.errorResponseJSON(res, 'Error resetting password');
 			}
 
-			NotificationTemplate.findOne({name: cfg.mailer.resetPasswordTemplate}, function (error, notificationTemplate) {
+			NotificationTemplate.findOne({ name: cfg.mailer.resetPasswordTemplate }, function (error, notificationTemplate) {
 				if (error) {
-					log.error('|auth.resetPasswordRequest.NotificationTemplate| Unknown -> ' + error, widget);
-					return utility.errorResponseJSON(res, 'Error while resetting password');
+					log.error('|auth.resetPassword.NotificationTemplate| Unknown -> ' + error, widget);
+					return utility.errorResponseJSON(res, 'Error resetting password');
 				} else {
 					mailer.sendMail(notificationTemplate, {to: user.emailAddress}, user._id);
 				}
 			});
 
-		    return res.send(JSON.stringify({result: true}));
+		    return res.send(JSON.stringify({ result: true }));
 		});
 
 	} catch (error) {
-		log.error('|auth.resetPasswordRequest| Unknown -> ' + error, widget);
-	    utility.errorResponseJSON(res, 'Error while resetting password');
+		log.error('|auth.resetPassword| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error resetting password');
 	}
 };
-*/
-
-
-exports.verifyRequest = function(req, res) {
-	try {
-		var token = req.body.token;
-
-		var error = null;
-		if (validator.checkNull(token)) { error = 'Verify Token is Null'; } 
-
-		if (error) {
-			log.error('|auth.verifyRequest| ' + error, widget);
-			return utility.errorResponseJSON(res, 'Error while verifying user');
-		}
-		
-		log.info('|auth.verifyRequest| Token -> ' + token, widget);
-
-		User.verify(token, function(error, user) {
-			if (error) {
-				log.error('|auth.verifyRequest.verify| Unknown -> ' + error, widget);
-				return utility.errorResponseJSON(res, 'Error while verifying user');
-			}
-
-			if (!user.email) { 
-				log.error('|auth.verifyRequest.verify| User not found for token -> ' + token, widget);
-				return utility.errorResponseJSON(res, 'Error while verifying user');
-			}
-
-			// TO DO: Welcome email??
-/*
-			NotificationTemplate.findOne({name: cfg.mailer.resetPasswordTemplate}, function (error, notificationTemplate) {
-				if (error) {
-					log.error('|auth.resetPasswordRequest.NotificationTemplate| Unknown -> ' + error, widget);
-					utility.errorResponseJSON(res, 'Error while resetting password');
-				} else {
-					mailer.sendMail(notificationTemplate, {to: user.emailAddress}, user._id);
-				}
-			});
-*/
-		    return res.send(JSON.stringify({result: true}));
-		});
-
-	} catch (error) {
-		log.error('|auth.verifyRequest| Unknown -> ' + error, widget);
-	    utility.errorResponseJSON(res, 'Error while verifying user');
-	}
-};
-
-

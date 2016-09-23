@@ -15,10 +15,9 @@ var userSchema = new Schema({
 	_account: { type: Schema.Types.ObjectId, ref: 'Account' },
 	phone: String,
 	state: String,
-	role: String
-//	resetPwdToken: String,
-//    resetPwd: Boolean,
-//    resetPwdExpiration: Date,
+	role: String,
+	passwordResetToken: String,
+	passwordResetTokenExp: Date
 }, cfg.mongoose.options);
 
 userSchema.statics.authenticate = function(email, password, callback) {
@@ -118,9 +117,8 @@ userSchema.statics.requestPasswordReset = function(emailAddress, callback) {
 		var now = new Date();
 		now.setHours(now.getHours() + 1);
 
-		user.resetPwdToken = token;
-		user.resetPwd = true;
-		user.resetPwdExpiration = now.toString();
+		user.passwordResetToken = token;
+		user.passwordResetTokenExp = now.toString();
 
 		user.save(function (error) {
 			if (error) {
@@ -135,60 +133,40 @@ userSchema.statics.requestPasswordReset = function(emailAddress, callback) {
 };
 
 
-/*
 userSchema.statics.resetPassword = function(token, newPassword, callback) {
 	log.info('|User.resetPassword|', widget);
 	this.findOne({resetPwdToken: token})
 		.exec(
-		function (err, user) {
-			if (err) { return callback(err); }
+		function (error, user) {
+			if (error) {
+				return callback(error);
+			}
 			
 			if (!user) { 
-				log.error('|User.resetPassword| Matching token not found -> ' + token, widget);
+				log.error('|User.resetPassword| Token not found -> ' + token, widget);
 				return callback(null, false);
 			}
 
-			bcrypt.genSalt(10, function(err, salt) {
-		    	bcrypt.hash(newPassword, salt, function(err, hash) {
+			bcrypt.genSalt(10, function(error, salt) {
+		    	bcrypt.hash(newPassword, salt, function(error, hash) {
 		    		user.password = hash;
 		    		user.resetPwdToken = '';
 					user.resetPwd = false;
 					user.resetPwdExpiration = '';
-					user.save(function (err) {
-						if (err) { return callback(err); }
-			  			log.info('|User.resetPassword| Password reset successful', widget);
-			  			return callback(null, user);
+					user.save(function (error) {
+						if (error) {
+							return callback(error);
+						} else {
+			  				log.info('|User.resetPassword| Password reset successful', widget);
+			  				return callback(null, user);
+						}
 					});				
 		    	});
 			});
-		});
+		}
+	);
 };
-*/
 
-/*
-userSchema.statics.verify = function(token, callback) {
-	log.info('|User.verify|', widget);
-	this.findOne({verifyToken: token})
-		.exec(
-		function (err, user) {
-			if (err) { return callback(err); }
-			
-			if (!user) { 
-				log.error('|User.verify| Matching token not found -> ' + token, widget);
-				return callback(null, false);
-			}
-		    		
-		    user.verified = true;
-		    user.verifyToken = '';
-		    		
-			user.save(function (err) {
-				if (err) { return callback(err); }
-		  		log.info('|User.verify| Verify successful', widget);
-		  		return callback(null, user);
-			});						    
-		});
-};
-*/
 
 // Encrypt password when creating a new user
 userSchema.pre('save', function(next) {
@@ -197,12 +175,6 @@ userSchema.pre('save', function(next) {
     	bcrypt.genSalt(10, function(err, salt) {
 	    	bcrypt.hash(user.password, salt, function(err, hash) {
 	    		user.password = hash;
-	    		//user.resetPwdToken = '';
-				//user.resetPwd = false;
-				//user.resetPwdExpiration = '';
-				//user.verified = false;
-				//user.newUser = true;
-				//user.verifyToken = crypto.randomBytes(64).toString('hex');
 				next();		
 	    	});
 		});
@@ -215,12 +187,8 @@ userSchema.pre('save', function(next) {
 // Remove user data not needed by app
 userSchema.post('save', function(user, next) {
 	user.password = '';
-	//user.resetPwdToken = '';
-	//user.verifyToken = '';
     next();
 });
 
-
 var User = mongoose.model('User', userSchema);
-
 module.exports = User;

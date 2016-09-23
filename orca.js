@@ -215,26 +215,8 @@ function initializeApp() {
 		// Account related (unauthenticated)
 		app.route('/signup').post(auth.signup);
 		app.route('/requestPasswordReset').post(auth.requestPasswordReset);
-
-		/*
-		app.route('/forgotPwd').get(function(req, res) {
-			log.info('|forgotPwd| Incorrect GET instead of POST', widget);
-			req.logout();
-			res.sendStatus(401);
-		}).post(auth.forgotPasswordRequest);
-
-		app.route('/resetPwd').get(function(req, res) {
-			log.info('|resetPwd| Incorrect GET instead of POST', widget);
-			req.logout();
-			res.sendStatus(401);
-		}).post(auth.resetPasswordRequest);
-
-		app.route('/verify').get(function(req, res) {
-			log.info('|verify| Incorrect GET instead of POST', widget);
-			req.logout();
-			res.sendStatus(401);
-		}).post(auth.verifyRequest);
-		*/
+		app.route('/resetPassword').post(auth.resetPassword);
+		
 
 		return app;
 	} catch (error) {
