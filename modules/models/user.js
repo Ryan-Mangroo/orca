@@ -135,7 +135,7 @@ userSchema.statics.requestPasswordReset = function(emailAddress, callback) {
 
 userSchema.statics.resetPassword = function(token, newPassword, callback) {
 	log.info('|User.resetPassword|', widget);
-	this.findOne({resetPwdToken: token})
+	this.findOne({ passwordResetToken: token })
 		.exec(
 		function (error, user) {
 			if (error) {
@@ -150,9 +150,8 @@ userSchema.statics.resetPassword = function(token, newPassword, callback) {
 			bcrypt.genSalt(10, function(error, salt) {
 		    	bcrypt.hash(newPassword, salt, function(error, hash) {
 		    		user.password = hash;
-		    		user.resetPwdToken = '';
-					user.resetPwd = false;
-					user.resetPwdExpiration = '';
+		    		user.passwordResetToken = '';
+					user.passwordResetTokenExp = '';
 					user.save(function (error) {
 						if (error) {
 							return callback(error);
