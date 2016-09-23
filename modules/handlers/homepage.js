@@ -13,8 +13,9 @@ exports.getHomepage = function(req, res) {
 	try {
 		log.info('|homepage.getHomepage|', widget);
 		var inboxID = req.query.inboxID;
+		var accountID = req.session.userprofile.account._id;
 
-		Homepage.findOne({ _inbox: inboxID })
+		Homepage.findOne({ _inbox: inboxID, _account: accountID })
 			.exec(
 			function (error, homepage) {
 				if (error) {
@@ -45,8 +46,10 @@ exports.classifyKeyword = function(req, res) {
 		log.info('|homepage.classifyKeyword|', widget);
 		var inboxID = req.query.inboxID;
 		var keyword = req.query.keyword;
+		var accountID = req.session.userprofile.account._id;
 
 		var searchOptions = {
+			accountID: accountID,
 			inboxID: inboxID,
 			sortField: 'created_at',
 			sortOrder: 'desc',
@@ -106,9 +109,10 @@ exports.saveKeyword = function(req, res) {
 		// TODO: Scrub incoming 
 		var homepageID = req.body.homepageID;
 		var keyword = req.body.keyword;
+		var accountID = req.session.userprofile.account._id;
 		log.info('|homepage.saveKeyword| Updating keyword on homepage  -> ' + homepageID, widget);
 
-		Homepage.findOne({ _id: homepageID })
+		Homepage.findOne({ _id: homepageID, _account: accountID })
     		.exec(
     		function(error, homepage) {
 	    		if (error) {
@@ -141,9 +145,10 @@ exports.removeKeyword = function(req, res) {
 		// TODO: Scrub incoming 
 		var homepageID = req.body.homepageID;
 		var keywordIndex = req.body.keywordIndex;
+		var accountID = req.session.userprofile.account._id;
 		log.info('|homepage.removeKeyword| Removing keyword on homepage  -> ' + homepageID, widget);
 
-		Homepage.findOne({ _id: homepageID })
+		Homepage.findOne({ _id: homepageID, _account: accountID })
     		.exec(
     		function(error, homepage) {
 	    		if (error) {

@@ -54,10 +54,6 @@ exports.verifyCredentials = function(email, password, callback) {
 				phone: user.phone,
 				role: user.role
 			};
-
-			log.info('UserSession:');
-			log.object(userSession);
-
 			return callback(null, userSession);
 		});
 	} catch (error) {
@@ -127,11 +123,12 @@ function createPrimaryInbox(req, acccountID, callback) {
 	});
 }
 
-function createAccountHomepage(req, inboxID, callback) {
+function createAccountHomepage(req, inboxID, acccountID, callback) {
 	log.info('    Creating Homepage...', widget);
 	var newHomepage = new Homepage();
 	newHomepage.summaryKeywords = [];
 	newHomepage._inbox = inboxID;
+	newHomepage._account = acccountID;
 	newHomepage.save(function(error, homepage) {
 		if (error) {
 			callback(error);
@@ -177,7 +174,7 @@ exports.signup = function(req, res) {
 													utility.errorResponseJSON(res, 'Error updating account with new inbox');
 												} else {
 													// Finally, create the empty homepage for them to configure on the first visit
-													createAccountHomepage(req, inbox._id, function (error, homepage) {
+													createAccountHomepage(req, inbox._id, account._id, function (error, homepage) {
 														if (error) {
 															log.error('|auth.signup.createAccountHomepage| Unknown  -> ' + error, widget);
 															return utility.errorResponseJSON(res, 'Error occurred creating homepage');

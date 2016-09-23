@@ -286,6 +286,18 @@ function Inbox($http) {
     );
   };
 
+  Inbox.toggleStatus = function(inboxID, status, onSuccess, onFail) {
+    $http({ url: '/toggleInboxStatus', method: 'POST', data: { inboxID: inboxID, status: status } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Inbox.toggleStatus: Fail');
+        onFail();
+      }
+    );
+  };
+
   // Get and return all inbox info for the current user's account
   Inbox.getAllInboxInfo = function(onSuccess, onFail) {
     $http({ url: '/getAllInboxInfo', method: 'GET', params: {} })

@@ -54,7 +54,7 @@
 			<div class="accountSection" ng-style="computeSectionStyle('company')">
 
 				<h3 class="noSpace" style="margin-bottom:10px;">Company Information</h3>
-				<form name="companyForm" ng-model="companyInfo" style="font-size:16px;">
+				<form name="companyForm" ng-model="companyInfo">
 					<!-- Company Name -->
 					<div>
 						<label>Name: </label>
@@ -132,7 +132,7 @@
 			<div class="accountSection" ng-style="computeSectionStyle('personal')">
 
 				<h3 class="noSpace" style="margin-bottom:10px;">Your Personal Information</h3>
-				<form name="personalForm" ng-if="!allowEditPassword" ng-model="personalInfo" style="font-size:16px;">
+				<form name="personalForm" ng-if="!allowEditPassword" ng-model="personalInfo">
 					<!-- Name -->
 					<div ng-if="!allowEditPersonal" class="fadeInOut">
 						<label>Name: </label>
@@ -189,34 +189,29 @@
 							</button>
 						</div>
 					</div>
-
-
 				</form>
 
 
-
-
-
-				<form ng-if="allowEditPassword" ng-model="passwordInfo" style="font-size:16px;">
+				<form ng-if="allowEditPassword" name="changePasswordForm" ng-model="passwordInfo">
 					<!-- Current password -->
 					<div>
 						<label>Current password: </label>
 						<div class="form-group">
-							<input ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-model="passwordInfo.current" autocomplete="off"/>
+							<input name="currentPassword" ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(changePasswordForm.currentPassword)" ng-model="passwordInfo.current" autocomplete="off" required/>
 						</div>
 					</div>
 					<!-- New password -->
 					<div>
 						<label>New password: </label>
 						<div class="form-group">
-							<input ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-model="passwordInfo.new" autocomplete="new-password"/>
+							<input name="newPassword" ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(changePasswordForm.newPassword)" ng-model="passwordInfo.new" autocomplete="new-password" required/>
 						</div>
 					</div>
 					<!-- Confirm new password -->
 					<div>
 						<label>Confirm new password: </label>
 						<div class="form-group">
-							<input ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-model="passwordInfo.newConfirm" autocomplete="new-password"/>
+							<input name="newPasswordConfirm" ng-disabled="passwordSubmitting" type="password" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(changePasswordForm.newPassword)" ng-model="passwordInfo.newPasswordConfirm" autocomplete="new-password" required/>
 						</div>
 					</div>
 				</form>

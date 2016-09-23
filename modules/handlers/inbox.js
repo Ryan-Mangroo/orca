@@ -96,7 +96,7 @@ exports.delete = function(req, res) {
 		log.info('|inbox.delete| Deleting inboxes  -> ' + inboxIDs, widget);
 
 		// First, delete the inboxes.
-		var inboxDeleteQuery = { _id: { $in: inboxIDs } };			
+		var inboxDeleteQuery = { _id: { $in: inboxIDs }, _account: accountID };			
     	Inbox.remove(inboxDeleteQuery, function(error) {
     		if (error) {
 				log.error('|inbox.delete.remove| Unknown  -> ' + error, widget);
@@ -126,6 +126,8 @@ exports.resetToken = function(req, res) {
 	try {
 		log.info('|inbox.resetToken|', widget);
 		var inboxID = req.body.inboxID;
+		var accountID = req.session.userprofile.account._id;
+
 		var error = null;
 		if (validator.checkNull(inboxID)) {
 			error = 'Inbox ID is Null';
@@ -136,7 +138,6 @@ exports.resetToken = function(req, res) {
 			return utility.errorResponseJSON(res, 'Error trying to reset inbox token');
 		}
 
-		var accountID = req.session.userprofile.account._id; // Put some king of account separation globally ------------------------------- TODO
 		Inbox.findOne({ _account: accountID, _id: inboxID })
 			.exec(
 			function (error, inbox) {
@@ -167,6 +168,57 @@ exports.resetToken = function(req, res) {
 	    utility.errorResponseJSON(res, 'Error trying to reset inbox token');
 	}
 };
+
+
+exports.toggleStatus = function(req, res) {
+	try {
+		log.info('|inbox.toggleStatus|', widget);
+		var inboxID = req.body.inboxID;
+		var status = req.body.status;
+		var accountID = req.session.userprofile.account._id;
+
+		var error = null;
+		if (validator.checkNull(inboxID)) {
+			error = 'Inbox ID is Null';
+		} 
+
+		if (error) {
+			log.error('|inbox.toggleStatus| ' + error, widget);
+			return utility.errorResponseJSON(res, 'Error trying to reset inbox token');
+		}
+
+		log.info('|inbox.toggleStatus| Changing inbox status -> ' + inboxID + ' to: ' + status, widget);
+		Inbox.findOne({ _account: accountID, _id: inboxID })
+			.exec(
+			function (error, inbox) {
+				if (error) {
+					log.error('|inbox.toggleStatus.findOne| Unknown  -> ' + error, widget);
+					utility.errorResponseJSON(res, 'Error occurred getting inbox');
+				} else if(!inbox) {
+					log.info('|inbox.toggleStatus| Inbox not found -> ' + inboxID, widget);	
+					utility.errorResponseJSON(res, 'Inbox not found');
+				} else {		
+					log.info('|inbox.toggleStatus| Inbox found -> ' + inbox._id, widget);	
+
+					inbox.status = status;
+					inbox.save(function(error){
+						if(error) {
+							log.error('|inbox.toggleStatus.save| Unknown  -> ' + error, widget);
+							utility.errorResponseJSON(res, 'Error occurred changing inbox status');
+						} else {
+							log.info('|inbox.toggleStatus| Inbox status saved -> ' + inbox._id, widget);	
+							res.send(JSON.stringify({ result: inbox }));
+						}
+					});
+				}
+			}
+		);
+	} catch (error) {
+		log.error('|inbox.toggleStatus| Unknown -> ' + error, widget);
+	    utility.errorResponseJSON(res, 'Error trying to change inbox status');
+	}
+};
+
 
 exports.getPublicInfo = function(req, res) {
 	try {
@@ -214,7 +266,7 @@ exports.getPublicInfo = function(req, res) {
 exports.getAllInfo = function(req, res) {
 	try {
 		log.info('|inbox.getAllInfo|', widget);
-		var accountID = req.session.userprofile.account._id; // Put some king of account separation globally ------------------------------- TODO
+		var accountID = req.session.userprofile.account._id;
 		log.info('|inbox.getAllInfo| Getting inbox info for account -> ' + accountID, widget);
 
 		Inbox.find({ _account: accountID })
@@ -273,6 +325,7 @@ exports.getSignedImageURL = function(req, res) {
 	try {
 		log.info('|inbox.getSignedImageURL|', widget);
 		var inboxID = req.query.inboxID;
+		var accountID = req.session.userprofile.account._id;
 
 		var fileName = inboxID;
 		var fileType = req.query.fileType;
@@ -284,7 +337,7 @@ exports.getSignedImageURL = function(req, res) {
 				utility.errorResponseJSON(res, 'Error while getting signed request');
 			} else {
 				// Save the new image URL to the inbox record
-				Inbox.findById(inboxID)
+				Inbox.findOne({ _id: inboxID, _account: accountID })
 		    		.exec(
 		    		function(error, inbox) {
 			    		if (error) {

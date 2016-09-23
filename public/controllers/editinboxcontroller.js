@@ -4,7 +4,7 @@ function editInboxController($scope, $location, Inbox) {
 	$scope.inboxLoading = true;
 	$scope.inboxSubmitting = false;
 
-	$scope.selectedInbox = null;
+	$scope.selectedInbox = {};
 	$scope.inboxImageFile = null;
 
 	$scope.allowEditImage = false;
@@ -13,7 +13,6 @@ function editInboxController($scope, $location, Inbox) {
   	$scope.loadInboxInfo = function(inboxID) {
   		Inbox.getOneInboxInfo(inboxID,
 			function(inboxInfo){
-				log.object(inboxInfo);
 				$scope.inboxLoading = false;
 				$scope.selectedInbox = inboxInfo;
 				$scope.inboxImageSource = $scope.selectedInbox.image;
@@ -141,7 +140,22 @@ function editInboxController($scope, $location, Inbox) {
 
 	$scope.toggleInboxStatus = function(status) {
 		$("#inactivateModal").modal('hide');
-		$scope.selectedInbox.status = status;
+		$scope.inboxSubmitting = true;
+		Inbox.toggleStatus($scope.selectedInbox._id, status,
+			function(updatedInbox){
+				$("#inactivateModal").modal('hide');
+				$scope.selectedInbox.status = status;
+				$scope.inboxSubmitting = false;
+		  		$scope.clearAlerts();
+		  		$scope.toggleAlert('success', true, 'Status updated');
+			},
+			function() {
+				$("#inactivateModal").modal('hide');
+				$scope.inboxSubmitting = false;
+		  		$scope.clearAlerts();
+		  		$scope.toggleAlert('danger', true, 'Something bad happened while changing Inbox status');
+			}
+		);
 	};
 
 
@@ -152,9 +166,6 @@ function editInboxController($scope, $location, Inbox) {
 		}
 	    var currentURL = $location.url();
 	    var inboxID = currentURL.slice(20,currentURL.length);
-
-	    log.info(inboxID);
-
 		$scope.loadInboxInfo(inboxID);
 	};
 

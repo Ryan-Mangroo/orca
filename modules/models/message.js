@@ -38,6 +38,7 @@ messageSchema.statics.search = function(options, callback) {
 		// we need to count the total number of messages.
 		// No sorting or pagination is necessary at this point.
 		var countQuery = {
+			_account: options.accountID,
 			_inbox: options.inboxID,
 		};
 
@@ -81,6 +82,7 @@ messageSchema.statics.search = function(options, callback) {
 				// Begin building the full search query.
 				var searchQuery = {};
 				searchQuery._inbox = options.inboxID;
+				searchQuery._account = options.accountID;
 
 				// Add the search term, if one was given
 				if (options.searchTerm) {
@@ -171,19 +173,5 @@ function createMessageAnchorQuery(sortOrder, sortField, anchorFieldValue, anchor
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 var Message = mongoose.model('Message', messageSchema);
 module.exports = Message;
-
-

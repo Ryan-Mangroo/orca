@@ -30,12 +30,14 @@ notificationSchema.statics.createNew = function(mailOptions, notificationTemplat
 		}
 
 		newNotification.notificationTemplate = notificationTemplateId;
-
 		newNotification._created_by = creator;
 		newNotification._updated_by = creator;		
 
-		if (sent) { newNotification.status = 'sent'; } 
-		else { newNotification.status = 'failed'; }
+		if (sent) {
+			newNotification.status = 'sent';
+		} else {
+			newNotification.status = 'failed';
+		}
 
 		newNotification.save(function (error, notification) {
 			if (error) {
@@ -62,7 +64,5 @@ notificationSchema.pre('save', function(next) {
 	next();
 });
 
-
 var Notification = mongoose.model('Notification', notificationSchema);
-
 module.exports = Notification;

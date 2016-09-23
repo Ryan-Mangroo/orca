@@ -3,7 +3,7 @@ function homeController($scope, $location, $route, Homepage) {
 	$scope.homeLoading = true;
 
 	// Assume primary inbox by default (will be used if no inbox is passed in URL)
-	$scope.inboxID = $scope.currentUser.account._primary_inbox._id
+	$scope.inboxID = $scope.currentUser.account._primary_inbox;
 	$scope.homepageID = null;
 	$scope.homeKeywords = [];
 	$scope.newKeywordForm = {};
@@ -81,7 +81,7 @@ function homeController($scope, $location, $route, Homepage) {
 		} else if(value >= 33 && value < 50) {
 			backgroundColor = '#f0ad4e';
 		}else if(value >= 50) {
-			backgroundColor = '#5cb85c';
+			backgroundColor = '#45DB7D';
 		}
 
 		// Show the chart

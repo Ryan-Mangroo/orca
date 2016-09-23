@@ -19,25 +19,13 @@ var userSchema = new Schema({
 //	resetPwdToken: String,
 //    resetPwd: Boolean,
 //    resetPwdExpiration: Date,
-//    verified: Boolean,
-//    verifyToken: String,
-//    newUser: Boolean,
 }, cfg.mongoose.options);
 
 userSchema.statics.authenticate = function(email, password, callback) {
 	log.info('|User.authenticate|', widget);
 
-	var accountPopulation = {
-		path: '_account',
-		model: 'Account',
-		populate: {
-			path: '_primary_inbox',
-			model: 'Inbox'
-		}
-	};
-
 	this.findOne({ 'email': email })
-		.populate(accountPopulation)
+		.populate('_account')
 		.exec( function (error, user) {
 			if (error) { 
 				return callback(error);
@@ -67,10 +55,10 @@ userSchema.statics.authenticate = function(email, password, callback) {
 };
 
 
-userSchema.statics.changePassword = function(userID, currentPassword, newPassword, callback) {
+userSchema.statics.changePassword = function(accountID, userID, currentPassword, newPassword, callback) {
 	log.info('|User.changePassword|', widget);
 
-	this.findById(userID)
+	this.findOne({ _id: userID, _account: accountID })
 		.exec(
 		function(err, user) {
 			if (err) { return callback(err); }

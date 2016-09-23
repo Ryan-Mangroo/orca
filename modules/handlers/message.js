@@ -70,12 +70,7 @@ exports.getOne = function(req, res) {
 		log.info('|message.getOne| Getting message -> ' + messageID);
 		log.info('|message.getOne| Account -> ' + accountID);
 
-		var query = {
-			_id: messageID,
-			_account: accountID
-		};
-
-		Message.findOne(query)
+		Message.findOne({ _id: messageID, _account: accountID })
 			.populate('comments._created_by', '-password')
 			.exec(
 			function (error, message) {
@@ -84,7 +79,6 @@ exports.getOne = function(req, res) {
 					utility.errorResponseJSON(res, 'Error occurred getting message');
 				} else if(!message) {
 					log.info('|message.getOne| Message not found -> ' + messageID);
-					res.status(404);
 					return res.send(JSON.stringify({error: 'Message Not Found'}));
 				} else {		
 
@@ -139,6 +133,7 @@ exports.search = function(req, res) {
 					
 					// Now that we have the inboxID, search for the messages
 					var options = {
+						accountID: accountID,
 						inboxID: inbox._id,
 						sortField: sortField,
 						sortOrder: sortOrder,
@@ -173,13 +168,11 @@ exports.search = function(req, res) {
 exports.delete = function(req, res) {
 	try {
 		log.info('|message.delete|', widget);
-
-		// TODO: Scrub request body
 		var messageIDs = req.body.messages;
+		var accountID = req.session.userprofile.account._id;
 		log.info('|message.delete| Deleting messages: ' + messageIDs, widget);
 
-		var query = { _id: { $in: messageIDs } };			
-    	Message.remove(query, function(error) {
+    	Message.remove({ _id: { $in: messageIDs }, _account: accountID }, function(error) {
     		if (error) {
 				log.error('|message.delete.remove| Unknown  -> ' + error, widget);
 				utility.errorResponseJSON(res, 'Error occurred deleting messages');
@@ -199,6 +192,7 @@ exports.addComment = function(req, res) {
 		log.info('|message.addComment|', widget);
 		var messageID = req.body.messageID;
 		var commentText = req.body.commentText;
+		var accountID = req.session.userprofile.account._id;
 
 		var error = null;
 		if (validator.checkNull(messageID)) {
@@ -216,7 +210,7 @@ exports.addComment = function(req, res) {
 
 		log.info('|message.addComment| Commenting message -> ' + messageID);
 
-		Message.findById(messageID)
+		Message.findOne({ _id: messageID, _account: accountID })
 			.exec(
 			function (error, message) {
 				if (error) {

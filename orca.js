@@ -63,10 +63,10 @@ function validateRequest() {
 		}
 
 		var error = null;
-		if (validator.checkNull(req.session.userprofile.id)) { error = 'Session User Id is Null'; } 
-		else if (!validator.checkMongoId(req.session.userprofile.id)) { error = 'Session User Id is not valid: ' + userId; } 
-		else if (validator.checkNull(req.session.userprofile.account._id)) { error = 'Session account Id is Null'; }
-		else if (!validator.checkMongoId(req.session.userprofile.account._id)) { error = 'Session account Id is not valid: ' + accountID; } 
+		if (validator.checkNull(req.session.userprofile.id)) { error = 'Session User ID is Null'; } 
+		else if (!validator.checkMongoId(req.session.userprofile.id)) { error = 'Session User ID is not valid: ' + userId; } 
+		else if (validator.checkNull(req.session.userprofile.account._id)) { error = 'Session account ID is Null'; }
+		else if (!validator.checkMongoId(req.session.userprofile.account._id)) { error = 'Session account ID is not valid: ' + accountID; } 
 
 		if (error) {
 			log.error('|validateRequest| ' + error, widget);
@@ -197,6 +197,7 @@ function initializeApp() {
 		app.route('/createInbox').post(validateRequest(), inbox.create);
 		app.route('/updateInbox').post(validateRequest(), inbox.update);
 		app.route('/deleteInboxes').post(validateRequest(), inbox.delete);
+		app.route('/toggleInboxStatus').post(validateRequest(), inbox.toggleStatus);
 
 		// Prediction & Reports
 		app.route('/getHomepage').get(validateRequest(), homepage.getHomepage);

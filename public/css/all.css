@@ -43,7 +43,7 @@ a {
 }
 
 a:hover {
-	color: #aeb6b9;
+	color: #939da1;
 }
 
 a[target="_blank"]:after {
@@ -265,13 +265,18 @@ textarea {
 }
 
 .alert-info {
-	color: #2596c3;
-	background-color: #d6eef7;
+	color: #196583;
+	background-color: #96d3eb;
 }
 
 .alert-success {
 	color: #3d8b3d;
 	background-color: #c6e6c6;
+}
+
+.alert-warning {
+	color: #987e1d;
+	background-color: #ebd996;
 }
 
 .alert-title-sm {
