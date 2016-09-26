@@ -177,13 +177,14 @@ exports.signup = function(req, res) {
 															return utility.errorResponseJSON(res, 'Error occurred creating homepage');
 														} else {
 															log.info('Account successfully created for ' + account.name + ' -> ' + account._id, widget);
-															NotificationTemplate.findOne({name: cfg.mailer.signupTemplate}, function (error, notificationTemplate) {
+															NotificationTemplate.findOne({ name: cfg.mailer.signupTemplate }, function (error, notificationTemplate) {
 																if (error) {
 																	log.error('|auth.signupRequest.NotificationTemplate| Unknown -> ' + error, widget);
 																	return utility.errorResponseJSON(res, 'Error while retrieving signup template');
+																} else if(!notificationTemplate) {
+																	log.error('|auth.signupRequest.NotificationTemplate| Signup temlpate not found', widget);
+																	return utility.errorResponseJSON(res, 'Signup temlpate not found');
 																} else {
-																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.tokenPlaceholder, user.verifyToken);
-																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.hostNamePlaceholder, cfg.hostname);
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.firstNamePlaceholder, user.firstName);
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.primaryInboxURLPlaceholder, inbox.number + '?t=' + inbox.token);
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.primaryInboxURLPlaceholder, inbox.number + '?t=' + inbox.token);
