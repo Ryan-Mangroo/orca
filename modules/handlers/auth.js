@@ -136,7 +136,6 @@ function createAccountHomepage(req, inboxID, acccountID, callback) {
 	});
 }
 
-// Null checks, dup email checks ----------------------------------------------------------------------------------- TODO
 exports.signup = function(req, res) {
 	try {
 		log.info('Creating Account for: ' + req.body.accountName, widget);
@@ -177,9 +176,7 @@ exports.signup = function(req, res) {
 															log.error('|auth.signup.createAccountHomepage| Unknown  -> ' + error, widget);
 															return utility.errorResponseJSON(res, 'Error occurred creating homepage');
 														} else {
-
 															log.info('Account successfully created for ' + account.name + ' -> ' + account._id, widget);
-															
 															NotificationTemplate.findOne({name: cfg.mailer.signupTemplate}, function (error, notificationTemplate) {
 																if (error) {
 																	log.error('|auth.signupRequest.NotificationTemplate| Unknown -> ' + error, widget);
@@ -187,13 +184,14 @@ exports.signup = function(req, res) {
 																} else {
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.tokenPlaceholder, user.verifyToken);
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.hostNamePlaceholder, cfg.hostname);
-																	mailer.sendMail(notificationTemplate, {to: user.email}, user._id);								
+																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.firstNamePlaceholder, user.firstName);
+																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.primaryInboxURLPlaceholder, inbox.number + '?t=' + inbox.token);
+																	mailer.sendMail(notificationTemplate, { to: user.email, bcc: ['jesse@workwoo.com', 'ryan@workwoo.com'] }, user._id);
 																	return res.send(JSON.stringify({ result: true }));
 																}
 															});
 														}
 													});
-													console.log('Hello')
 												}
 											});
 										}
@@ -215,7 +213,6 @@ exports.signup = function(req, res) {
 exports.requestPasswordReset = function(req, res) {
 	try {
 		log.info('|auth.requestPasswordReset|', widget);
-
 		var emailAddress = req.body.emailAddress;
 
 		var error = null;
@@ -231,7 +228,6 @@ exports.requestPasswordReset = function(req, res) {
 		}
 
 		log.info('|auth.requestPasswordReset| Password reset requested -> ' + emailAddress, widget);
-		
 		User.requestPasswordReset(emailAddress, function (error, user, token){
 			if (error) {
 				log.error('|auth.requestPasswordReset.requestPasswordReset| Unknown -> ' + error, widget);

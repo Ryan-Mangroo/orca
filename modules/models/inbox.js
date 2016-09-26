@@ -18,7 +18,7 @@ var inboxSchema = new Schema({
 inboxSchema.pre('save', function(next) {
 	var inbox = this;
 	if (this.isNew) {
-		Counter.increment('boxes', function(error, autonumber) {
+		Counter.increment('inboxes', function(error, autonumber) {
 			inbox.number = autonumber;
 			next();
 		});
