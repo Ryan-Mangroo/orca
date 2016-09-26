@@ -15,7 +15,6 @@ var inboxSchema = new Schema({
 	_account: { type: Schema.Types.ObjectId, ref: 'Account' }
 }, cfg.mongoose.options);
 
-
 inboxSchema.pre('save', function(next) {
 	var inbox = this;
 	if (this.isNew) {
@@ -28,7 +27,6 @@ inboxSchema.pre('save', function(next) {
 	}
 });
 
-
 inboxSchema.pre('save', function(next) {
 	var inbox = this;
 	if (this.isNew) {
@@ -39,7 +37,5 @@ inboxSchema.pre('save', function(next) {
 	}
 });
 
-
 var Inbox = mongoose.model('Inbox', inboxSchema);
-
 module.exports = Inbox;

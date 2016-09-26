@@ -6,7 +6,6 @@ var log = require('../../utils/logger');
 var widget = 'Message';
 log.registerWidget(widget);
 
-
 var commentSchema = new Schema({
 	comment: { type: String },
 	_created_by: { type: Schema.Types.ObjectId, ref: 'User' }
@@ -20,12 +19,8 @@ var messageSchema = new Schema({
 	_inbox: { type: Schema.Types.ObjectId, ref: 'Inbox' }
 }, cfg.mongoose.options);
 
-
-// Better options scrubbing & account separation -------------------------------------------- TODO
 messageSchema.statics.search = function(options, callback) {
 	try {
-		log.info('|Message.search|', widget);
-		
 		// First, build the result that we will be working with
 		var result = {
 			lastFieldValue: null,
@@ -121,7 +116,6 @@ messageSchema.statics.search = function(options, callback) {
 						}
 
 						if (!messages || messages.length == 0) { // Should have been handled in count
-							log.info('|Message.search.find| No messages found', widget);
 							return callback(null, result);
 						}
 
@@ -131,7 +125,6 @@ messageSchema.statics.search = function(options, callback) {
 						result.messages = messages;
 
 						// Log and return the result
-						log.info('|Message.search| Returning [' + messages.length + '] messages out of [' + result.total + ']', widget);
 						return callback(null, result);
 					}
 				);

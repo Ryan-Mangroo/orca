@@ -22,7 +22,6 @@ var userSchema = new Schema({
 
 userSchema.statics.authenticate = function(email, password, callback) {
 	log.info('|User.authenticate|', widget);
-
 	this.findOne({ 'email': email })
 		.populate('_account')
 		.exec( function (error, user) {
@@ -35,14 +34,11 @@ userSchema.statics.authenticate = function(email, password, callback) {
 			}
 			bcrypt.compare(password, user.password, function(error, isMatch) {
 				if (error) {
-					log.error(error, widget);
+					log.error('|User.authenticate| Unknown -> ' + error, widget);
 					return callback(error);
 				}
 				if (isMatch) {
 					log.info('|User.authenticate| Credentials match for -> ' + email, widget);
-					if (user.verified == false) {
-						return callback('User is not verified');
-					}
 					return callback(null, user);
 				} else {
 					log.error('|User.authenticate| Credentials do not match for -> ' + email, widget);
@@ -74,10 +70,6 @@ userSchema.statics.changePassword = function(accountID, userID, currentPassword,
 				}
 
 				if (isMatch) {
-					if (user.verified == false) {
-						return callback('User not verified');
-					}
-
 					bcrypt.genSalt(10, function(err, salt) {
 				    	bcrypt.hash(newPassword, salt, function(err, hash) {
 				    		user.password = hash;
@@ -92,7 +84,7 @@ userSchema.statics.changePassword = function(accountID, userID, currentPassword,
 				    	});
 					});
 				} else {
-					log.error('|User.authenticate| Credentials do not match for -> ' + userID, widget);
+					log.error('|User.authenticate| Error changing password, Credentials do not match -> ' + userID, widget);
 					return callback(null, false);
 				}
 			});
@@ -165,7 +157,6 @@ userSchema.statics.resetPassword = function(token, newPassword, callback) {
 		}
 	);
 };
-
 
 // Encrypt password when creating a new user
 userSchema.pre('save', function(next) {

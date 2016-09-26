@@ -114,7 +114,6 @@ exports.changePassword = function(req, res) {
 
 exports.getUserProfile = function(req, res) {
 	try {
-		log.info('|user.getUserProfile|');
 		res.send(JSON.stringify(req.session.userprofile));
 	} catch (error) {
 		log.error('|user.getUserProfile| Unknown -> ' + error, widget);

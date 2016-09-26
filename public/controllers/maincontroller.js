@@ -1,6 +1,4 @@
 function mainController($scope, $location, User, Inbox, BASE_URL) {
-	log.info('|mainController|');
-
 	$scope.baseURL = BASE_URL;
 	$scope.accountInboxes = [];
 	$scope.accountInboxesObject = {};
@@ -83,7 +81,6 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
 
 
   	$scope.loadAllInboxInfo = function() {
-  		log.info('Loading inboxes')
   		Inbox.getAllInboxInfo(
 			function(inboxes){
 				// Save the resulting inboxes but also convert the array of inboxes into
@@ -95,7 +92,7 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
 				
 			},
 			function() {
-				log.error('Error loading inboxes');
+				window.location = 'http://www.workwoo.com/404.html';
 			}
 		);
   	};
@@ -112,7 +109,7 @@ function mainController($scope, $location, User, Inbox, BASE_URL) {
 			  },
 			  function() {
 			  	$scope.authenticated = false;
-			  	window.location = "/login.html";
+			  	window.location = CONFIG.UNAUTH_URL;
 			  }
 			);
 		}

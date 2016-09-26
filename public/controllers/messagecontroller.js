@@ -7,13 +7,11 @@ function messageController($scope, $location, Message) {
 	$scope.getOneMessage = function(messageID) {
 		Message.getOne(messageID,
 		  function(singleMessage){
-
 		  	$scope.singleMessage = singleMessage;
 		  	$scope.messagesLoading = false;
 		  },
 		  function() {
-		  	// Message not found
-		  	$scope.changeView('404');
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -22,14 +20,12 @@ function messageController($scope, $location, Message) {
 	    Message.delete([messageID],
 	      function(){
 	        // Success
-	        log.info('Delete success');
 	        $scope.clearAlerts();
 			$scope.toggleAlert('success', true, 'Message deleted');
 	        $scope.changeView('inbox/' + inboxID);
 	      },
 	      function() {
-	        // Fail
-	        log.info('Delete single fail');
+	        window.location = 'http://www.workwoo.com/404.html';
 	      }
 	    );
 	};
@@ -43,7 +39,7 @@ function messageController($scope, $location, Message) {
 		  	$scope.singleMessage = result;
 		  },
 		  function() {
-		  	log.info('FAIL');
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -51,13 +47,11 @@ function messageController($scope, $location, Message) {
 
 	$scope.initMessageController = function() {
 		if(!$scope.ensureAuthenticated) {
-			$scope.changeView('login');
-			return;
+			window.location = 'http://www.workwoo.com/#/login';
 		}
 	    var currentURL = $location.url();
 
     	var messageID = currentURL.slice(9,currentURL.length);
-    	log.info('Loaded message: ' + messageID);
     	$scope.getOneMessage(messageID);
 
 	};

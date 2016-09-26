@@ -265,9 +265,7 @@ exports.getPublicInfo = function(req, res) {
 // Get all inboxes for the current user's account.
 exports.getAllInfo = function(req, res) {
 	try {
-		log.info('|inbox.getAllInfo|', widget);
 		var accountID = req.session.userprofile.account._id;
-		log.info('|inbox.getAllInfo| Getting inbox info for account -> ' + accountID, widget);
 
 		Inbox.find({ _account: accountID })
 			.exec(
@@ -278,8 +276,7 @@ exports.getAllInfo = function(req, res) {
 				} else if(!inboxes) {
 					log.info('|inbox.getAllInfo| No inboxes found for account -> ' + accountID, widget);	
 					res.send(JSON.stringify({ result: [] }));
-				} else {		
-					log.info('|inbox.getAllInfo| Inboxes found -> ' + inboxes.length);	
+				} else {
 					res.send(JSON.stringify({ result: inboxes }));
 				}
 			}
@@ -293,11 +290,8 @@ exports.getAllInfo = function(req, res) {
 // Get the inbox for the ID given
 exports.getOneInfo = function(req, res) {
 	try {
-		log.info('|inbox.getOneInfo|', widget);
-		
 		var inboxID = req.query.inboxID;
 		var accountID = req.session.userprofile.account._id;
-		log.info('|inbox.getOneInfo| Loading info for inbox -> ' + inboxID, widget);
 
 		Inbox.findOne({ _account: accountID, _id: inboxID })
 			.exec(
@@ -309,7 +303,6 @@ exports.getOneInfo = function(req, res) {
 					log.info('|inbox.getOneInfo| No inbox found -> ' + inboxID, widget);	
 					utility.errorResponseJSON(res, 'Error occurred getting inbox');
 				} else {		
-					log.info('|inbox.getOneInfo| Inbox found -> ' + inbox._id);	
 					res.send(JSON.stringify({ result: inbox }));
 				}
 			}

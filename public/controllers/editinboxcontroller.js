@@ -1,5 +1,4 @@
 function editInboxController($scope, $location, Inbox) {
-	log.info('|editInboxController|');
 	$scope.clearAlerts();
 	$scope.inboxLoading = true;
 	$scope.inboxSubmitting = false;
@@ -18,8 +17,7 @@ function editInboxController($scope, $location, Inbox) {
 				$scope.inboxImageSource = $scope.selectedInbox.image;
 			},
 			function() {
-				$scope.inboxLoading = false;
-				log.error('Error loading inbox');
+				window.location = 'http://www.workwoo.com/404.html';
 			}
 		);
   	};
@@ -35,9 +33,7 @@ function editInboxController($scope, $location, Inbox) {
 		  	$scope.toggleAlert('success', true, 'Inbox updated');
 		  },
 		  function() {
-		  	$scope.inboxSubmitting = false;
-		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('danger', true, 'Inbox updat fail');
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -53,10 +49,7 @@ function editInboxController($scope, $location, Inbox) {
 		  		$scope.toggleAlert('success', true, 'The link to your inbox has been reset. Be sure to share the new link.');
 			},
 			function() {
-				$("#tokenResetModal").modal('hide');
-				$scope.inboxSubmitting = false;
-		  		$scope.clearAlerts();
-		  		$scope.toggleAlert('danger', true, 'Something bad happened while reseting the inbox link');
+				window.location = 'http://www.workwoo.com/404.html';
 			}
 		);
 	};
@@ -83,9 +76,7 @@ function editInboxController($scope, $location, Inbox) {
 			$scope.saveInboxImageToS3(requestInfo, $scope.inboxImageFile);
 		  },
 		  function() {
-		  	// On fail of getting signed request
-		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('danger', true, 'Something failed while updating inbox image');
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -100,10 +91,7 @@ function editInboxController($scope, $location, Inbox) {
 		  	$scope.$apply();
 		  },
 		  function() {
-		  	$scope.allowEditImage = false;
-		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('danger', true, 'Something failed while updating inbox image');
-		  	$scope.$apply();
+			window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -113,7 +101,6 @@ function editInboxController($scope, $location, Inbox) {
 		Inbox.delete([$scope.selectedInbox._id],
 			function(result){
 				$('#deleteInboxModal').modal('hide');
-
 			  	$scope.clearAlerts();
 			  	$scope.inboxSubmitting = false;
 			  	$scope.loadAllInboxInfo();
@@ -121,10 +108,7 @@ function editInboxController($scope, $location, Inbox) {
 			  	$scope.changeView('account');
 			},
 			function() {
-				$('#deleteInboxModal').modal('hide');
-				$scope.inboxSubmitting = false;
-		  		$scope.clearAlerts();
-		  		$scope.toggleAlert('danger', true, 'Something bad happened while deleting Inbox');
+				window.location = 'http://www.workwoo.com/404.html';
 			}
 		);
 	};
@@ -150,10 +134,7 @@ function editInboxController($scope, $location, Inbox) {
 		  		$scope.toggleAlert('success', true, 'Status updated');
 			},
 			function() {
-				$("#inactivateModal").modal('hide');
-				$scope.inboxSubmitting = false;
-		  		$scope.clearAlerts();
-		  		$scope.toggleAlert('danger', true, 'Something bad happened while changing Inbox status');
+				window.location = 'http://www.workwoo.com/404.html';
 			}
 		);
 	};
@@ -161,7 +142,7 @@ function editInboxController($scope, $location, Inbox) {
 
 	$scope.initEditInboxController = function() {
 		if(!$scope.ensureAuthenticated) {
-			$scope.changeView('login');
+			window.location = 'http://www.workwoo.com/#/login';
 			return;
 		}
 	    var currentURL = $location.url();

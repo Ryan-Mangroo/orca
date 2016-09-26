@@ -1,6 +1,4 @@
 function accountController($scope, $location, Account, Inbox) {
-	log.info('|accountController|');
-
 	$scope.allowEditCompany = false;
 	$scope.allowEditPersonal = false;
 	$scope.allowEditPassword = false;
@@ -63,9 +61,6 @@ function accountController($scope, $location, Account, Inbox) {
 		$scope.passwordSubmitting = true;
 		Account.changeUserPassword(passwordInfo, 
 		  function(result){
-		  	log.info('Password update attempted');
-		  	log.object(result);
-
 		  	if(result.error) {
 		  		$scope.passwordInfo = {};
 		  		$scope.passwordSubmitting = false;
@@ -80,9 +75,7 @@ function accountController($scope, $location, Account, Inbox) {
 		  	}
 		  },
 		  function() {
-			$scope.clearAlerts();
-			$scope.toggleAlert('danger', true, 'Something bad happened trying to update your password.');
-		  	$scope.passwordSubmitting = false;
+			window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -103,10 +96,7 @@ function accountController($scope, $location, Account, Inbox) {
 		  	$scope.toggleAlert('success', true, 'Company information updated');
 		  },
 		  function() {
-		  	$scope.companySubmitting = false;
-		  	$scope.allowEditCompany = false;
-		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('danger', true, 'Something bad happened while updating your company information');
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -128,10 +118,7 @@ function accountController($scope, $location, Account, Inbox) {
 
 		  },
 		  function() {
-		  	$scope.personalSubmitting = false;
-		  	$scope.allowEditPersonal = false;
-		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('danger', true, 'Something bad happened while updating your personal information');
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -179,8 +166,6 @@ function accountController($scope, $location, Account, Inbox) {
 	};
 
 	$scope.saveAccountLogo = function() {
-		log.info('Saving new logo');
-
 		// First, request the logo URL from our server
 		Account.getSignedLogoURL($scope.accountLogoFile.name, $scope.accountLogoFile.type, 
 		  function(requestInfo){
@@ -188,9 +173,7 @@ function accountController($scope, $location, Account, Inbox) {
 			$scope.saveAccountLogoToS3(requestInfo, $scope.accountLogoFile);
 		  },
 		  function() {
-		  	// On fail of getting signed request
-		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('danger', true, 'Something failed while updating account logo');
+			window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -205,10 +188,7 @@ function accountController($scope, $location, Account, Inbox) {
 		  	$scope.$apply();
 		  },
 		  function() {
-		  	$scope.allowEditLogo = false;
-		  	$scope.clearAlerts();
-		  	$scope.toggleAlert('danger', true, 'Something failed while updating account logo');
-		  	$scope.$apply();
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};

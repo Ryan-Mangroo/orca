@@ -1,5 +1,4 @@
 function homeController($scope, $location, $route, Homepage) {
-	log.info('|homeController|');
 	$scope.homeLoading = true;
 
 	// Assume primary inbox by default (will be used if no inbox is passed in URL)
@@ -10,17 +9,14 @@ function homeController($scope, $location, $route, Homepage) {
 
 	$scope.saveNewKeyword = function(keyword) {
 		$scope.homeKeywords.push({ title: keyword, value: 0 });
-		log.info('Saving keyword');
 
 		Homepage.saveKeyword(keyword, $scope.homepageID,
 			function(result){
 				$("#addKeywordModal").modal('hide');
 				$scope.newKeywordForm = {};
-		  		log.info('Saving keyword SUCCESS');
 			},
 			function() {
-				$("#tokenResetModal").modal('hide');
-				log.info('Saving keyword FAIL');
+				window.location = 'http://www.workwoo.com/404.html';
 			}
 		);
 	};
@@ -33,7 +29,7 @@ function homeController($scope, $location, $route, Homepage) {
 		  		$scope.homeKeywords.splice(keywordIndex, 1);
 			},
 			function() {
-				log.info('Removing keyword FAIL');
+				window.location = 'http://www.workwoo.com/404.html';
 			}
 		);
 		
@@ -48,8 +44,7 @@ function homeController($scope, $location, $route, Homepage) {
 			$scope.homeLoading = false;
 		  },
 		  function() {
-		  	$scope.homeLoading = false;
-		  	log.error('Something bad happened getting homepage keywords');
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -59,11 +54,9 @@ function homeController($scope, $location, $route, Homepage) {
 		  function(result){
 		  	var chartID = '#keyword_' + keywordIndex + '_gauge';
 		  	$scope.showChart(chartID, result);
-		  	log.info('Classification for ' + keyword + ': ' + result);
 		  },
 		  function() {
-		  	$scope.homeLoading = false;
-		  	log.error('Something bad happened getting classification');
+		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
 	};
@@ -100,7 +93,7 @@ function homeController($scope, $location, $route, Homepage) {
 
 	$scope.initHomeController = function() {
 		if(!$scope.ensureAuthenticated) {
-			$scope.changeView('login');
+			window.location = 'http://www.workwoo.com/#/login';
 			return;
 		}
 

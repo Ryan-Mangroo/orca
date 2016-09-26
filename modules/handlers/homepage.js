@@ -11,7 +11,6 @@ log.registerWidget(widget);
 // The actual classification of the keywords will be done after the page is loaded.
 exports.getHomepage = function(req, res) {
 	try {
-		log.info('|homepage.getHomepage|', widget);
 		var inboxID = req.query.inboxID;
 		var accountID = req.session.userprofile.account._id;
 
@@ -43,7 +42,6 @@ exports.getHomepage = function(req, res) {
 
 exports.classifyKeyword = function(req, res) {
 	try {
-		log.info('|homepage.classifyKeyword|', widget);
 		var inboxID = req.query.inboxID;
 		var keyword = req.query.keyword;
 		var accountID = req.session.userprofile.account._id;
@@ -64,8 +62,6 @@ exports.classifyKeyword = function(req, res) {
 				log.error('|homepage.getHomepage| Error getting classification -> ' + keyword, widget);
 				utility.errorResponseJSON(res, 'Error getting classification');
 			} else {
-				log.info('Messages found: ' + result.total);
-
 				var moodValue = 50;
 				var moodCounts = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, };
 				var moodPercentages = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, };
@@ -90,7 +86,6 @@ exports.classifyKeyword = function(req, res) {
 					moodValue -= moodPercentages['2']/4, 10;
 					moodValue += moodPercentages['4']/4, 10;
 					moodValue += moodPercentages['5']/2, 10;
-
 					return res.send(JSON.stringify({ result: moodValue }));
 				}
 			}

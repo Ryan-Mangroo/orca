@@ -4,7 +4,6 @@ var App = angular.module('App', ['ngRoute', 'ngAnimate']);
 App.controller('mainController', mainController);
 App.controller('staticController', staticController);
 App.controller('homeController', homeController);
-App.controller('loginController', loginController);
 App.controller('inboxController', inboxController);
 App.controller('messageController', messageController);
 App.controller('accountController', accountController);
@@ -30,7 +29,6 @@ App.config(function($routeProvider) {
 	$routeProvider.when('/', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/home', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/home/:inboxID', { templateUrl : 'views/home.html', controller: homeController});
-	$routeProvider.when('/login', { templateUrl : 'views/login.html', controller: loginController});
 	$routeProvider.when('/inbox/:inboxID', { templateUrl : 'views/inbox.html', controller: inboxController});
 	$routeProvider.when('/message/:messageID', { templateUrl : 'views/message.html', controller: messageController});
 
@@ -41,4 +39,5 @@ App.config(function($routeProvider) {
 
 	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});
 	$routeProvider.when('/support/submitted', { templateUrl : 'views/supportsubmitted.html', controller: supportController});
+	$routeProvider.when('/404', { templateUrl : 'views/404.html', controller: staticController});
 });

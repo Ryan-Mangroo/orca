@@ -9,5 +9,4 @@ var homepageSchema = new Schema({
 }, cfg.mongoose.options);
 
 var Homepage = mongoose.model('Homepage', homepageSchema);
-
 module.exports = Homepage;

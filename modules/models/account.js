@@ -15,5 +15,4 @@ var accountSchema = new Schema({
 }, cfg.mongoose.options);
 
 var Account = mongoose.model('Account', accountSchema);
-
 module.exports = Account;

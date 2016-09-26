@@ -35,7 +35,7 @@ log.registerWidget(widget);
 */
 (function startup() {
 	try {
-		log.info('| ################## Orca Startup ################## |', widget);
+		log.info('| ################## Starting Up ################## |', widget);
 
 		// 1. Initialize mongoose
 		initializeMongoose();
@@ -47,7 +47,7 @@ log.registerWidget(widget);
 		app.listen(process.env.PORT || cfg.platform.port);
 
 	} catch (error) {
-		log.error('| ################## Orca Startup Error ################## | -> ' + error, widget);
+		log.error('| ################## Startup Error ################## | -> ' + error, widget);
 	}
 })();
 
@@ -55,7 +55,7 @@ log.registerWidget(widget);
 function validateRequest() {
 	return function(req, res, next) {
 		if (!req.isAuthenticated || !req.isAuthenticated()) {
-			log.info('|validateRequest| -> User not authenticated. Sending 401', widget);
+			log.info('|validateRequest| -> Not authenticated. Sending 401', widget);
 
 			res.status(401);
 			var errorMessage = {error: 'Not authenticated'};
@@ -63,10 +63,10 @@ function validateRequest() {
 		}
 
 		var error = null;
-		if (validator.checkNull(req.session.userprofile.id)) { error = 'Session User ID is Null'; } 
-		else if (!validator.checkMongoId(req.session.userprofile.id)) { error = 'Session User ID is not valid: ' + userId; } 
-		else if (validator.checkNull(req.session.userprofile.account._id)) { error = 'Session account ID is Null'; }
-		else if (!validator.checkMongoId(req.session.userprofile.account._id)) { error = 'Session account ID is not valid: ' + accountID; } 
+		if (validator.checkNull(req.session.userprofile.id)) { error = 'Session UserID is Null'; } 
+		else if (!validator.checkMongoId(req.session.userprofile.id)) { error = 'Session UserID is not valid: ' + userId; } 
+		else if (validator.checkNull(req.session.userprofile.account._id)) { error = 'Session accountID is Null'; }
+		else if (!validator.checkMongoId(req.session.userprofile.account._id)) { error = 'Session accountID is not valid: ' + accountID; } 
 
 		if (error) {
 			log.error('|validateRequest| ' + error, widget);
@@ -92,7 +92,7 @@ function initializeMongoose() {
 		var db = mongoose.connection;
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
-		  log.info('|initializeMongoose| -> Successful connection made to mongoDB', widget);
+		  log.info('|initializeMongoose| -> MongoDB connection successful', widget);
 		});
 	} catch (error) {
 		log.error('|initializeMongoose| Unknown -> ' + error, widget);
@@ -164,8 +164,6 @@ function initializeApp() {
 		    			log.error('|login|req.logIn Unknown -> ' + error, widget);
 		    			return next(error);
 		    		}
-		    		log.info('|login|req.logIn Success', widget);
-		    		log.object(user);
 		    		req.session.userprofile = user;
 		    		return res.send(JSON.stringify(user));
 				});
@@ -217,7 +215,6 @@ function initializeApp() {
 		app.route('/requestPasswordReset').post(auth.requestPasswordReset);
 		app.route('/resetPassword').post(auth.resetPassword);
 		
-
 		return app;
 	} catch (error) {
 		log.error('|initializeApp| Unknown -> ' + error, widget);

@@ -17,7 +17,6 @@ counterSchema.statics.increment = function(collectionName, callback) {
             	return callback(error);
         	callback(null, counter.seq);
     	});
-
 	} catch (error) {
 		log.error('|Counter.increment| Unknown -> ' + error, widget);
 		return callback(error, false);
@@ -25,5 +24,4 @@ counterSchema.statics.increment = function(collectionName, callback) {
 };
 
 var Counter = mongoose.model('Counter', counterSchema);
-
 module.exports = Counter;

@@ -23,6 +23,5 @@ notificationTemplateSchema.pre('save', function(next) {
 	next();
 });
 
-
 var NotificationTemplate = mongoose.model('Notification_Template', notificationTemplateSchema);
 module.exports = NotificationTemplate;

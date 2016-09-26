@@ -1,12 +1,9 @@
 function inboxController($scope, $location, Message) {
-	log.info('|inboxController|');
-
 	$scope.messages = [];
 	$scope.messagesLoading = true;
 	$scope.firstLoad = true;
 	$scope.searched = false;
 	$scope.selectedMessages = [];
-	$scope.listTitle = 'All Feedback'
 
 	$scope.inboxID = null;
 	$scope.selectAll = true; // used by the "Select all" checkbox, to toggle T/F
@@ -18,7 +15,6 @@ function inboxController($scope, $location, Message) {
 	$scope.sortOrder = 'desc';
 	$scope.searchTerm = null;
 	$scope.queryCriteria = null;
-
 
 	$scope.toggleAll = function() {
 		if ($scope.selectAll) {
@@ -33,7 +29,6 @@ function inboxController($scope, $location, Message) {
 	};
 
 	$scope.search = function(searchTerm) {
-		log.info('Searching');
 		$scope.searchTerm = searchTerm;
 		$scope.searched = true;
 		$scope.loadInbox();
@@ -55,8 +50,6 @@ function inboxController($scope, $location, Message) {
 	    Message.search(queryParams,
 	      function(result){
 	        // Success
-	        log.info('SUCCESS');
-
 	        $scope.messagesLoading = false;
 	        $scope.anchorValue = result.newAnchorValue;
 	        $scope.anchorID = result.newAnchorID;
@@ -64,19 +57,15 @@ function inboxController($scope, $location, Message) {
 	        $scope.firstLoad = false;
 	      },
 	      function() {
-	      	$scope.messagesLoading = false;
-	      	$scope.firstLoad = false;
-	        log.info('FAIL');
+	      	window.location = 'http://www.workwoo.com/404.html';
 	      }
 	    );
 	};
 
 	$scope.deleteMessages = function() {
-        log.info('Selected Messages: [ ' + $scope.selectedMessages + ' ]');
 	    Message.delete($scope.selectedMessages,
 	      function(){
 	        // Success
-	        log.info('Delete success');
 		    var remainingMessages = [];
 	        for(var i=0; i<$scope.messages.length; i++) {
 	        	var messageID = $scope.messages[i]._id;
@@ -94,8 +83,7 @@ function inboxController($scope, $location, Message) {
 	        $scope.messages = remainingMessages;
 	      },
 	      function() {
-	        // Fail
-	        log.info('Delete fail');
+	        window.location = 'http://www.workwoo.com/404.html';
 	      }
 	    );
 	};
@@ -111,10 +99,9 @@ function inboxController($scope, $location, Message) {
 		}
 	};
 
-
 	$scope.initInboxController = function() {
 		if(!$scope.ensureAuthenticated) {
-			$scope.changeView('login');
+			window.location = 'http://www.workwoo.com/#/login';
 			return;
 		}
 
@@ -125,5 +112,4 @@ function inboxController($scope, $location, Message) {
 	};
 
 	$scope.initInboxController();
-
 }

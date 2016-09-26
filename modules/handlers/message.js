@@ -53,7 +53,6 @@ exports.create = function(req, res) {
 
 exports.getOne = function(req, res) {
 	try {
-		log.info('|message.getOne|', widget);
 		var messageID = req.query.messageID;
 		var accountID = req.session.userprofile.account._id;
 
@@ -67,9 +66,6 @@ exports.getOne = function(req, res) {
 			return utility.errorResponseJSON(res, 'Error occurred getting message');
 		}
 
-		log.info('|message.getOne| Getting message -> ' + messageID);
-		log.info('|message.getOne| Account -> ' + accountID);
-
 		Message.findOne({ _id: messageID, _account: accountID })
 			.populate('comments._created_by', '-password')
 			.exec(
@@ -81,8 +77,6 @@ exports.getOne = function(req, res) {
 					log.info('|message.getOne| Message not found -> ' + messageID);
 					return res.send(JSON.stringify({error: 'Message Not Found'}));
 				} else {		
-
-					log.info('|message.getOne| Message found -> ' + message._id);	
 					message.comments.reverse();
 					res.send(JSON.stringify({ result: message }));
 				}
@@ -96,8 +90,6 @@ exports.getOne = function(req, res) {
 // Scrub request & Account separation ------------------------------------------- TODO
 exports.search = function(req, res) {
 	try {
-		log.info('|message.search|', widget);
-
 	    var inboxID = req.query.inboxID;
 	    var sortField = req.query.sortField;
 	    var sortOrder = req.query.sortOrder;
@@ -105,17 +97,7 @@ exports.search = function(req, res) {
 	    var anchorID = req.query.anchorID;
 	    var searchTerm = req.query.searchTerm;
 	    var additionalQuery = req.query.queryCriteria;
-
 		var messagesPerPage = 5;
-
-		log.info('|message.search| inboxID -> ' + inboxID, widget);
-		log.info('|message.search| sortField -> ' + sortField, widget);
-		log.info('|message.search| sortOrder -> ' + sortOrder, widget);
-		log.info('|message.search| anchorFieldValue -> ' + anchorFieldValue, widget);
-		log.info('|message.search| anchorID -> ' + anchorID, widget);
-		log.info('|message.search| searchTerm -> ' + searchTerm, widget);
-		log.info('|message.search| additionalQuery -> ' + additionalQuery, widget);
-
 		var accountID = req.session.userprofile.account._id;	
 
 		// First, get the record for the inbox, so we can get its ID.
@@ -128,9 +110,7 @@ exports.search = function(req, res) {
 				} else if(!inbox) {
 					log.info('|Message.search.Inbox.findOne| Inbox not found -> ' + inboxID, widget);	
 					utility.errorResponseJSON(res, 'Invalid inbox');
-				} else {		
-					log.info('|Message.search.Inbox.findOne| Inbox found -> ' + inbox._id);	
-					
+				} else {
 					// Now that we have the inboxID, search for the messages
 					var options = {
 						accountID: accountID,
@@ -241,8 +221,8 @@ exports.addComment = function(req, res) {
 						}
 					});
 				}
-			});
-
+			}
+		);
 	} catch (error) {
 		log.error('|message.addComment| Unknown -> ' + error, widget);
 		utility.errorResponseJSON(res, 'Error occurred getting message');

@@ -1,3 +1,1 @@
-function staticController($scope) {
-	log.info('|staticController|');
-}
+function staticController($scope) {}
