@@ -106,7 +106,7 @@ function createUser(req, acccountID, callback) {
 function createPrimaryInbox(req, acccountID, callback) {
 	log.info('    Creating Primary Inbox...', widget);
 	var newInbox = new Inbox();
-	newInbox.description = 'Companywide Feedback Inbox';
+	newInbox.description = 'Company Feedback';
 	newInbox.public_title = 'Anonymously Share Your Thoughts';
 	newInbox.status = 'active';
 	newInbox._account = acccountID;
