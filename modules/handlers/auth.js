@@ -177,7 +177,7 @@ exports.signup = function(req, res) {
 															return utility.errorResponseJSON(res, 'Error occurred creating homepage');
 														} else {
 															log.info('Account successfully created for ' + account.name + ' -> ' + account._id, widget);
-															NotificationTemplate.findOne({ name: cfg.mailer.signupTemplate }, function (error, notificationTemplate) {
+															NotificationTemplate.findById(cfg.mailer.signupTemplate, function (error, notificationTemplate) {
 																if (error) {
 																	log.error('|auth.signupRequest.NotificationTemplate| Unknown -> ' + error, widget);
 																	return utility.errorResponseJSON(res, 'Error while retrieving signup template');
