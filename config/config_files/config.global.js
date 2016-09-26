@@ -29,7 +29,7 @@ config.mailer.primaryInboxURLPlaceholder = '|PRIMARY_INBOX_URL|';
 config.mailer.hostNamePlaceholder = '|HOSTNAME|';
 config.mailer.forgotPasswordTemplate = 'Forgot Password';
 config.mailer.resetPasswordTemplate = 'Reset Password';
-config.mailer.signupTemplate = '57e04cacf36d281f21d6bc46';
+config.mailer.signupTemplate = 'Signup';
 
 // Cache
 config.cache = {};

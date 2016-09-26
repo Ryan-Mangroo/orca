@@ -177,12 +177,12 @@ exports.signup = function(req, res) {
 															return utility.errorResponseJSON(res, 'Error occurred creating homepage');
 														} else {
 															log.info('Account successfully created for ' + account.name + ' -> ' + account._id, widget);
-															NotificationTemplate.findById(cfg.mailer.signupTemplate, function (error, notificationTemplate) {
+															NotificationTemplate.findOne({ name: cfg.mailer.signupTemplate }, function (error, notificationTemplate) {
 																if (error) {
 																	log.error('|auth.signupRequest.NotificationTemplate| Unknown -> ' + error, widget);
 																	return utility.errorResponseJSON(res, 'Error while retrieving signup template');
 																} else if(!notificationTemplate) {
-																	log.error('|auth.signupRequest.NotificationTemplate| Signup temlpate not found', widget);
+																	log.error('|auth.signupRequest.NotificationTemplate| Signup template not found', widget);
 																	return utility.errorResponseJSON(res, 'Signup temlpate not found');
 																} else {
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.firstNamePlaceholder, user.firstName);
@@ -245,12 +245,15 @@ exports.requestPasswordReset = function(req, res) {
 				if (error) {
 					log.error('|auth.requestPasswordReset.NotificationTemplate| Unknown -> ' + error, widget);
 					return utility.errorResponseJSON(res, 'Error while getting password reset email template');
+				} else if(!notificationTemplate) {
+					log.error('|auth.requestPasswordReset.NotificationTemplate| Template not found', widget);
+					return utility.errorResponseJSON(res, 'Password reset email template not found');
 				} else {
 
 					// Send an email user's email containing the tokenized link to reset their password
 					notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.tokenPlaceholder, token);
 					notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.hostNamePlaceholder, cfg.hostname);	
-					mailer.sendMail(notificationTemplate, {to: user.email}, user._id);
+					mailer.sendMail(notificationTemplate, { to: user.email }, user._id);
 				}
 			});
 
@@ -307,6 +310,9 @@ exports.resetPassword = function(req, res) {
 				if (error) {
 					log.error('|auth.resetPassword.NotificationTemplate| Unknown -> ' + error, widget);
 					return utility.errorResponseJSON(res, 'Error resetting password');
+				} else if(!notificationTemplate) {
+					log.error('|auth.resetPassword.NotificationTemplate| Email template not found', widget);
+					return utility.errorResponseJSON(res, 'Email template not found');
 				} else {
 					mailer.sendMail(notificationTemplate, { to: user.email }, user._id);
 				}
