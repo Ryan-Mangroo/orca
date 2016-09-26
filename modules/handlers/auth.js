@@ -187,7 +187,7 @@ exports.signup = function(req, res) {
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.firstNamePlaceholder, user.firstName);
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.primaryInboxURLPlaceholder, inbox.number + '?t=' + inbox.token);
 																	notificationTemplate.html = notificationTemplate.html.replace(cfg.mailer.primaryInboxURLPlaceholder, inbox.number + '?t=' + inbox.token);
-																	mailer.sendMail(notificationTemplate, { to: user.email, bcc: ['jesse@workwoo.com', 'ryan@workwoo.com'] }, user._id);
+																	mailer.sendMail(notificationTemplate, { to: user.email, bcc: 'jesse@workwoo.com' }, user._id);
 																	return res.send(JSON.stringify({ result: true }));
 																}
 															});
