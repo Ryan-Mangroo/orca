@@ -45,10 +45,10 @@
 	<!-- If nothing is set up -->
 	<div ng-if="!homeLoading && homeKeywords.length == 0" class="row fadeInOut">
 		<div class="col-md-12 text-center" style="padding: 10px 0px 10px 0px;">
-			<h3>This dashboard has nothing to show</h3>
-			<h3>Let's add some key phrases or ideas that you want to track</h3>
+			<h3>Oh no! you don't have any feedback yet</h3>
+			<h3>Get started by adding some phrases or ideas you want to track</h3>
 			<button type="button" data-toggle="modal" data-target="#addKeywordModal" class="btn btn-lg btn-primary"> Get Started</button>
-
+			<h3 style="margin-top:25px;">Want to import feedback from Glassdoor, Excel or another source? <a href="#/support">Contact us</a></h3>
 		</div>
 	</div>
 
@@ -60,7 +60,7 @@
 				<div class="removeKeywordOverlay" ng-attr-id="keyword_{{$index}}_gauge_overlay"></div>
 				<span title="Remove Keyword" ng-click="removeKeyword($index)" class="fa fa-remove removeKeywordIcon"></span>
 				<div class="keywordGauge" ng-attr-id="keyword_{{$index}}_gauge" ng-init="loadKeywordChart(keyword.title, $index)"></div>
-				<h4 class="text-center">{{ keyword.title }}</h4>
+				<h4 class="text-center"><a ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}">{{ keyword.title }}</a></h4>
 			</div>
 		</div>
 	</div>
@@ -80,13 +80,21 @@
 	</div>
 </div>
 
+<div ng-if="!homeLoading && homeKeywords.length > 0" class="container fadeInOut">
+	<div class="row fadeInOut">
+		<div class="col-md-12 text-center" style="padding: 10px 0px 10px 0px;">
+			<h3 style="margin-top:25px;">Want to import feedback from Glassdoor, Excel or another source? <a href="#/support">Contact us</a></h3>
+		</div>
+	</div>
+</div>
+
 <!-- Adspace -->
 <div ng-if="!homeLoading && homeKeywords.length > 0" class="container fadeInOut">
 	<div class="row" style="margin-top:25px;">
 		<div class="col-md-12">
 			<div class="alert alert-info text-center">
 			  <i class="fa fa-info-circle"></i>
-			  <span>Have you <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">shared this feedback form</a>?</span>
+			  <span>Be sure to <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share this feedback form</a></span>
 			</div>
 		</div>
 	</div>
@@ -108,7 +116,9 @@
 					<div class="row">
 						<div class="col-md-2"></div><!-- Spacer -->
 						<div class="col-md-8">
+
 							<input tpye="text" tabindex="1" name="newKeyword" id="newKeyword" placeholder="Keyword or phrase" ng-model="newKeywordForm.keyword" class="form-control" required/>
+							<span>(like "Leadership" or "Office Politics")</span>
 						</div>
 						<div class="col-md-2"></div><!-- Spacer -->
 					</div>
