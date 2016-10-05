@@ -31,7 +31,7 @@ exports.sendMail = function (notificationTemplate, recipients, creator) {
         var sent = true;
         if(error){
             sent = false;
-            log.logObject(error);
+            log.object(error);
         } else {
            log.info('Message sent: ' + info.response); 
         }
