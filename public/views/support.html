@@ -1,5 +1,5 @@
 <!-- Control Bar -->
-<div class="container-fluid pageTitle">
+<div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
 		<div class="col-md-4">
 			<h4><i class="fa fa-arrow-left"></i><a href="#/home"> Home</a></h4>
@@ -11,13 +11,14 @@
 <div class="container" style="max-width: 900px;">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 class="grayText"><i class="fa fa-heart mainColor"></i> Get Help</h2>
-			<h4>Wether you're experienceing an issue, have a question, or just need help setting up, we're here for you. </h4>
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-heart mainColor"></i> Get Help</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-heart mainColor"></i> Get Help</h2>
+			<h3>Wether you're experienceing an issue, have a question, or just need help setting up, we're here for you. </h3>
 		</div>
 	</div>
 </div>
 
-<div class="container" style="margin-top:25px;max-width: 900px;">
+<div class="container" style="max-width: 900px;">
 	<form id="supportForm" name="supportForm" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" action="https://workwoo.wufoo.com/forms/zaohdxs123hnnd/#public">
 		<!-- Required for Wufoo -->
 		<input type="hidden" id="idstamp" name="idstamp" value="CPbTItzRmSJbORRUZB9L8dBSPUoYQUPQ6xGdYH2pUq0=" />
@@ -30,7 +31,7 @@
 		<!-- Textarea -->
 		<div class="row">
 			<div class="col-md-12">
-				<label for="Field2">How can we help you?</label>
+				<h4>How can we help you?</h4>
 				<textarea id="Field2" name="Field2" ng-model="supportForm.message" class="form-control" spellcheck="true" rows="5" tabindex="1" onkeyup="" required></textarea>
 			</div>
 		</div>

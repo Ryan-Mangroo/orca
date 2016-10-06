@@ -1,8 +1,7 @@
 <!-- Page Title -->
-<div class="container-fluid pageTitle">
+<div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
 		<div class="col-md-8"></div><!-- Spacer -->
-		
 		<!-- If there is more than 1 inbox, allow switching between them -->
 		<div ng-if="!homeLoading && accountInboxes.length > 1" class="col-md-4" style="margin-right:0px;padding-right:0px;">
 			<div class="dropdown pull-right">
@@ -12,12 +11,10 @@
 				</ul>
 			</div>
 		</div>
-
 		<!-- Otherwise, encourage creating additional inboxes -->
 		<div ng-if="accountInboxes.length == 1"  class="col-md-4 text-right">
 			<h4><a href="#/account/inbox/new">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
 		</div>
-
 	</div>
 </div>
 
@@ -34,7 +31,9 @@
 <div class="container fadeInOut">
 	<div class="row">
 		<div class="col-md-6">
-			<h2 class="grayText"> {{ accountInboxesObject[inboxID].description }} Dashboard</h2>
+			<h3 class="grayText hideInDesktop text-center"> {{ accountInboxesObject[inboxID].description }} Dashboard</h3>
+			<h2 class="grayText hideInMobile"> {{ accountInboxesObject[inboxID].description }} Dashboard</h2>
+			<a class="text-center hideInDesktop" ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h3> See feedback <span class="fa fa-arrow-right"></span></h3></a>
 		</div>
 	</div>
 </div>
@@ -52,9 +51,8 @@
 		</div>
 	</div>
 
-	
+	<!-- Create the widget for each homepage keyword -->
 	<div class="row">
-		<!-- Create a row for each homepage keyword -->
 		<div ng-repeat="keyword in homeKeywords track by $index" class="col-md-3 fadeInOut">
 			<div class="keywordWidget">
 				<div class="removeKeywordOverlay" ng-attr-id="keyword_{{$index}}_gauge_overlay"></div>
@@ -71,32 +69,20 @@
 			<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addKeywordModal"><i class="fa fa-plus"></i> Add Keyword</button>
 		</div>
 		<div class="col-md-6"></div><!-- Spacer -->
-		<div class="col-md-3 text-right">
-			<a ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h4> See feedback <span class="fa fa-arrow-right"></span></h4></a>
+		<div class="col-md-3">
+			<a class="text-right hideInMobile" ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h4> See feedback <span class="fa fa-arrow-right"></span></h4></a>
 		</div>
 	</div>
 </div>
 
 <div ng-if="!homeLoading && homeKeywords.length > 0" class="container fadeInOut">
 	<div class="row fadeInOut">
-		<div class="col-md-12 text-center" style="padding: 10px 0px 10px 0px;">
-			<h3 style="margin-top:25px;">Want to import feedback from Glassdoor, Excel or another source? <a href="#/support">Contact us</a></h3>
+		<div class="col-md-12 text-center">
+			<h3 class="centerInDesktop" style="margin-top:25px;">Want to import feedback from Glassdoor, Excel or another source? <a href="#/support">Contact us</a></h3>
+			<h3 class="centerInDesktop" style="margin-top:25px;">Also, remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox</h3>
 		</div>
 	</div>
 </div>
-
-<!-- Adspace -->
-<div ng-if="!homeLoading && homeKeywords.length > 0" class="container fadeInOut">
-	<div class="row" style="margin-top:25px;">
-		<div class="col-md-12">
-			<div class="alert alert-info text-center">
-			  <i class="fa fa-info-circle"></i>
-			  <span>Be sure to <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share this feedback form</a></span>
-			</div>
-		</div>
-	</div>
-</div>
-
 
 <!-- Add Keyword modal -->
 <div id="addKeywordModal" class="modal fade" role="dialog">

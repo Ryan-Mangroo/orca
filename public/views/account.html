@@ -1,5 +1,5 @@
 <!-- Control Bar -->
-<div class="container-fluid pageTitle">
+<div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
 		<div class="col-md-4">
 			<h4><i class="fa fa-arrow-left"></i><a href="#/home"> Home</a></h4>
@@ -14,7 +14,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 class="grayText"><i class="fa fa-user mainColor"></i> Your Account</h2>
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-user mainColor"></i> Your Account</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-user mainColor"></i> Your Account</h2>
 		</div>
 	</div>
 </div>
@@ -220,13 +221,12 @@
 				<div class="row fadeInOut" ng-if="!allowEditPersonal && !allowEditPassword">
 					<div class="col-md-6 fadeInOut">
 						<button ng-disabled="allowEditCompany || allowEditLogo" type="button" ng-click="editPersonalInfo()" class="btn btn-default btn-block">Update Personal Info</button>
+						<br class="hieInDesktop"/>
 					</div>
 					<div class="col-md-6 fadeInOut">
 						<button ng-disabled="allowEditCompany || allowEditLogo" type="button" ng-click="editPassword()" class="btn btn-default btn-block"><i class="fa fa-lock"></i> Change My Password</button>
 					</div>
 				</div>
-
-
 
 				<!-- Cancel & Save (Password) -->
 				<div class="row fadeInOut" ng-if="allowEditPassword">
@@ -240,7 +240,6 @@
 						</button>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -259,7 +258,7 @@
 	</div>
 	<div class="container-fluid">
 		<!-- List Header -->
-		<div class="row listHeader">
+		<div class="row listHeader hideInMobile">
 			<div class="col-md-5">Description</div>
 			<div class="col-md-2 text-center">Messages</div>
 			<div class="col-md-3 text-center">Status</div>
@@ -271,10 +270,10 @@
 			<div class="col-md-5">
 	            <h4>{{ inbox.description }}</h4>
 			</div>
-			<div class="col-md-2 text-center">
+			<div class="col-md-2 text-center hideInMobile">
 	            <h4>{{ inbox.message_count }}</h4>
 			</div>
-			<div class="col-md-3 text-center">
+			<div class="col-md-3 text-center hideInMobile">
 	            <h4>{{ inbox.status }}</h4>
 			</div>
 			<div class="col-md-2">

@@ -1,5 +1,5 @@
 <!-- Control Bar -->
-<div class="container-fluid pageTitle">
+<div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
 		<div class="col-md-4">
 			<h4><i class="fa fa-arrow-left"></i><a href="#/home"> Home</a></h4>
@@ -7,7 +7,6 @@
 		<div class="col-md-4">
 			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
 		</div>
-
 		<!-- If there is more than 1 inbox, allow switching between them -->
 		<div ng-if="accountInboxes.length > 1" class="col-md-4" style="margin-right:0px;padding-right:0px;">
 			<div class="dropdown pull-right">
@@ -17,22 +16,23 @@
 				</ul>
 			</div>
 		</div>
-
 		<!-- Otherwise, encourage creating additional inboxes -->
 		<div ng-if="accountInboxes.length == 1"  class="col-md-4 text-right">
 			<h4><a href="#/account/inbox/new">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
 		</div>
-
 	</div>
 </div>
 
-<!-- Page Title -->
-<div class="container fadeInOut" style="margin-top:25px;">
-	<div class="row">
 
-		<!-- Inbox title -->
+<!-- Page Title -->
+<div class="container fadeInOut" style="margin-top:10px;">
+	<div class="row">
 		<div class="col-md-8" style="padding-left:0px;">
-			<h2 class="grayText noSpace">
+			<h2 class="grayText text-left hideInMobile">
+				<i class="fa fa-inbox mainColor"></i>
+				<span> {{ accountInboxesObject[inboxID].description }}</span>
+			</h2>
+			<h2 class="grayText text-center hideInDesktop">
 				<i class="fa fa-inbox mainColor"></i>
 				<span> {{ accountInboxesObject[inboxID].description }}</span>
 			</h2>
@@ -40,7 +40,7 @@
 		</div>
 
 		<!-- Search input -->
-		<div ng-if="!firstLoad" class="col-md-4" style="padding-right:0px;">
+		<div ng-if="!firstLoad" class="col-md-4" style="padding-right:0px;padding-left:0px;">
 			<form ng-submit="search(searchTerm)">
 				<div class="inner-addon left-addon">
 					<i class="fa fa-search addonIcon"></i>
@@ -65,7 +65,7 @@
 	<div class="row">
 		<div class="col-md-12 text-center">
 			<h3>No feedback found</h3>
-			<h4 ng-if="accountInboxesObject[inboxID].status == 'active'">Make sure you're sharing the link for this inbox: <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
+			<h4 ng-if="accountInboxesObject[inboxID].status == 'active'">Make sure you're sharing the link for this inbox <a class="hideInMobile" ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
 		</div>
 	</div>
 </div>
@@ -86,7 +86,7 @@
 <div ng-if="!messagesLoading && messages.length > 0 || searched" class="container fadeInOut">
 
 	<!-- List Header -->
-	<div ng-if="!messagesLoading" class="row listHeader">
+	<div ng-if="!messagesLoading" class="row listHeader hideInMobile">
 		<div class="col-md-1"><input type="checkbox" ng-click="toggleAll(message._id)"/></div>
 		<div class="col-md-7">Message</div>
 		<div class="col-md-3"><span>Received</span></div>
@@ -98,7 +98,7 @@
 		<div class="col-md-12 text-center">
 			<h3>No feedback found</h3>
 			<h4>Try adjusting your search</h4>
-			<h4>Also, make sure you're sharing the link for this inbox: <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
+			<h4>Also, make sure you're sharing the link for this inbox <a class="hideInMobile" ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
 		</div>
 	</div>
 
@@ -106,40 +106,40 @@
 	<div ng-if="!messagesLoading" ng-repeat="message in messages track by $index" class="row listRow FadeInOutStagger" ng-class="$index == messages.length-1 ? 'listRowLast' : 'listRow'">
 		
 		<!-- Checkbox -->
-		<div class="col-md-1">
+		<div class="col-md-1 hideInMobile">
 			<input type="checkbox" ng-checked="selectedMessages.indexOf(message._id) > -1" ng-click="toggleSelectedMessage(message._id)"/>	
 		</div>
 
 		<!-- Message Content -->
 		<div class="col-md-7">
 			<div class="ellipsis">
-            	<div class="itemCardContent">
+            	<div class="messageContent">
             		<a ng-href="#/message/{{ message._id }}">{{ message.content }}</a>
             	</div>
 			</div>
 		</div>
 
 		<!-- Message Received Date -->
-		<div class="col-md-3">
+		<div class="col-md-3 messageDate">
 			<span>{{ formattedDateTime(message.created_at) }}</span>
 		</div>
 
 		<!-- Message Mood -->
-		<div class="col-md-1">
+		<div class="col-md-1 messageMood">
 			<img class="moodIcon" ng-src="{{'img/faces/' + moodMap[message.mood] + '.png'}}"/>
 		</div>
 	</div>
 
 	<!-- List controls -->
 	<div class="row listControls">
-		<div class="col-md-2" style="padding: 0px;">
+		<div class="col-md-2 hideInMobile" style="padding: 0px;">
 			<button ng-click="deleteMessages()" ng-disabled="selectedMessages.length == 0" type="button" class="btn btn-block btn-danger">
 				<span class="fa fa-trash-o"></span> Delete Selected
 			</button>
 		</div>
 		<div class="col-md-8"></div><!-- Spacer -->
 		<div class="col-md-2" style="padding: 0px;">
-			<a class="btn btn-default btn-block" ng-href="#/account/inbox/edit/{{accountInboxesObject[inboxID]._id}}"><i class="fa fa-cog"></i> Configure Inbox</a>
+			<a class="btn btn-default btn-block" ng-href="#/account/inbox/edit/{{accountInboxesObject[inboxID]._id}}"><i class="fa fa-cog"></i> Configure This Inbox</a>
 		</div>
 	</div>
 

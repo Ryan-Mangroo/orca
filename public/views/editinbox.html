@@ -1,5 +1,5 @@
 <!-- Control Bar -->
-<div class="container-fluid pageTitle">
+<div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
 		<div class="col-md-4">
 			<h4><i class="fa fa-arrow-left"></i><a href="#/account"> Your Account</a></h4>
@@ -17,7 +17,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 class="grayText"><i class="fa fa-inbox mainColor"></i> Configure Inbox</h2>
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-inbox mainColor"></i> Configure Inbox</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-inbox mainColor"></i> Configure Inbox</h2>
+
 		</div>
 	</div>
 </div>
@@ -121,6 +123,7 @@
 								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Delete Inbox</span>
 								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
 							</button>
+							<br class="hieInDesktop"/>
 						</div>
 
 						<!-- Reset Link button -->
@@ -129,6 +132,7 @@
 								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Reset Link </span>
 								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
 							</button>
+							<br class="hieInDesktop"/>
 						</div
 
 						<!-- Make inactive button -->
@@ -141,6 +145,7 @@
 								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Make Active</span>
 								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
 							</button>
+							<br class="hieInDesktop"/>
 						</div>
 
 						<!-- Save button -->

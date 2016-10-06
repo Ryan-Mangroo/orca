@@ -1,5 +1,5 @@
 <!-- Control Bar -->
-<div class="container-fluid pageTitle">
+<div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
 		<div class="col-md-4">
 			<h4><i class="fa fa-arrow-left"></i><a href="javascript:history.back()"> Go Back</a></h4>
@@ -7,8 +7,9 @@
 		<div class="col-md-4">
 			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
 		</div>
-		<div class="col-md-4 text-right" style="margin-right:0px;padding-right:0px;">
-			<button type="button" class="btn btn-danger" ng-click="deleteSingleMessage(singleMessage._id, singleMessage._inbox)"><i class="fa fa-trash"></i> Delete this message</button>
+		<div class="col-md-2"></div><!-- Spacer -->
+		<div class="col-md-2 text-right" style="margin-right:0px;padding-right:0px;padding-left:0px;">
+			<button type="button" class="btn btn-danger btn-block" ng-click="deleteSingleMessage(singleMessage._id, singleMessage._inbox)"><i class="fa fa-trash"></i> Delete this message</button>
 		</div>
 	</div>
 </div>
@@ -49,7 +50,14 @@
 					<div>{{ comment.comment }}</div>
 				</div>
 			</div>
+		</div>
+	</div>
+</div>
 
+<div class="container hideInDesktop" style="margin-top: 10px;">
+	<div class="row">
+		<div class="col-md-12">
+			<button type="button" class="btn btn-danger btn-block" ng-click="deleteSingleMessage(singleMessage._id, singleMessage._inbox)"><i class="fa fa-trash"></i> Delete this message</button>
 		</div>
 	</div>
 </div>

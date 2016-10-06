@@ -1,0 +1,313 @@
+@media only screen and (max-width : 992px) {
+	/*######################### GLOBAL #########################*/
+	.hideInMobile {
+		display: none;
+	}
+
+	.centerInDesktop {
+		text-align: left;
+	}
+
+	.pageTitle {
+		color: #6f8993;
+		background-color: #f3f5f6;
+		position: relative;
+	}
+
+	.buttonContainer {
+		padding: 10px 0px 10px 0px;
+	}
+
+	.mediumContainer {
+		max-width: 700px;
+	}
+
+	.grayBorderBox {
+		font-size: 18px;
+		color: #777;
+		padding: 25px;
+		background-color: #fff;
+		border-radius: 10px;
+		border: 1px solid #d2d5da;
+	}
+
+	.loadingIcon {
+		font-size: 150px;
+		color: #f3f5f6;
+	}
+
+	.moodIcon {
+		height: 30px;
+		width: 30px;
+	}
+
+	/*######################### GLOBAL #########################*/
+
+
+	/*######################### HEADER #########################*/
+	.headerContainer {
+		border-radius: 0px;
+	    background-color: #2596c3;
+	    padding: 0px;
+	    margin: 0px;
+	    border: none;
+		color: #fff;
+	}
+
+	.headerLogoImage {
+		margin: 0px 0px 0px 10px;
+		height: 40px;
+	}
+
+	.headerToggleButton {
+		font-size: 20px;
+		margin: 0px;
+	}
+
+	.headerMenu {
+		background-color: #56B8DF;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.headerMenu li {
+		margin: 0px;
+	}
+
+	.headerMenu li a {
+		font-size: 20px;
+		margin: 0px;
+		padding: 10px 10px 10px 50px;
+		border-radius: 0px;
+		color: #fff;
+	}
+
+	.headerMenu li a:focus,
+	.headerMenu li a:hover {
+		font-size: 20px;
+		margin: 0px;
+		padding: 10px 10px 10px 50px;
+		border-radius: 0px;
+		color: #fff;
+		background-color: #2596c3;
+	}
+	/*######################### HEADER #########################*/
+
+
+	/*######################### HOMEPAGE #########################*/
+	.removeKeywordOverlay {
+		display: none;
+		font-size: 30px;
+		text-align: center;
+		padding-top: 50px;
+		position: absolute;
+		top: 0px;
+		width: 100%;
+		bottom: 0px;
+		color: #fff;
+		background-color: #e4e9eb;
+		opacity: .75
+	}
+
+	.keywordWidget {
+		overflow: hidden;
+		margin-bottom: 25px;
+		position: relative;
+		background-color: #fbfcfc;
+		border: 5px solid #f3f5f6;
+	}
+
+	.keywordGauge {
+		margin-top: -50px;
+		height: 155px;
+		margin-bottom: 40px;
+	}
+
+	.keywordWidget .removeKeywordIcon {
+		font-size: 25px;
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		color: #d9534f;
+	}
+
+	/*######################### HOMEPAGE #########################*/
+
+
+	/*######################### LIST #########################*/
+
+	.listHeader {
+		font-size: 16px;
+		font-weight: 600;
+		padding: 10px;
+		background-color: #2596c3;
+		color: #fff;
+	}
+
+	.listRow, .listRowLast {
+		position: relative;
+		font-size: 16px;
+		padding: 10px;
+		background-color: #fbfcfc;
+		border-left: 1px solid #e4e9eb;
+		border-right: 1px solid #e4e9eb;
+	}
+
+	.listRow {
+		border-bottom: 2px dotted #e4e9eb;
+	}
+
+	.listRowLast {
+		border-bottom: 2px solid #fbfcfc;
+	}
+
+	.listControls {
+		font-size: 16px;
+		font-weight: 600;
+		padding: 0px;
+		background-color: #f3f5f6;
+		color: #fff;
+	}
+
+	.inboxSwitcherControl {
+		width: 100%;
+		cursor: pointer;
+		user-select: none;
+		padding: 10px 30px 10px 30px;
+		margin: 0px;
+		background-color: #e4e9eb;
+	}
+
+	.inboxSwitcher {
+		width: 100%;
+		-webkit-transition: .25s;
+	    -moz-transition: .25s;
+	    -ms-transition: .25s;
+	    -o-transition: .25s;
+	    transition: .25s;
+	    font-size: 18px;
+		background-color: #f3f5f6;
+		border-radius: 0px;
+		box-shadow: none;
+		border: none;
+		top: 39px;
+		margin: 0px;
+		color: #6f8993;
+		padding: 0px;
+	}
+
+	.inboxSwitcher li {
+		border-left: 5px solid #e4e9eb;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.inboxSwitcher li a {
+		margin: 0px;
+		padding: 10px 16px 10px 16px;
+		color: #6f8993;
+	}
+
+	.inboxSwitcher li a:hover {
+		color: #fff;
+		background-color: #2596c3;
+	}
+
+	/*######################### MESSAGE LIST #########################*/
+
+
+	/*######################### SINGLE MESSAGE #########################*/
+
+	.singleMessageContent {
+		font-style: italic;
+		padding: 25px;
+		font-size: 20px;
+	}
+
+	.singleMessageFeedback {
+		color: #6f8993;
+		background-color: #f3f5f6;
+		margin-top: 15px;
+		padding: 15px 25px 25px 25px;
+		min-height: 200px;
+	}
+
+	.commentListContainer {
+		margin: 10px 0px 10px 0px;
+	}
+
+	.commentListItem {	
+		background-color: #f9fcdc;
+		padding: 10px;
+		margin-bottom: 2px;
+	}
+
+
+	/*######################### SINGLE MESSAGE #########################*/
+
+
+	/*######################### ACCOUNT #########################*/
+	.accountLogo {
+		margin-top: 25px;
+		max-height: 100px;
+		max-width: 200px;
+	}
+
+	.accountLogoContainer {
+		margin-bottom: 5px;
+		height: 150px;
+		text-align: center;
+		padding: 10px;
+		border: 2px solid #f3f5f6;
+	}
+
+	.accountSection {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.planDetailsContainer {
+		color: #3AB7C6;
+		background-color: #d5eff3;
+		padding: 25px;
+	}
+
+	.currentPlanPriceTitle, .currentPlanTitle {
+		font-size: 25px;
+	}
+
+	.currentPlanPriceMain {
+		position: relative;
+		font-size: 70px;
+	}
+
+	.currentPlanPriceSymbol {
+		position: relative;
+		top: -30px;
+		color: #fff;
+		font-size: 18px;
+	}
+
+	.currentPlanDetailContainer {
+		margin:10px;
+	}
+
+	/*######################### ACCOUNT #########################*/
+
+
+	/*######################### INBOX CONFIGURATION #########################*/
+	.inactiveInboxIndicator, .activeInboxIndicator {
+		font-weight: bold;
+		font-size: 20px;
+	}
+
+	.inactiveInboxIndicator {
+		color: #d16d5f;
+	}
+
+	.activeInboxIndicator {
+		color: #5cb85c;
+	}
+	/*######################### INBOX CONFIGURATION #########################*/
+
+}

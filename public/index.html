@@ -1,6 +1,5 @@
 <html>
 	<head>
-
 		<title>WorkWoo</title>
     	<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -25,6 +24,7 @@
 		<!-- Custom Styles -->
 		<link rel="stylesheet" type="text/css" href="css/all.css">
 		<link rel="stylesheet" type="text/css" href="css/desktop.css">
+		<link rel="stylesheet" type="text/css" href="css/mobile.css">
 
 		<!-- Angular app & custom scripts -->
 		<script src="js/utils.js"></script>
@@ -48,23 +48,25 @@
 
 	<body ng-app="App" ng-controller="mainController">
 
-		<!-- Desktop Header -->
-		<div class="container-fluid header">
-			<span><a href="#/"><img class="headerLogoImage" src="img/logo-white.png"/></a></span>
-			<div class="dropdown pull-right">
-				<span class="fa fa-bars userMenuIcon" data-toggle="dropdown"></span>
-				<ul class="dropdown-menu userMenu">
+	    <nav class="navbar headerContainer">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a href="#/"><img class="headerLogoImage" src="img/logo-white.png"/></a>
+					<button class="navbar-toggle headerToggleButton" data-toggle="collapse" data-target="#headerMenu">
+						<div class="fa fa-bars"></div>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse noSpace" id="headerMenu">
+				  <ul class="nav navbar-nav navbar-right headerMenu">
 					<li><a href="#/home"><i class="fa fa-tachometer"></i> Dashboards</a></li>
 					<li><a ng-href="#/inbox/{{currentUser.account._primary_inbox}}"><i class="fa fa-comment-o"></i> Feedback</a></li>
-					<li><a href="#/account"><i class="fa fa-cog"></i> Account & Settings</a></li>
 					<li><a href="#/support"><i class="fa fa-question"></i> Get Help</a></li>
-					<li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
-				</ul>
+					<li><a href="#/account"><i class="fa fa-cog"></i> Settings</a></li>
+					<li><a href="/logout">Logout <i class="fa fa-sign-out"></i></a></li>
+				  </ul>
+				</div>
 			</div>
-
-		  	<div class="pull-right" style="margin-right:10px;font-weight:600;">{{ currentUser.firstName }} @ {{ currentUser.account.name }}</div>
-		</div>
-		<!-- Desktop Header -->
+	    </nav>
 
 		<!-- Content -->
 		<div ng-if="authenticated" ng-view></div>
