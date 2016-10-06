@@ -67,14 +67,11 @@
 
 	<!-- Feedback Link -->
 	<div ng-if="!homeLoading && homeKeywords.length > 0" class="row fadeInOut">
-		<div class="col-md-3">
+		<div class="col-md-3 text-left">
 			<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addKeywordModal"><i class="fa fa-plus"></i> Add Keyword</button>
 		</div>
-		<div class="col-md-3">
-			<a ng-href="#/account/inbox/edit/{{accountInboxesObject[inboxID]._id}}" class="btn btn-default btn-block"><i class="fa fa-cog"></i> Configure Inbox</a>
-		</div>
-		<div class="col-md-4"></div><!-- Spacer -->
-		<div class="col-md-2">
+		<div class="col-md-6"></div><!-- Spacer -->
+		<div class="col-md-3 text-right">
 			<a ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h4> See feedback <span class="fa fa-arrow-right"></span></h4></a>
 		</div>
 	</div>
