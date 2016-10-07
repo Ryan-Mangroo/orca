@@ -17,9 +17,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 class="grayText text-left hideInMobile"><i class="fa fa-inbox mainColor"></i> Configure Inbox</h2>
-			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-inbox mainColor"></i> Configure Inbox</h2>
-
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-inbox mainColor"></i> Inbox Settings</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-inbox mainColor"></i> Inbox Settings</h2>
 		</div>
 	</div>
 </div>
@@ -46,7 +45,7 @@
 </div>
 
 <!-- Content -->
-<div ng-if="!inboxLoading" class="container fadeInOut">
+<div ng-if="!inboxLoading" class="container grayContainer fadeInOut">
 	<form name="editInboxForm" ng-model="selectedInbox">
 		<div class="row">
 			<!-- Inbox Image -->
@@ -138,11 +137,11 @@
 						<!-- Make inactive button -->
 						<div class="col-md-3">
 							<button ng-if="selectedInbox.status == 'active'" ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#inactivateModal" type="button" class="btn btn-warning btn-block">
-								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Make Inactive</span>
+								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Inactivate</span>
 								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
 							</button>
 							<button ng-if="selectedInbox.status == 'inactive'" ng-disabled="inboxLoading || inboxSubmitting" ng-click="toggleInboxStatus('active')" type="button" class="btn btn-success btn-block">
-								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Make Active</span>
+								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Activate</span>
 								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
 							</button>
 							<br class="hieInDesktop"/>

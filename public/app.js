@@ -38,6 +38,16 @@ App.config(function($routeProvider) {
 	$routeProvider.when('/account/inbox/new', { templateUrl : 'views/newinbox.html', controller: newInboxController});
 
 	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});
+	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});
 	$routeProvider.when('/support/submitted', { templateUrl : 'views/supportsubmitted.html', controller: supportController});
 	$routeProvider.when('/404', { templateUrl : 'views/404.html', controller: staticController});
+
+	$routeProvider.when('/support/firstsetup', { templateUrl : 'views/support/firstsetup.html', controller: supportController});
+	$routeProvider.when('/support/customizeform', { templateUrl : 'views/support/customizeform.html', controller: supportController});
+	$routeProvider.when('/support/dashboardconfig', { templateUrl : 'views/support/dashboardconfig.html', controller: supportController});
+	$routeProvider.when('/support/inboxdashboards', { templateUrl : 'views/support/inboxdashboards.html', controller: supportController});
+	$routeProvider.when('/support/inbox', { templateUrl : 'views/support/inbox.html', controller: supportController});
+	$routeProvider.when('/support/messagecomment', { templateUrl : 'views/support/messagecomment.html', controller: supportController});
+	$routeProvider.when('/support/addinginboxes', { templateUrl : 'views/support/addinginboxes.html', controller: supportController});
+	$routeProvider.when('/support/addingusers', { templateUrl : 'views/support/addingusers.html', controller: supportController});
 });

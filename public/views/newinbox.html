@@ -11,7 +11,7 @@
 </div>
 
 <!-- Page Title -->
-<div class="container mediumContainer">
+<div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<h2 class="grayText text-left hideInMobile"><i class="fa fa-inbox mainColor"></i> New Inbox</h2>
@@ -20,7 +20,7 @@
 	</div>
 </div>
 
-<div class="container mediumContainer">
+<div class="container grayContainer">
 	<form ng-model="newInbox">
 		<div class="row">
 
@@ -40,10 +40,10 @@
 				</div>
 			</div>
 
-			<div class="col-md-6"></div><!-- Spacer -->
+			<div class="col-md-8"></div><!-- Spacer -->
 
 			<!-- Submit Button -->
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="buttonContainer">
 					<button ng-disabled="inboxSubmitting" type="button" ng-click="createInbox(newInbox)" class="btn btn-success btn-block">
 						<span ng-if="!inboxSubmitting">Create Inbox</span>

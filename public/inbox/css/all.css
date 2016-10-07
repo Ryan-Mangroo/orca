@@ -59,8 +59,10 @@ a:hover {
     -o-transition: .25s;
     transition: .25s;
 	text-transform: uppercase;
-	border-radius: 10px;
+	border-radius: 0px;
 	padding: 15px;
+	border: none;
+	border-left: 5px solid;
 }
 
 .btn-sm {
@@ -82,15 +84,15 @@ a:hover {
 
 .btn-success {
 	color: #fff;
-	background-color: #7dc35c;
-	border-color: #7dc35c;
+	background-color: #5cb85c;
+	border-color: #449d44;
 }
 
 
 .btn-success:hover {
 	color: #fff;
-	background-color: #63ae3f;
-	border-color: #63ae3f;
+	background-color: #449d44;
+	border-color: #449d44;
 }
 
 .btn-danger {

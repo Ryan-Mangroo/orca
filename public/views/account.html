@@ -14,13 +14,13 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 class="grayText text-left hideInMobile"><i class="fa fa-user mainColor"></i> Your Account</h2>
-			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-user mainColor"></i> Your Account</h2>
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-user mainColor"></i> Your Account & Settings</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-user mainColor"></i> Your Account & Settings</h2>
 		</div>
 	</div>
 </div>
 
-<div class="container">
+<div class="container grayContainer">
 	<div class="row">
 
 		<!-- Account Logo -->
@@ -33,7 +33,7 @@
 				<!-- Edit Logo Button (before change) -->
 				<div class="row" ng-if="!allowEditLogo">
 					<div class="col-md-12">
-						<span class="btn btn-block btn-default btn-file">
+						<span class="btn btn-block btn-primary btn-file">
 						    Change Logo <input ng-model="accountLogoFile" onchange="angular.element(this).scope().previewAccountLogo(this)" type="file" accept="image/*"/>
 						</span>
 					</div>
@@ -109,7 +109,7 @@
 				<!-- Edit Company Buttons -->
 				<div class="row fadeInOut" ng-if="!allowEditCompany">
 					<div class="col-md-6">
-						<button ng-disabled="allowEditPersonal || allowEditPassword || allowEditLogo" type="button" ng-click="editCompanyInfo()" class="btn btn-default btn-block">Update Company Info</button>
+						<button ng-disabled="allowEditPersonal || allowEditPassword || allowEditLogo" type="button" ng-click="editCompanyInfo()" class="btn btn-primary btn-block">Update Company Info</button>
 					</div>
 				</div>
 
@@ -220,11 +220,11 @@
 				<!-- Edit Personal Info Buttons -->
 				<div class="row fadeInOut" ng-if="!allowEditPersonal && !allowEditPassword">
 					<div class="col-md-6 fadeInOut">
-						<button ng-disabled="allowEditCompany || allowEditLogo" type="button" ng-click="editPersonalInfo()" class="btn btn-default btn-block">Update Personal Info</button>
+						<button ng-disabled="allowEditCompany || allowEditLogo" type="button" ng-click="editPersonalInfo()" class="btn btn-primary btn-block">Update Personal Info</button>
 						<br class="hieInDesktop"/>
 					</div>
 					<div class="col-md-6 fadeInOut">
-						<button ng-disabled="allowEditCompany || allowEditLogo" type="button" ng-click="editPassword()" class="btn btn-default btn-block"><i class="fa fa-lock"></i> Change My Password</button>
+						<button ng-disabled="allowEditCompany || allowEditLogo" type="button" ng-click="editPassword()" class="btn btn-primary btn-block"><i class="fa fa-lock"></i> Change My Password</button>
 					</div>
 				</div>
 
@@ -277,7 +277,7 @@
 	            <h4>{{ inbox.status }}</h4>
 			</div>
 			<div class="col-md-2">
-	            <a class="btn btn-default btn-block" ng-href="#/account/inbox/edit/{{inbox._id}}">Configure <i class="fa fa-arrow-right"></i></a>
+	            <a class="btn btn-default btn-block" ng-href="#/account/inbox/edit/{{inbox._id}}">Edit Settings <i class="fa fa-arrow-right"></i></a>
 			</div>
 		</div>
 

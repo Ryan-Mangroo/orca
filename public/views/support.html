@@ -1,24 +1,75 @@
 <!-- Control Bar -->
 <div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-12">
 			<h4><i class="fa fa-arrow-left"></i><a href="#/home"> Home</a></h4>
 		</div>
 	</div>
 </div>
 
 <!-- Page Title -->
-<div class="container" style="max-width: 900px;">
+<div class="container fadeInOut">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 class="grayText text-left hideInMobile"><i class="fa fa-heart mainColor"></i> Get Help</h2>
-			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-heart mainColor"></i> Get Help</h2>
-			<h3>Wether you're experienceing an issue, have a question, or just need help setting up, we're here for you. </h3>
+			<h2 class="grayText text-left">
+				<i class="fa fa-heart mainColor"></i>
+				<span> Get Help & Support</span>
+			</h2>
 		</div>
 	</div>
 </div>
 
-<div class="container" style="max-width: 900px;">
+<!-- Content -->
+<div class="container fadeInOut grayContainer">
+	<div class="col-md-6">
+		<div class="row" class="text-center">
+
+			<div class="col-md-12">
+				<h3>Wether you need help setting up, have an issue, or just want to chat, we're here for you.</h3>
+				<h3>Just signed up?</h3>
+				<h3>Check out our <a href="#/support/firstsetup">getting started </a> setup guide</h4>
+			</div>
+
+			<!--
+			<div class="col-md-6">
+				<h3>Inbox Settings</h3>
+				<h4 class="helpItem"><a href="#/support/firstsetup">Your first setup</a></h4>
+				<h4 class="helpItem"><a href="#/support/customizeform">Customizing the Form</a></h4>
+			</div>
+			<div class="col-md-6">
+				<h3>Your Dashboard</h3>
+				<h4 class="helpItem"><a href="#/support/dashboardconfig">Dashboard Setup</a></h4>
+				<h4 class="helpItem"><a href="#/support/inboxdashboards">Different Inboxes</a></h4>
+			</div>
+		</div>
+		<div class="row" class="text-center">
+			<div class="col-md-6">
+				<h3>Feedback Messages</h3>
+				<h4 class="helpItem"><a href="#/support/inbox">Viewing an Inbox</a></h4>
+				<h4 class="helpItem"><a href="#/support/messagecomment">Commenting on a Message</a></h4>
+			</div>
+
+			<div class="col-md-6">
+				<h3>Account Settings</h3>
+				<h4 class="helpItem"><a href="#/support/addinginboxes">Additional Inboxes</a></h4>
+				<h4 class="helpItem"><a href="#/support/addingusers">Additional Users</a></h4>
+			</div>
+			-->
+		</div>
+
+	</div>
+
+	<div class="col-md-6">
+
+<!-- Page Title -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h3>How can we help you?</h3>
+		</div>
+	</div>
+</div>
+
 	<form id="supportForm" name="supportForm" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" action="https://workwoo.wufoo.com/forms/zaohdxs123hnnd/#public">
 		<!-- Required for Wufoo -->
 		<input type="hidden" id="idstamp" name="idstamp" value="CPbTItzRmSJbORRUZB9L8dBSPUoYQUPQ6xGdYH2pUq0=" />
@@ -31,15 +82,14 @@
 		<!-- Textarea -->
 		<div class="row">
 			<div class="col-md-12">
-				<h4>How can we help you?</h4>
 				<textarea id="Field2" name="Field2" ng-model="supportForm.message" class="form-control" spellcheck="true" rows="5" tabindex="1" onkeyup="" required></textarea>
 			</div>
 		</div>
 
 		<!-- Submit button -->
 		<div class="row">
-			<div class="col-md-6"></div><!-- Spacer -->
-			<div class="col-md-6">
+			<div class="col-md-8"></div><!-- Spacer -->
+			<div class="col-md-4">
 				<div class="buttonContainer">
 					<button ng-disabled="supportForm.$invalid" type="submit" class="btn btn-primary btn-block" type="submit">Submit</button>
 				</div>
@@ -47,4 +97,9 @@
 		</div>
 
 	</form>
+
+	</div>
+
 </div>
+
+

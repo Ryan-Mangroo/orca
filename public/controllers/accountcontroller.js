@@ -35,13 +35,6 @@ function accountController($scope, $location, Account, Inbox) {
 		} else {
 			style.opacity = '1';
 		}
-
-		if(isFocused) {
-			style['background-color'] = '#fff';
-			style['border-radius'] = '5px';
-		} else {
-			style['background'] = 'none';
-		}
 		return style;
 	};
 

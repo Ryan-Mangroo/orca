@@ -1,6 +1,7 @@
 function errorController($scope, $location) {
 	log.info('|errorController|');
-	$scope.setBoxLoaded(false);
-	$scope.setBoxInfo(null);
+	$scope.setInboxLoaded(false);
+	$scope.setInboxInfo(null);
+	$('#guarantee').hide();
 	$location.url($location.path());
 }

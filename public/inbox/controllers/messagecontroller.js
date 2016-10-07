@@ -17,7 +17,6 @@ function messageController($scope, $location, $routeParams, Message, Inbox) {
 	$scope.newEntryPlaceholder = 'Your feedback...';
 
 	$scope.loadInboxInfo = function(inboxNumber, token) {
-		log.info('Loading inbox info for: ' + inboxNumber + ', t: ' + token);
 		Inbox.getInfo(inboxNumber, token,
 		  function(inboxInfo){
 		  	if(inboxInfo.error) {
@@ -35,7 +34,6 @@ function messageController($scope, $location, $routeParams, Message, Inbox) {
 
 		  },
 		  function() {
-		  	log.error('Something bad happened while loading inbox info');
 		  	$scope.changeView('view/error');
 		  }
 		);
@@ -67,13 +65,12 @@ function messageController($scope, $location, $routeParams, Message, Inbox) {
 		$scope.selectedMood = selectedMood;
 		$scope.newEntryPlaceholder = 'What are you ' + selectedMood + ' about?';
 
-		$('#moodQuestion').slideUp(200, function(){});
-		$('#' + selectedMood + 'Mood').animate({ left: '0px', zIndex: '1' }, 200);
-
-		// First, hide the un-selected moods
+		// First, fade out the un-selected moods
 		for(var singleMood in $scope.selectableMoods) {
 			if(singleMood != selectedMood) {
-				$('#' + singleMood + 'Mood').animate({ zIndex: '0', opacity: '0' }, 200);
+				$('#' + singleMood + 'Mood').animate({ opacity: '.25' }, 200);
+			} else {
+				$('#' + singleMood + 'Mood').animate({ opacity: '1' }, 200);
 			}
 		}
 		
