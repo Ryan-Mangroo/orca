@@ -16,6 +16,7 @@ var userSchema = new Schema({
 	phone: String,
 	state: String,
 	role: String,
+	lastLogin: Date,
 	passwordResetToken: String,
 	passwordResetTokenExp: Date
 }, cfg.mongoose.options);
@@ -39,7 +40,11 @@ userSchema.statics.authenticate = function(email, password, callback) {
 				}
 				if (isMatch) {
 					log.info('|User.authenticate| Credentials match for -> ' + email, widget);
-					return callback(null, user);
+					var now = new Date();
+					user.lastLogin = now.toString();
+					user.save(function(error, user) {
+						return callback(null, user);
+					});
 				} else {
 					log.error('|User.authenticate| Credentials do not match for -> ' + email, widget);
 					return callback(null, false);
@@ -56,13 +61,13 @@ userSchema.statics.changePassword = function(accountID, userID, currentPassword,
 	this.findOne({ _id: userID, _account: accountID })
 		.exec(
 		function(err, user) {
-			if (err) { return callback(err); }
-
+			if (err) {
+				return callback(err);
+			}
 			if (!user) { 
 				log.error('|User.changePassword| User not found -> ' + userID, widget);
 				return callback(null, false);
 			}
-
 			bcrypt.compare(currentPassword, user.password, function(err, isMatch) {
 				if (err) {
 					log.error(err, widget);

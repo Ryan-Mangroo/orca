@@ -1,0 +1,119 @@
+<!-- Control Bar -->
+<div class="container-fluid pageTitle hideInMobile">
+	<div class="row">
+		<div class="col-md-4">
+			<h4><i class="fa fa-arrow-left"></i><a href="#/settings"> Settings</a></h4>
+		</div>
+		<div class="col-md-4">
+			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+		</div>
+		<div class="col-md-4 text-right"></div><!-- Spacer -->
+	</div>
+</div>
+
+<!-- Page Title -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-user"></i> Edit User</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-user"></i> Edit User</h2>
+		</div>
+	</div>
+</div>
+
+<!-- Loading -->
+<div ng-if="userLoading" class="container fadeInOut">
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<i class="fa fa-cog fa-spin loadingIcon"></i>
+		</div>
+	</div>
+</div>
+
+<!-- Content -->
+<div ng-if="!userLoading" class="container grayContainer fadeInOut">
+	<form name="editUserForm" ng-model="selectedUser" ng-submit="saveUser(selectedUser)">
+		<div class="row">
+
+			<!-- First Name -->
+			<div class="col-md-6">
+				<label>First Name: </label>
+				<div class="form-group">
+					<input name="firstName" ng-disabled="userSubmitting" type="text" class="form-control" ng-class="computeRequiredInputStyle(editUserForm.firstName)" ng-model="selectedUser.firstName" required/>
+				</div>
+			</div>
+
+			<!-- Last Name -->
+			<div class="col-md-6">
+				<label>Last Name: </label>
+				<div class="form-group">
+					<input name="lastName" ng-disabled="userSubmitting" type="text" class="form-control" ng-class="computeRequiredInputStyle(editUserForm.lastName)" ng-model="selectedUser.lastName" required/>
+				</div>
+			</div>
+
+			<!-- Email Address -->
+			<div class="col-md-6">
+				<label>Email Address </label>
+				<div class="form-group">
+					<input name="emailAddress" ng-disabled="userSubmitting" type="text" class="form-control" ng-class="computeRequiredInputStyle(editUserForm.emailAddress)" ng-model="selectedUser.email" required/>
+				</div>
+			</div>
+
+			<!-- Phone -->
+			<div class="col-md-6">
+				<label>Phone: </label>
+				<div class="form-group">
+					<input name="phone" ng-disabled="userSubmitting" type="text" class="form-control" ng-model="selectedUser.phone"/>
+				</div>
+			</div>
+
+			<!-- Access Level -->
+			<div class="col-md-6">
+				<label>Access Level</label>
+				<div class="form-group" style="position:relative;border: 1px solid #d2d5da; background-color: #fff;padding:0px 0px 0px 20px;">
+					<div class="radio text-left;">
+						<label class="radio-inline"><input name="userRole"  ng-model="selectedUser.role" type="radio" value="Account Admin" required>Account Admin</label>
+						<label class="radio-inline"><input name="userRole"  ng-model="selectedUser.role" type="radio" value="Inbox Admin" required>Inbox Admin</label>
+					</div>
+					<span style="position:absolute;top:0px;right:0px;bottom:0px;" ng-class="computeRequiredInputStyle(editUserForm.userRole)"></span>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<!-- Delete User Button -->
+			<div class="col-md-4">
+				<div class="buttonContainer">
+					<button ng-if="selectedUser.role != 'Account Owner'" ng-disabled="userSubmitting || editUserForm.$invalid" type="button" ng-click="deleteUser(selectedUser)" class="btn btn-danger btn-block">
+						<span ng-if="!userSubmitting"><i class="fa fa-warning"></i> Delete User</span>
+						<span ng-if="userSubmitting"><i class="fa fa-refresh fa-spin"></i> Deleting...</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- Password Reset Button -->
+			<div class="col-md-4">
+				<div class="buttonContainer">
+					<button ng-disabled="userSubmitting || editUserForm.$invalid" type="button" class="btn btn-primary btn-block">
+						<span ng-if="!userSubmitting">Reset User's Password</span>
+						<span ng-if="userSubmitting"><i class="fa fa-refresh fa-spin"></i> Submitting...</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- Submit Button -->
+			<div class="col-md-4">
+				<div class="buttonContainer">
+					<button ng-disabled="userSubmitting || editUserForm.$invalid" type="submit" class="btn btn-success btn-block">
+						<span ng-if="!userSubmitting">Save Changes</span>
+						<span ng-if="userSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</form>
+
+</div>

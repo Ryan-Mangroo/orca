@@ -19,6 +19,7 @@ exports.create = function(req, res) {
 		newInbox.public_title = req.body.public_title;
 		newInbox.status = 'active';
 		newInbox._account = req.session.userprofile.account._id;
+		newInbox._watchers = [req.session.userprofile.id];
 		newInbox.image = 'https://workwoo-app-images.s3.amazonaws.com/default-inbox-image.png';
 
 		newInbox.save(function(error, inbox) {
@@ -26,11 +27,11 @@ exports.create = function(req, res) {
 				log.error('|inbox.create.save| Unknown  -> ' + error, widget);
 				utility.errorResponseJSON(res, 'Error while creating inbox');
 			} else {
-
 				// Lastly, create the default homepage for the inbox
 				var newHomepage = new Homepage();
 				newHomepage.summaryKeywords = [];
 				newHomepage._inbox = inbox._id;
+				newHomepage._account = req.session.userprofile.account._id;
 				newHomepage.save(function(error, homepage) {
 					if (error) {
 						callback(error);
@@ -66,14 +67,15 @@ exports.update = function(req, res) {
 					inbox.description = req.body.description;
 			 		inbox.public_title = req.body.public_title;
 					inbox.status = req.body.status;
+					inbox._watchers = req.body._watchers;
 
-			    	inbox.save(function(error){
+			    	inbox.save(function(error, updatedInbox){
 						if (error) {
 							log.error('|inbox.update.save| Unknown  -> ' + error, widget);
 							utility.errorResponseJSON(res, 'Error occurred updating inbox');
 						} else {
-							log.info('|inbox.update| Success  -> ' + inbox._id, widget);
-							res.send(JSON.stringify({ result: inbox }));
+							log.info('|inbox.update| Success  -> ' + updatedInbox._id, widget);
+							res.send(JSON.stringify({ result: updatedInbox }));
 						} 
 			    	});
 				}
@@ -242,6 +244,7 @@ exports.getPublicInfo = function(req, res) {
 		log.info('|inbox.getPublicInfo| Getting inbox info -> ' + inboxNumber + ', token -> ' + token, widget);
 
 		Inbox.findOne({ number: inboxNumber, token: token })
+			.select('-token -updated_at -created_at -_watchers -_version')
 			.exec(
 			function (error, inboxInfo) {
 				if (error) {
@@ -266,7 +269,6 @@ exports.getPublicInfo = function(req, res) {
 exports.getAllInfo = function(req, res) {
 	try {
 		var accountID = req.session.userprofile.account._id;
-
 		Inbox.find({ _account: accountID })
 			.exec(
 			function (error, inboxes) {

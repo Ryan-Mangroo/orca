@@ -16,8 +16,9 @@
 		<script src="../js/angular-route.js"></script>
 
 		<!-- Custom Styles -->
-		<link rel="stylesheet" type="text/css" href="css/all.css">
-		<link rel="stylesheet" type="text/css" href="css/desktop.css">
+		<link rel="stylesheet" type="text/css" href="../css/all.css">
+		<link rel="stylesheet" type="text/css" href="../css/desktop.css">
+		<link rel="stylesheet" type="text/css" href="../css/mobile.css">
 
 		<!-- Angular app & custom scripts -->
 		<script src="../js/utils.js"></script>
@@ -29,32 +30,35 @@
 		<script src="app.js"></script><!-- The main app needs to load after controllers -->
 	</head>
 
-	<body ng-app="App" ng-controller="mainController">
+	<body ng-app="App" ng-controller="mainController" style="background-color:#2596c3;color: #fff;">
 
 		<!-- Header -->
-		<h2 ng-if="inboxLoaded" class="text-center newEntryHeader">
-			<img class="companyLogoImage" ng-src="{{inboxInfo.image}}"/>
-			<div style="margin:20px 0px 20px 10px;">{{ inboxInfo.public_title }}</div>
-		</h2>
+		<div class="container text-center" ng-if="inboxLoaded">
+			<div class="row">
+				<div class="col-md-12">
+					<img class="feedbackFormLogo" ng-src="{{inboxInfo.image}}"/>
+				</div>
+				<div class="col-md-12">
+					<h2>{{ inboxInfo.public_title }}</h2>
+				</div>
+			</div>
+		</div>
 
 		<!-- Content -->
 		<div class="fadeInOut" ng-view></div>
 
 		<!-- Footer -->
-		<div class="container text-center newEntryFooter">
-			<div class="col-md-12">
-				<div id="guarantee" style="padding-top:25px;">
+		<div class="container text-center">
+			<div class="row">
+				<div class="col-md-12" id="guarantee">
 					<span class="fa fa-check"></span>
-					<a href="http://www.workwoo.com/privacy"> Guaranteed Anonymous</a>
+					<a href="http://www.workwoo.com/#/privacy"> Privacy Guaranteed</a>
 				</div>
-				<div class="text-center" style="margin-top:10px;">
-					<div>Powered by</div>
-					<a href="http://www.workwoo.com"><img style="height:35px;" src="../img/logo-white.png"/></a>
+				<div class="col-md-12">
+					<span>Powered by <a style="color:#fff;" href="http://www.workwoo.com"><img style="height:30px;position:relative;top:3px;" src="../img/logo-white.png"/></a></span>
 				</div>
 			</div>
 		</div>
 
 	</body>
-
-
 </html>

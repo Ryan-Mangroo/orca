@@ -18,7 +18,7 @@
 		</div>
 		<!-- Otherwise, encourage creating additional inboxes -->
 		<div ng-if="accountInboxes.length == 1"  class="col-md-4 text-right">
-			<h4><a href="#/account/inbox/new">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
+			<h4><a href="#/settings/inbox/new">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
 		</div>
 	</div>
 </div>
@@ -40,7 +40,7 @@
 		</div>
 
 		<!-- Search input -->
-		<div ng-if="!firstLoad" class="col-md-4" style="padding-right:0px;padding-left:0px;">
+		<div ng-if="!firstLoad && messages.length > 0" class="col-md-4" style="padding-right:0px;padding-left:0px;">
 			<form ng-submit="search(searchTerm)">
 				<div class="inner-addon left-addon">
 					<i class="fa fa-search addonIcon"></i>
@@ -65,7 +65,7 @@
 	<div class="row">
 		<div class="col-md-12 text-center">
 			<h3>No feedback found</h3>
-			<h4 ng-if="accountInboxesObject[inboxID].status == 'active'">Make sure you're sharing the link for this inbox <a class="hideInMobile" ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}</a></h4>
+			<h3 ng-if="accountInboxesObject[inboxID].status == 'active'" class="centerInDesktop" style="margin-top:25px;">Remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox</h3>
 		</div>
 	</div>
 </div>
@@ -139,7 +139,7 @@
 		</div>
 		<div class="col-md-8"></div><!-- Spacer -->
 		<div class="col-md-2" style="padding: 0px;">
-			<a class="btn btn-default btn-block" ng-href="#/account/inbox/edit/{{accountInboxesObject[inboxID]._id}}"><i class="fa fa-cog"></i> Edit Settings</a>
+			<a class="btn btn-default btn-block" ng-href="#/settings/inbox/edit/{{accountInboxesObject[inboxID]._id}}"><i class="fa fa-cog"></i> Edit Inbox Settings</a>
 		</div>
 	</div>
 

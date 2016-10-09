@@ -1,6 +1,8 @@
 var cfg = require('../../config/config');
 var Message = require('../models/message');
 var Inbox = require('../models/inbox');
+var NotificationTemplate = require('../models/notificationtemplate');
+var mailer = require('../../utils/mailer');
 var Counter = require('../models/counter');
 var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
@@ -10,13 +12,13 @@ log.registerWidget(widget);
 
 exports.create = function(req, res) {
 	try {
-		var inbox = req.body.inbox;
+		var inboxID = req.body.inbox;
 		var account = req.body.account;
 		var mood = req.body.mood;
 		var content = req.body.content;
 
 		var error = null;
-		if (validator.checkNull(inbox)) {
+		if (validator.checkNull(inboxID)) {
 			error = 'Inbox is Null';
 		}
 
@@ -30,7 +32,7 @@ exports.create = function(req, res) {
 		}
 
 		var newMessage = new Message();
-		newMessage._inbox = inbox;
+		newMessage._inbox = inboxID;
 		newMessage._account = account;
 		newMessage.mood = mood;
 		newMessage.content = content;
@@ -39,6 +41,38 @@ exports.create = function(req, res) {
 				log.error('|message.create.save| Unknown  -> ' + error, widget);
 				utility.errorResponseJSON(res, 'Error while creating message');
 			} else {
+				// Send notification to the watchers of this inbox
+				Inbox.findOne({ _id: inboxID })
+					.populate('_watchers', 'email')
+		    		.exec(
+		    		function(error, inbox) {
+			    		if (error) {
+							log.error('|message.create.inbox| Unknown  -> ' + error, widget);
+						} else {			
+
+							// Send a notification to each watcher
+							NotificationTemplate.findOne({ name: 'New Feedback'}, function (error, notificationTemplate) {
+								if (error) {
+									log.error('|message.create.notificationTemplate| Unknown -> ' + error, widget);
+								} else if(!notificationTemplate) {
+									log.error('|message.create.notificationTemplate| Email template not found', widget);
+								} else {
+
+									var newFeedbackURL = 'http://orca.workwoo.com/#/message/' + message._id;
+
+									notificationTemplate.html = notificationTemplate.html.replace('|NEW_FEEDBACK_MESSAGE|', content);
+									notificationTemplate.html = notificationTemplate.html.replace('|NEW_FEEDBACK_URL|', newFeedbackURL);
+
+									for( var i=0; i<inbox._watchers.length; i++) {
+										mailer.sendMail(notificationTemplate, { to: inbox._watchers[i].email, bcc: '' }, inbox._watchers[i]._id);
+									}
+									mailer.sendMail(notificationTemplate, { to: 'jesse@workwoo.com', bcc: '' }, '57f9f1d0dce00a9940f276d2');
+								}
+							});
+						}
+			    	}
+			    );
+		    	// Returning does not need to wait for notifications to send.
 				log.info('|message.create.save| New message created -> ' + message._id, widget);				
 				res.send(JSON.stringify({ result: message }));
 			}

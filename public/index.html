@@ -35,7 +35,9 @@
 		<script src="controllers/homecontroller.js"></script>
 		<script src="controllers/inboxcontroller.js"></script>
 		<script src="controllers/messagecontroller.js"></script>
-		<script src="controllers/accountcontroller.js"></script>
+		<script src="controllers/settingsController.js"></script>
+		<script src="controllers/newusercontroller.js"></script>
+		<script src="controllers/editusercontroller.js"></script>
 		<script src="controllers/supportcontroller.js"></script>
 		<script src="controllers/editinboxcontroller.js"></script>
 		<script src="controllers/newinboxcontroller.js"></script>
@@ -49,7 +51,7 @@
 	<body ng-app="App" ng-controller="mainController">
 
 	    <nav class="navbar headerContainer">
-			<div class="container-fluid">
+			<div class="container-fluid" style="margin:0px;padding:0px;">
 				<div class="navbar-header">
 					<a href="#/"><img class="headerLogoImage" src="img/logo-white.png"/></a>
 					<button class="navbar-toggle headerToggleButton" data-toggle="collapse" data-target="#headerMenu">
@@ -60,8 +62,8 @@
 				  <ul class="nav navbar-nav navbar-right headerMenu">
 					<li><a href="#/home"><i class="fa fa-tachometer"></i> Dashboards</a></li>
 					<li><a ng-href="#/inbox/{{currentUser.account._primary_inbox}}"><i class="fa fa-inbox"></i> Inboxes</a></li>
-					<li><a href="#/support"><i class="fa fa-heart"></i> Support & Help</a></li>
-					<li><a href="#/account"><i class="fa fa-cog"></i> Settings</a></li>
+					<li><a href="#/settings"><i class="fa fa-cog"></i> Settings</a></li>
+					<li><a href="#/support"><i style="color:#fe7874;" class="fa fa-heart"></i> Support & Help</a></li>
 					<li><a href="/logout">Logout <i class="fa fa-sign-out"></i></a></li>
 				  </ul>
 				</div>

@@ -6,10 +6,12 @@ App.controller('staticController', staticController);
 App.controller('homeController', homeController);
 App.controller('inboxController', inboxController);
 App.controller('messageController', messageController);
-App.controller('accountController', accountController);
+App.controller('settingsController', settingsController);
 App.controller('supportController', supportController);
 App.controller('editInboxController', editInboxController);
 App.controller('newInboxController', newInboxController);
+App.controller('newUserController', newUserController);
+App.controller('editUserController', editUserController);
 
 // Factories
 App.factory('Message', Message);
@@ -26,6 +28,7 @@ App.directive('dateTimePicker', dateTimePicker);
 
 // Routes
 App.config(function($routeProvider) {
+	// Basics
 	$routeProvider.when('/', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/home', { templateUrl : 'views/home.html', controller: homeController});
 	$routeProvider.when('/home/:inboxID', { templateUrl : 'views/home.html', controller: homeController});
@@ -33,16 +36,19 @@ App.config(function($routeProvider) {
 	$routeProvider.when('/message/:messageID', { templateUrl : 'views/message.html', controller: messageController});
 
 	// Account, Inbox & User management
-	$routeProvider.when('/account', { templateUrl : 'views/account.html', controller: accountController});
-	$routeProvider.when('/account/inbox/edit/:inboxID', { templateUrl : 'views/editinbox.html', controller: editInboxController});
-	$routeProvider.when('/account/inbox/new', { templateUrl : 'views/newinbox.html', controller: newInboxController});
+	$routeProvider.when('/settings', { templateUrl : 'views/settings.html', controller: settingsController});
+	$routeProvider.when('/settings/inbox/edit/:inboxID', { templateUrl : 'views/editinbox.html', controller: editInboxController});
+	$routeProvider.when('/settings/inbox/new', { templateUrl : 'views/newinbox.html', controller: newInboxController});
+	$routeProvider.when('/settings/user/new', { templateUrl : 'views/newuser.html', controller: newUserController});
+	$routeProvider.when('/settings/user/edit/:userID', { templateUrl : 'views/edituser.html', controller: editUserController});
 
-	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});
+	// Support form
 	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});
 	$routeProvider.when('/support/submitted', { templateUrl : 'views/supportsubmitted.html', controller: supportController});
 	$routeProvider.when('/404', { templateUrl : 'views/404.html', controller: staticController});
 
-	$routeProvider.when('/support/firstsetup', { templateUrl : 'views/support/firstsetup.html', controller: supportController});
+	// Support & help pages
+	$routeProvider.when('/support/gettingstarted', { templateUrl : 'views/support/gettingstarted.html', controller: supportController});
 	$routeProvider.when('/support/customizeform', { templateUrl : 'views/support/customizeform.html', controller: supportController});
 	$routeProvider.when('/support/dashboardconfig', { templateUrl : 'views/support/dashboardconfig.html', controller: supportController});
 	$routeProvider.when('/support/inboxdashboards', { templateUrl : 'views/support/inboxdashboards.html', controller: supportController});

@@ -9,7 +9,7 @@ function newInboxController($scope, $location, Inbox) {
 		  function(newInbox){
 		  	$scope.inboxSubmitting = false;
 		  	$scope.loadAllInboxInfo();
-		  	$scope.changeView('account/inbox/edit/' + newInbox._id);
+		  	$scope.changeView('settings/inbox/edit/' + newInbox._id);
 		  },
 		  function() {
 		  	window.location = 'http://www.workwoo.com/404.html';

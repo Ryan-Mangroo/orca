@@ -11,8 +11,9 @@ var inboxSchema = new Schema({
 	token: { type: String },
 	image: { type: String },
 	status: { type: String },
-	message_count: { type: Number },
+	_watchers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 	_account: { type: Schema.Types.ObjectId, ref: 'Account' }
+
 }, cfg.mongoose.options);
 
 inboxSchema.pre('save', function(next) {

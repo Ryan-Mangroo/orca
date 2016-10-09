@@ -7,7 +7,7 @@ function Message($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Message.getAllMessages: Fail');
+        //log.error('Message.getAllMessages: Fail');
         onFail();
       }
     );
@@ -18,7 +18,7 @@ function Message($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Message.getOne: Fail');
+        //log.error('Message.getOne: Fail');
         onFail();
       }
     );
@@ -29,7 +29,7 @@ function Message($http) {
         onSuccess(response.data);
       },
       function fail(response) {
-        log.error('Message.delete: Fail');
+        //log.error('Message.delete: Fail');
         onFail();
       }
     );
@@ -40,7 +40,7 @@ function Message($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Message.addComment: Fail');
+        //log.error('Message.addComment: Fail');
         onFail();
       }
     );
@@ -73,7 +73,43 @@ function User($http) {
         onSuccess(response.data);
       },
       function fail(response) {
-        log.error('User.getUserProfile: Fail');
+        //log.error('User.getUserProfile: Fail');
+        onFail();
+      }
+    );
+  };
+
+  User.getOneUserInfo = function(userID, onSuccess, onFail) {
+    $http({ url: '/getOneUserInfo', method: 'GET', params: { userID: userID } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        //log.error('User.getOneUserInfo: Fail');
+        onFail();
+      }
+    );
+  };
+
+  User.update = function (updatedUserInfo, onSuccess, onFail) {
+    $http({ url: '/updateUser', method: 'POST', data: updatedUserInfo })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        //log.error('User.update: Fail');
+        onFail();
+      }
+    );
+  };
+
+  User.delete = function (userID, onSuccess, onFail) {
+    $http({ url: '/deleteUser', method: 'POST', data: { userID: userID } })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        //log.error('User.delete: Fail');
         onFail();
       }
     );
@@ -85,7 +121,7 @@ function User($http) {
         onSuccess(response.data);
       },
       function fail(response) {
-        log.error('User.requestPasswordReset: Fail');
+        //log.error('User.requestPasswordReset: Fail');
         onFail();
       }
     );
@@ -97,7 +133,7 @@ function User($http) {
         onSuccess(response.data);
       },
       function fail(response) {
-        log.error('User.resetPassword: Fail');
+        //log.error('User.resetPassword: Fail');
         onFail();
       }
     );
@@ -116,7 +152,7 @@ function Homepage($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Homepage.getKeywordSummary: Fail');
+        //log.error('Homepage.getKeywordSummary: Fail');
         onFail();
       }
     );
@@ -128,7 +164,7 @@ function Homepage($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Homepage.classifyKeyword: Fail');
+        //log.error('Homepage.classifyKeyword: Fail');
         onFail();
       }
     );
@@ -140,7 +176,7 @@ function Homepage($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Homepage.saveKeyword: Fail');
+        //log.error('Homepage.saveKeyword: Fail');
         onFail();
       }
     );
@@ -152,7 +188,7 @@ function Homepage($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Homepage.removeKeyword: Fail');
+        //log.error('Homepage.removeKeyword: Fail');
         onFail();
       }
     );
@@ -172,19 +208,31 @@ function Account($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Account.updateCompany: Fail');
+        //log.error('Account.updateCompany: Fail');
         onFail();
       }
     );
   };
 
-  Account.updateUser = function (updatedUserInfo, onSuccess, onFail) {
-    $http({ url: '/updateUser', method: 'POST', data: updatedUserInfo })
+  Account.createUser = function (newUserInfo, onSuccess, onFail) {
+    $http({ url: '/createUser', method: 'POST', data: newUserInfo })
       .then(function success(response) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Account.updateUser: Fail');
+        //log.error('Account.createUser: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Account.updateCurrentUser = function (updatedUserInfo, onSuccess, onFail) {
+    $http({ url: '/updateCurrentUser', method: 'POST', data: updatedUserInfo })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        //log.error('Account.updateUser: Fail');
         onFail();
       }
     );
@@ -196,7 +244,7 @@ function Account($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Account.changePassword: Fail');
+        //log.error('Account.changePassword: Fail');
         onFail();
       }
     );
@@ -208,7 +256,7 @@ function Account($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Account.getSignedLogoURL: Fail');
+        //log.error('Account.getSignedLogoURL: Fail');
         onFail();
       }
     );
@@ -236,7 +284,19 @@ function Account($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Account.signup: Fail');
+        //log.error('Account.signup: Fail');
+        onFail();
+      }
+    );
+  };
+
+  Account.getUsers = function(onSuccess, onFail) {
+    $http({ url: '/getUsers', method: 'GET', params: {} })
+      .then(function success(response) {
+        onSuccess(response.data.result);
+      },
+      function fail(response) {
+        log.error('Account.getUsers: Fail');
         onFail();
       }
     );
@@ -256,7 +316,7 @@ function Inbox($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Inbox.create: Fail');
+        //log.error('Inbox.create: Fail');
         onFail();
       }
     );
@@ -268,7 +328,7 @@ function Inbox($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Inbox.update: Fail');
+        //log.error('Inbox.update: Fail');
         onFail();
       }
     );
@@ -280,7 +340,7 @@ function Inbox($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Inbox.delete: Fail');
+        //log.error('Inbox.delete: Fail');
         onFail();
       }
     );
@@ -292,7 +352,7 @@ function Inbox($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Inbox.resetToken: Fail');
+        //log.error('Inbox.resetToken: Fail');
         onFail();
       }
     );
@@ -304,7 +364,7 @@ function Inbox($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Inbox.toggleStatus: Fail');
+        //log.error('Inbox.toggleStatus: Fail');
         onFail();
       }
     );
@@ -317,7 +377,7 @@ function Inbox($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Inbox.getAllInboxes: Fail');
+        //log.error('Inbox.getAllInboxes: Fail');
         onFail();
       }
     );
@@ -330,7 +390,7 @@ function Inbox($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Inbox.getOneInboxInfo: Fail');
+        //log.error('Inbox.getOneInboxInfo: Fail');
         onFail();
       }
     );
@@ -342,7 +402,7 @@ function Inbox($http) {
         onSuccess(response.data.result);
       },
       function fail(response) {
-        log.error('Inbox.getSignedImageURL: Fail');
+        //log.error('Inbox.getSignedImageURL: Fail');
         onFail();
       }
     );

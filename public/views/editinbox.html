@@ -1,15 +1,13 @@
 <!-- Control Bar -->
 <div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
-		<div class="col-md-4">
-			<h4><i class="fa fa-arrow-left"></i><a href="#/account"> Your Account</a></h4>
+		<div class="col-md-2">
+			<h4><i class="fa fa-arrow-left"></i><a href="#/settings"> Settings</a></h4>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-8">
 			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
 		</div>
-		<div class="col-md-4 text-right">
-			<h4><a ng-href="#/inbox/{{selectedInbox._id}}">See the messages in this Inbox</a> <i class="fa fa-arrow-right"></i></h4>
-		</div>
+		<div class="col-md-2 text-right"></div><!-- Spacer -->
 	</div>
 </div>
 
@@ -17,8 +15,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 class="grayText text-left hideInMobile"><i class="fa fa-inbox mainColor"></i> Inbox Settings</h2>
-			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-inbox mainColor"></i> Inbox Settings</h2>
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-inbox"></i> Inbox Settings</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-inbox"></i> Inbox Settings</h2>
 		</div>
 	</div>
 </div>
@@ -47,118 +45,136 @@
 <!-- Content -->
 <div ng-if="!inboxLoading" class="container grayContainer fadeInOut">
 	<form name="editInboxForm" ng-model="selectedInbox">
-		<div class="row">
+			
+		<!-- Inbox Image -->
+		<div class="col-md-3">
 			<!-- Inbox Image -->
-			<div class="col-md-3">
-				<div class="accountSection">
-					<!-- Inbox Image -->
-					<div class="accountLogoContainer">
-						<img class="accountLogo" ng-src="{{ inboxImageSource }}"/>
-					</div>
-				
-					<!-- Edit Image Button (before change) -->
-					<div class="row" ng-if="!allowEditImage">
-						<div class="col-md-12">
-							<span class="btn btn-block btn-default btn-file">
-							    Change Inbox Image <input ng-disabled="inboxLoading || inboxSubmitting" ng-model="inboxImageFile" onchange="angular.element(this).scope().previewInboxImage(this)" type="file" accept="image/*"/>
-							</span>
-						</div>
-					</div>
+			<div class="accountLogoContainer">
+				<img class="accountLogo" ng-src="{{ inboxImageSource }}"/>
+			</div>
+		
+			<!-- Edit Image Button (before change) -->
+			<div class="row" ng-if="!allowEditImage">
+				<div class="col-md-12">
+					<span class="btn btn-block btn-primary btn-file">
+					    Change Inbox Image <input ng-disabled="inboxLoading || inboxSubmitting" ng-model="inboxImageFile" onchange="angular.element(this).scope().previewInboxImage(this)" type="file" accept="image/*"/>
+					</span>
+				</div>
+			</div>
 
-					<!-- Edit Image Buttons (after change) -->
-					<div class="row" ng-if="allowEditImage">
-						<div class="col-md-12">
-							<button type="button" ng-disabled="inboxLoading || inboxSubmitting" class="btn btn-default btn-block" ng-click="cancelChangeImage()">Cancel</button>
-						</div>
-						<div class="col-md-12">
-							<button type="button" ng-disabled="inboxLoading || inboxSubmitting" class="btn btn-success btn-block" ng-click="saveInboxImage()">Save</button>
-						</div>
+			<!-- Edit Image Buttons (after change) -->
+			<div class="row" ng-if="allowEditImage">
+				<div class="col-md-12">
+					<button type="button" ng-disabled="inboxLoading || inboxSubmitting" class="btn btn-default btn-block" ng-click="cancelChangeImage()">Cancel</button>
+				</div>
+				<div class="col-md-12">
+					<button type="button" ng-disabled="inboxLoading || inboxSubmitting" class="btn btn-success btn-block" ng-click="saveInboxImage()">Save</button>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Inbox Info -->
+		<div class="col-md-8">
+			<!-- Status -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<span ng-if="selectedInbox.status == 'active'" class="activeInboxIndicator fadeInOut">ACTIVE</span>
+						<span ng-if="selectedInbox.status == 'inactive'" class="inactiveInboxIndicator fadeInOut">INACTIVE</span>
 					</div>
 				</div>
 			</div>
 
-
-			<!-- Inbox Info -->
-			<div class="col-md-8">
-				<div class="accountSection">
-					<!-- Status -->
-					<div>
-						<div class="form-group">
-							<span ng-if="selectedInbox.status == 'active'" class="activeInboxIndicator fadeInOut">ACTIVE</span>
-							<span ng-if="selectedInbox.status == 'inactive'" class="inactiveInboxIndicator fadeInOut">INACTIVE</span>
-						</div>
+			<!-- Notification Preference -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="checkbox-inline"><input name="feedbackNotify" ng-disabled="inboxLoading || inboxSubmitting" type="checkbox" ng-model="selectedInbox.notify"/>Notify me when new feedback is received</label>
 					</div>
+				</div>
+			</div>
 
-					<!-- Description -->
-					<div>
-						<label>Description: </label>
-						<div class="form-group">
-							<input name="description" ng-disabled="inboxLoading || inboxSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(editInboxForm.description)" ng-model="selectedInbox.description" required/>
-						</div>
+			<!-- Description -->
+			<div class="row">
+				<div class="col-md-12">
+					<label>Description (Not visible to users): </label>
+					<div class="form-group">
+						<input name="description" ng-disabled="inboxLoading || inboxSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(editInboxForm.description)" ng-model="selectedInbox.description" required/>
 					</div>
+				</div>
+			</div>
 
-					<!-- Public Title -->
-					<div>
-						<label>Public Title: </label>
-						<div class="form-group">
-							<input name="publicTitle" ng-disabled="inboxLoading || inboxSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(editInboxForm.publicTitle)" ng-model="selectedInbox.public_title" required/>
-						</div>
+			<!-- Public Title -->
+			<div class="row">
+				<div class="col-md-12">
+					<label>Your Question (Visible to users): </label>
+					<div class="form-group">
+						<input name="publicTitle" ng-disabled="inboxLoading || inboxSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(editInboxForm.publicTitle)" ng-model="selectedInbox.public_title" required/>
 					</div>
+				</div>
+			</div>
 
-					<!-- Inbox URL -->
-					<div>
-						<label>Public URL: </label>
-						<div class="form-group">
-							<h4><a style="margin-right:25px;" ng-href="{{baseURL}}/inbox/#/{{selectedInbox.number}}?t={{selectedInbox.token}}">{{baseURL}}/inbox/#/{{selectedInbox.number}}?t={{selectedInbox.token}}</a></h4>
-						</div>
+			<!-- Inbox URL -->
+			<div class="row">
+				<div class="col-md-12">
+					<label>Feedback Form Link: </label>
+					<div class="form-group">
+						<h4><a style="margin-right:25px;" ng-href="{{baseURL}}/inbox/#/{{selectedInbox.number}}?t={{selectedInbox.token}}">{{baseURL}}/inbox/#/{{selectedInbox.number}}?t={{selectedInbox.token}}</a></h4>
 					</div>
-					
-
-					<div class="row fadeInOut">
-
-						<!-- Delete button -->
-						<div class="col-md-3">
-							<button ng-if="selectedInbox._id != currentUser.account._primary_inbox" ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#deleteInboxModal" type="button" class="btn btn-danger btn-block">
-								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Delete Inbox</span>
-								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
-							</button>
-							<br class="hieInDesktop"/>
-						</div>
-
-						<!-- Reset Link button -->
-						<div class="col-md-3">
-							<button ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#tokenResetModal" type="button" class="btn btn-warning btn-block">
-								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Reset Link </span>
-								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
-							</button>
-							<br class="hieInDesktop"/>
-						</div
-
-						<!-- Make inactive button -->
-						<div class="col-md-3">
-							<button ng-if="selectedInbox.status == 'active'" ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#inactivateModal" type="button" class="btn btn-warning btn-block">
-								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Inactivate</span>
-								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
-							</button>
-							<button ng-if="selectedInbox.status == 'inactive'" ng-disabled="inboxLoading || inboxSubmitting" ng-click="toggleInboxStatus('active')" type="button" class="btn btn-success btn-block">
-								<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Activate</span>
-								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
-							</button>
-							<br class="hieInDesktop"/>
-						</div>
-
-						<!-- Save button -->
-						<div class="col-md-3">
-							<button ng-disabled="inboxLoading || inboxSubmitting || editInboxForm.$invalid" type="submit" ng-click="saveInbox(selectedInbox)" class="btn btn-success btn-block">
-								<span ng-if="!inboxSubmitting">Save Changes</span>
-								<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
-							</button>
-						</div>
-					</div>
+				</div>
+			</div>
+				
+			<!-- Buttons -->
+			<div class="row">
+				<!-- Delete button -->
+				<div class="col-md-3">
+					<button ng-if="selectedInbox._id != currentUser.account._primary_inbox" ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#deleteInboxModal" type="button" class="btn btn-danger btn-block">
+						<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Delete Inbox</span>
+						<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
+					</button>
+					<br class="hieInDesktop"/>
+				</div>
+				<!-- Reset Link button -->
+				<div class="col-md-3">
+					<button ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#tokenResetModal" type="button" class="btn btn-warning btn-block">
+						<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Reset Link </span>
+						<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
+					</button>
+					<br class="hieInDesktop"/>
+				</div>
+				<!-- Make inactive button -->
+				<div class="col-md-3">
+					<button ng-if="selectedInbox.status == 'active'" ng-disabled="inboxLoading || inboxSubmitting" data-toggle="modal" data-target="#inactivateModal" type="button" class="btn btn-warning btn-block">
+						<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Inactivate</span>
+						<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
+					</button>
+					<button ng-if="selectedInbox.status == 'inactive'" ng-disabled="inboxLoading || inboxSubmitting" ng-click="toggleInboxStatus('active')" type="button" class="btn btn-success btn-block">
+						<span ng-if="!inboxSubmitting"><i class="fa fa-warning"></i> Activate</span>
+						<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
+					</button>
+					<br class="hideInDesktop"/>
+				</div>
+				<!-- Save button -->
+				<div class="col-md-3">
+					<button ng-disabled="inboxLoading || inboxSubmitting || editInboxForm.$invalid" type="submit" ng-click="saveInbox(selectedInbox)" class="btn btn-success btn-block">
+						<span ng-if="!inboxSubmitting">Save Changes</span>
+						<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving...</span>
+					</button>
 				</div>
 			</div>
 		</div>
 	</form>
+</div>
+
+
+<!-- Messages link -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-right">
+			<h4><a ng-href="#/inbox/{{selectedInbox._id}}">See the feedback in this Inbox</a> <i class="fa fa-arrow-right"></i></h4>
+		</div>
+	</div>
 </div>
 
 

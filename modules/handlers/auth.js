@@ -103,15 +103,15 @@ function createUser(req, acccountID, callback) {
 	});
 }
 
-function createPrimaryInbox(req, acccountID, callback) {
+function createPrimaryInbox(req, acccountID, userID, callback) {
 	log.info('    Creating Primary Inbox...', widget);
 	var newInbox = new Inbox();
-	newInbox.description = 'Company Feedback';
-	newInbox.public_title = 'Anonymously Share Your Thoughts';
+	newInbox.description = 'Feedback';
+	newInbox.public_title = 'Share Your Thoughts';
 	newInbox.status = 'active';
 	newInbox._account = acccountID;
 	newInbox.image = 'https://workwoo-app-images.s3.amazonaws.com/default-inbox-image.png';
-
+	newInbox._watchers = [userID];
 	newInbox.save(function(error, inbox) {
 		if (error) {
 			callback(error);
@@ -151,7 +151,7 @@ exports.signup = function(req, res) {
 						return utility.errorResponseJSON(res, 'Error occurred creating user');
 					} else {
 
-						createPrimaryInbox(req, account._id, function (error, inbox) {
+						createPrimaryInbox(req, account._id, user._id, function (error, inbox) {
 							if (error) {
 								log.error('|auth.signup.createPrimaryInbox| Unknown  -> ' + error, widget);
 								return utility.errorResponseJSON(res, 'Error occurred creating primary inbox');

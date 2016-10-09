@@ -1,0 +1,85 @@
+<!-- Control Bar -->
+<div class="container-fluid pageTitle hideInMobile">
+	<div class="row">
+		<div class="col-md-4">
+			<h4><i class="fa fa-arrow-left"></i><a href="#/settings"> Settings</a></h4>
+		</div>
+		<div class="col-md-4">
+			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+		</div>
+	</div>
+</div>
+
+<!-- Page Title -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-user-plus"></i> New User</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-user-plus"></i> New User</h2>
+		</div>
+	</div>
+</div>
+
+<div class="container grayContainer">
+	<form name="newUserForm" ng-model="newUser" ng-submit="createUser(newUser)">
+		<div class="row">
+
+			<!-- First Name -->
+			<div class="col-md-6">
+				<label>First Name: </label>
+				<div class="form-group">
+					<input tabindex="1" name="firstName" ng-disabled="userSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(newUserForm.firstName)" ng-model="newUser.firstName" required/>
+				</div>
+			</div>
+
+			<!-- Last Name -->
+			<div class="col-md-6">
+				<label>Last Name: </label>
+				<div class="form-group">
+					<input tabindex="2" name="lastName" ng-disabled="userSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(newUserForm.lastName)" ng-model="newUser.lastName" required/>
+				</div>
+			</div>
+
+			<!-- Email Address -->
+			<div class="col-md-6">
+				<label>Email Address </label>
+				<div class="form-group">
+					<input tabindex="3" name="emailAddress" ng-disabled="userSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(newUserForm.emailAddress)" ng-model="newUser.emailAddress" required/>
+				</div>
+			</div>
+
+			<!-- Access Level -->
+			<div class="col-md-6">
+				<label>Access Level</label>
+				<div class="form-group" style="position:relative;border: 1px solid #d2d5da; background-color: #fff;padding:0px 0px 0px 20px;">
+					<div class="radio text-left;">
+						<label class="radio-inline"><input tabindex="4" name="userRole"  ng-model="newUser.role" type="radio" value="Account Admin" required>Account Admin</label>
+						<label class="radio-inline"><input name="userRole"  ng-model="newUser.role" type="radio" value="Inbox Admin" required>Inbox Admin</label>
+					</div>
+					<span style="position:absolute;top:0px;right:0px;bottom:0px;" ng-class="computeRequiredInputStyle(newUserForm.userRole)"></span>
+				</div>
+			</div>
+
+
+			<div class="col-md-8"></div><!-- Spacer -->
+
+			<!-- Submit Button -->
+			<div class="col-md-4">
+				<div class="buttonContainer">
+					<button tabindex="5" ng-disabled="userSubmitting || newUserForm.$invalid" type="submit" class="btn btn-success btn-block">
+						<span ng-if="!userSubmitting">Create User</span>
+						<span ng-if="userSubmitting"><i class="fa fa-refresh fa-spin"></i> Creating...</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- User Password Info-->
+			<div class="col-md-12">
+				<div class="alert alert-info text-center">
+					<i class="fa fa-info-circle"></i> <span> A link to setup their password will be emailed to this user after saving</span>
+				</div>
+			</div>
+
+		</div>
+	</form>
+</div>

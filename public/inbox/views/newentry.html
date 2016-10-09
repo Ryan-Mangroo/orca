@@ -1,16 +1,21 @@
-<div class="container newEntryContainer" style="padding:0px 25px 25px 25px;">
+<div class="container feedbackFormContainer">
 
-	<div ng-if="inboxLoaded && inboxStatus == 'active'">
-		<!-- Mood Selection -->
-		<h3 id="moodQuestion" class="text-center">Your mood?</h3>
-		<div class="moodIconContainer">
-			<img class="moodChoiceIcon" ng-click="setMood('mad')" id="madMood" src="../img/faces/mad.png"/>
-			<img class="moodChoiceIcon" ng-click="setMood('sad')" id="sadMood" src="../img/faces/sad.png"/>
-			<img class="moodChoiceIcon" ng-click="setMood('meh')" id="mehMood" src="../img/faces/meh.png"/>
-			<img class="moodChoiceIcon" ng-click="setMood('happy')" id="happyMood" src="../img/faces/happy.png"/>
-			<img class="moodChoiceIcon" ng-click="setMood('excited')" id="excitedMood" src="../img/faces/excited.png"/>
+	<!-- Mood selection -->
+	<div class="row" ng-if="inboxLoaded && inboxStatus == 'active'">
+		<div class="col-md-12">
+			<h3 id="moodQuestion" class="text-center">Your mood?</h3>
+		</div>
+		<div class="col-md-12">
+			<div class="feedbackMoodContainer">
+				<img class="feedbackMoodChoiceIcon" ng-click="setMood('mad')" id="madMood" src="../img/faces/mad.png"/>
+				<img class="feedbackMoodChoiceIcon" ng-click="setMood('sad')" id="sadMood" src="../img/faces/sad.png"/>
+				<img class="feedbackMoodChoiceIcon" ng-click="setMood('meh')" id="mehMood" src="../img/faces/meh.png"/>
+				<img class="feedbackMoodChoiceIcon" ng-click="setMood('happy')" id="happyMood" src="../img/faces/happy.png"/>
+				<img class="feedbackMoodChoiceIcon" ng-click="setMood('excited')" id="excitedMood" src="../img/faces/excited.png"/>
+			</div>
 		</div>
 	</div>
+
 
 	<div ng-if="inboxLoaded && inboxStatus == 'inactive'">
 		<h3 class="text-center">This inbox has been disabled.</h3>
@@ -21,7 +26,7 @@
 	<form name="entryForm" id="entryForm" ng-submit="createMessage(newEntry.message)" ng-model="newEntry" novalidate>
 		<!-- Message Entry -->
 		<div class="col-md-12 form-group">
-			<textarea ng-model="newEntry.message" ng-attr-placeholder="{{newEntryPlaceholder}}" type="text" rows="8" class="form-control defaultInput" style="resize:vertical;"></textarea>
+			<textarea style="border:none;border-radius:10px;" ng-model="newEntry.message" ng-attr-placeholder="{{newEntryPlaceholder}}" type="text" rows="5" class="form-control defaultInput" style="resize:vertical;"></textarea>
 		</div>
 		<!-- Submit Button -->
 		<div class="col-md-12 form-group">

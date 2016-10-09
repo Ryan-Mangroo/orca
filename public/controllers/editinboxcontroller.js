@@ -15,6 +15,15 @@ function editInboxController($scope, $location, Inbox) {
 				$scope.inboxLoading = false;
 				$scope.selectedInbox = inboxInfo;
 				$scope.inboxImageSource = $scope.selectedInbox.image;
+
+				// Set the notification preference checkbox
+				var watchers = $scope.selectedInbox._watchers;
+				if(watchers.indexOf($scope.currentUser.id) >= 0) {
+					$scope.selectedInbox.notify = true;
+				} else {
+					$scope.selectedInbox.notify = false;
+				}
+
 			},
 			function() {
 				window.location = 'http://www.workwoo.com/404.html';
@@ -23,13 +32,34 @@ function editInboxController($scope, $location, Inbox) {
   	};
 
   	$scope.saveInbox = function(selectedInbox) {
+  		var watcherIndex = selectedInbox._watchers.indexOf($scope.currentUser.id);
+
+  		// Before saving, save the notification preference
+  		if(selectedInbox.notify && watcherIndex < 0) {
+  			// If the user is not a watcher but is becoming one, add them to the list.
+  			$scope.selectedInbox._watchers.push($scope.currentUser.id);
+  		} else if(!selectedInbox.notify && watcherIndex >= 0) {
+  			// If the user is a watcher but is being removed, remove them from the list.
+  			if(selectedInbox._watchers.indexOf($scope.currentUser.id) >= 0) {
+  				selectedInbox._watchers.splice(watcherIndex, 1);
+  			}
+  		}
+
   		$scope.inboxSubmitting = true;
 		Inbox.update(selectedInbox, 
 		  function(updatedInbox){
 		  	$scope.selectedInbox = updatedInbox;
+
+			// Set the notification preference checkbox
+			var watchers = $scope.selectedInbox._watchers;
+			if(watchers.indexOf($scope.currentUser.id) >= 0) {
+				$scope.selectedInbox.notify = true;
+			} else {
+				$scope.selectedInbox.notify = false;
+			}
+		  	
 		  	$scope.clearAlerts();
 		  	$scope.inboxSubmitting = false;
-		  	$scope.loadAllInboxInfo();
 		  	$scope.toggleAlert('success', true, 'Inbox updated');
 		  },
 		  function() {
@@ -105,7 +135,7 @@ function editInboxController($scope, $location, Inbox) {
 			  	$scope.inboxSubmitting = false;
 			  	$scope.loadAllInboxInfo();
 			  	$scope.toggleAlert('success', true, 'Inbox Deleted');
-			  	$scope.changeView('account');
+			  	$scope.changeView('settings');
 			},
 			function() {
 				window.location = 'http://www.workwoo.com/404.html';
@@ -131,7 +161,12 @@ function editInboxController($scope, $location, Inbox) {
 				$scope.selectedInbox.status = status;
 				$scope.inboxSubmitting = false;
 		  		$scope.clearAlerts();
-		  		$scope.toggleAlert('success', true, 'Status updated');
+		  		if(status == 'active') {
+		  			$scope.toggleAlert('success', true, 'This Inbox is now active');
+		  		} else {
+		  			$scope.toggleAlert('success', true, 'This Inbox is now inactive');
+		  		}
+		  		
 			},
 			function() {
 				window.location = 'http://www.workwoo.com/404.html';
@@ -146,7 +181,7 @@ function editInboxController($scope, $location, Inbox) {
 			return;
 		}
 	    var currentURL = $location.url();
-	    var inboxID = currentURL.slice(20,currentURL.length);
+	    var inboxID = currentURL.slice(21,currentURL.length);
 		$scope.loadInboxInfo(inboxID);
 	};
 

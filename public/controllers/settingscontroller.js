@@ -1,8 +1,4 @@
-function accountController($scope, $location, Account, Inbox) {
-	$scope.allowEditCompany = false;
-	$scope.allowEditPersonal = false;
-	$scope.allowEditPassword = false;
-
+function settingsController($scope, $location, Account, Inbox) {
 	$scope.companySubmitting = false;
 	$scope.personalSubmitting = false;
 	$scope.passwordSubmitting = false;
@@ -11,43 +7,29 @@ function accountController($scope, $location, Account, Inbox) {
 	$scope.personalInfo = {};
 	$scope.passwordInfo = {};
 
+	$scope.accountUsers = [];
+	$scope.usersLoading = false;
+
 	$scope.allowEditLogo = false;
 	$scope.accountLogoSource = $scope.currentUser.account.logo;
 	$scope.accountLogoFile = null;
 
-	$scope.computeSectionStyle = function(sectionName) {
-		var disabled = true;
-		var isFocused = false;
-
-		if(sectionName == 'logo' || sectionName == 'mainBoxLink' || sectionName == 'planDetails') {
-			disabled = ($scope.allowEditCompany || $scope.allowEditPersonal);
-		} else if(sectionName == 'company') {
-			isFocused = $scope.allowEditCompany;
-			disabled = $scope.allowEditPersonal || $scope.allowEditPassword || $scope.allowEditLogo;
-		} else if(sectionName == 'personal') {
-			isFocused = ($scope.allowEditPersonal || $scope.allowEditPassword);
-			disabled = $scope.allowEditCompany || $scope.allowEditLogo;
-		}
-
-		var style = {};
-		if(disabled) {
-			style.opacity = '.5';
-		} else {
-			style.opacity = '1';
-		}
-		return style;
-	};
-
-	$scope.editCompanyInfo = function() {
-		$scope.allowEditCompany = true;
-	};
-
-	$scope.editPersonalInfo = function() {
-		$scope.allowEditPersonal = true;
-	};
-
-	$scope.editPassword = function() {
-		$scope.allowEditPassword = true;
+	$scope.loadAccountUsers = function() {
+		$scope.usersLoading = true;
+		Account.getUsers(
+		  function(result){
+		  	if(result.error) {
+		  		$scope.accountUsers = [];
+		  		$scope.usersLoading = false;
+		  	} else {
+		  		$scope.accountUsers = result;
+			  	$scope.usersLoading = false;
+		  	}
+		  },
+		  function() {
+			//log.info('Error getting users');
+		  }
+		);
 	};
 
 	$scope.savePassword = function(passwordInfo) {
@@ -62,7 +44,6 @@ function accountController($scope, $location, Account, Inbox) {
 		  	} else {
 		  		$scope.passwordInfo = {};
 			  	$scope.passwordSubmitting = false;
-			  	$scope.allowEditPassword = false;
 			  	$scope.clearAlerts();
 			  	$scope.toggleAlert('success', true, 'Password updated.');
 		  	}
@@ -73,18 +54,12 @@ function accountController($scope, $location, Account, Inbox) {
 		);
 	};
 
-	$scope.cancelEditPassword = function() {
-		$scope.passwordInfo = {};
-		$scope.allowEditPassword = false;
-	};
-
 	$scope.saveCompany = function(companyInfo) {
 		$scope.companySubmitting = true;
 		Account.updateCompany(companyInfo, 
 		  function(updatedAccount){
 		  	$scope.setUserAccount(updatedAccount);
 		  	$scope.companySubmitting = false;
-		  	$scope.allowEditCompany = false;
 		  	$scope.clearAlerts();
 		  	$scope.toggleAlert('success', true, 'Company information updated');
 		  },
@@ -94,18 +69,12 @@ function accountController($scope, $location, Account, Inbox) {
 		);
 	};
 
-	$scope.cancelSaveCompany = function() {
-		$scope.setCompanyInfo();
-		$scope.allowEditCompany = false;
-	};
-
 	$scope.savePersonal = function(personalInfo) {
 		$scope.personalSubmitting = true;
-		Account.updateUser(personalInfo, 
+		Account.updateCurrentUser(personalInfo, 
 		  function(updatedUser){
 		  	$scope.setUser(updatedUser);
 		  	$scope.personalSubmitting = false;
-		  	$scope.allowEditPersonal = false;
 		  	$scope.clearAlerts();
 		  	$scope.toggleAlert('success', true, 'Personal information updated');
 
@@ -114,11 +83,6 @@ function accountController($scope, $location, Account, Inbox) {
 		  	window.location = 'http://www.workwoo.com/404.html';
 		  }
 		);
-	};
-
-	$scope.cancelSavePersonal = function() {
-		$scope.setPersonalInfo();
-		$scope.allowEditPersonal = false;
 	};
 
 	$scope.setPersonalInfo = function() {
@@ -145,7 +109,6 @@ function accountController($scope, $location, Account, Inbox) {
 	};
 
 	$scope.previewAccountLogo = function(element) {
-		$scope.allowEditLogo = true;
 		$scope.$apply(function(scope) {
 			var imageFile = element.files[0];
 			$scope.accountLogoFile = imageFile;
@@ -153,6 +116,7 @@ function accountController($scope, $location, Account, Inbox) {
 			reader.readAsDataURL(imageFile);
 			reader.onload = function(e) {
 				$scope.accountLogoSource = reader.result;
+				$scope.allowEditLogo = true;
 				$scope.$apply();
 			};
 		});
@@ -175,8 +139,8 @@ function accountController($scope, $location, Account, Inbox) {
 	  	// Then, send the file over to S3
 		Account.saveLogoToS3(requestInfo.signedRequest, imageFile,
 		  function(){
-		  	$scope.allowEditLogo = false;
 		  	$scope.clearAlerts();
+		  	$scope.allowEditLogo = false;
 		  	$scope.toggleAlert('success', true, 'Account logo updated');
 		  	$scope.$apply();
 		  },
@@ -188,7 +152,6 @@ function accountController($scope, $location, Account, Inbox) {
 
 	$scope.cancelChangeLogo = function() {
 		$scope.setAccountLogoSource($scope.currentUser.account.logo);
-		$scope.allowEditLogo = false;
 	};
 
 	$scope.setAccountLogoSource = function(src) {
@@ -197,4 +160,5 @@ function accountController($scope, $location, Account, Inbox) {
 
 	$scope.setCompanyInfo();
 	$scope.setPersonalInfo();
+	$scope.loadAccountUsers();
 }

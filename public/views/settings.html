@@ -1,0 +1,324 @@
+<!-- Control Bar -->
+<div class="container-fluid pageTitle hideInMobile">
+	<div class="row">
+		<div class="col-md-4">
+			<h4><i class="fa fa-arrow-left"></i><a href="#/home"> Home</a></h4>
+		</div>
+		<div class="col-md-4">
+			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
+		</div>
+	</div>
+</div>
+
+<!-- Page Title -->
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-cog"></i> Settings</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-cog"></i> Settings</h2>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" ng-init="tab = 1">
+
+	<!-- Section Links -->
+	<div class="col-md-2">
+		<div class="accountTabOptionContainer"><i class="fa fa-user"></i><span class="accountTabOption" ng-click="tab = 1"> Personal Info</span></div>
+		<div class="accountTabOptionContainer"><i class="fa fa-lock"></i><span class="accountTabOption" ng-click="tab = 2"> Change Password</span></div>
+		<div class="accountTabOptionContainer"><i class="fa fa-building"></i><span class="accountTabOption" ng-click="tab = 3"> Company Info</span></div>
+		<div class="accountTabOptionContainer"><i class="fa fa-credit-card"></i><span class="accountTabOption" ng-click="tab = 4"> Billing</span></div>
+		<div class="accountTabOptionContainer"><i class="fa fa-inbox"></i><span class="accountTabOption" ng-click="tab = 5"> Inboxes</span></div>
+		<div class="accountTabOptionContainer"><i class="fa fa-users"></i><span class="accountTabOption" ng-click="tab = 6"> Users</span></div>
+	</div>
+
+	<!-- Section Content -->
+	<div class="col-md-10">
+
+
+		<!-- ###################################### Personal Info ###################################### -->
+		<div ng-if="tab == 1" class="row fadeInOut">
+			<form name="personalForm" ng-model="personalInfo">
+				<!-- First & Last Name -->
+				<div class="row">
+					<div class="col-md-6">
+						<label>First Name: </label>
+						<div class="form-group">
+							<input name="firstName" ng-disabled="personalSubmitting" type="text" class="form-control" ng-class="computeRequiredInputStyle(personalForm.firstName)" ng-model="personalInfo.firstName" required/>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label>Last Name: </label>
+						<div class="form-group">
+							<input name="lastName" ng-disabled="personalSubmitting" type="text" class="form-control" ng-class="computeRequiredInputStyle(personalForm.lastName)" ng-model="personalInfo.lastName" required/>
+						</div>
+					</div>
+				</div>
+				<!-- Role & Email -->
+				<div class="row">
+					<div class="col-md-6">
+						<label>Your Role: </label>
+						<div class="form-group">
+							<input name="role" ng-disabled="true" type="text" class="fadeInOut form-control" ng-model="personalInfo.role"/>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label>Email: </label>
+						<div class="form-group">
+							<input name="personalEmail" ng-disabled="personalSubmitting" type="email" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(personalForm.personalEmail)" ng-model="personalInfo.email" required/>
+						</div>
+					</div>
+				</div>
+				<!-- Mobile Phone -->
+				<div class="row">
+					<div class="col-md-6">
+						<label>Mobile: </label>
+						<div class="form-group">
+							<input ng-disabled="personalSubmitting" type="text" class="fadeInOut form-control" ng-model="personalInfo.phone"/>
+						</div>
+					</div>
+				</div>
+
+				<!-- Save button-->
+				<div class="row">
+					<div class="col-md-9"></div><!-- Spacer -->
+					<div class="col-md-3">
+						<button ng-disabled="personalSubmitting || personalForm.$invalid" type="button" ng-click="savePersonal(personalInfo)" class="btn btn-success btn-block">
+							<span ng-if="!personalSubmitting">Save Changes</span>
+							<span ng-if="personalSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- ###################################### Personal Info ###################################### -->
+
+
+		<!-- ###################################### Password Change ###################################### -->
+		<div ng-if="tab == 2" class="row fadeInOut">
+			<form name="changePasswordForm" ng-model="passwordInfo">
+				<!-- Current password -->
+				<div class="row">
+					<div class="col-md-3"></div><!--Spacer-->
+					<div class="col-md-6">
+						<label>Current password: </label>
+						<div class="form-group">
+							<input name="currentPassword" ng-disabled="passwordSubmitting" type="password" class="form-control" ng-class="computeRequiredInputStyle(changePasswordForm.currentPassword)" ng-model="passwordInfo.current" autocomplete="off" required/>
+						</div>
+					</div>
+					<div class="col-md-3"></div><!--Spacer-->
+				</div>
+				<!-- New password -->
+				<div class="row">
+					<div class="col-md-3"></div><!--Spacer-->
+					<div class="col-md-6">
+						<label>New password: </label>
+						<div class="form-group">
+							<input name="newPassword" ng-disabled="passwordSubmitting" type="password" class="form-control" ng-class="computeRequiredInputStyle(changePasswordForm.newPassword)" ng-model="passwordInfo.new" autocomplete="new-password" required/>
+						</div>
+					</div>
+					<div class="col-md-3"></div><!--Spacer-->
+				</div>
+				<!-- Confirm password -->
+				<div class="row">
+					<div class="col-md-3"></div><!--Spacer-->
+					<div class="col-md-6">
+						<label>Confirm new password: </label>
+						<div class="form-group">
+							<input name="newPasswordConfirm" ng-disabled="passwordSubmitting" type="password" class="form-control" ng-class="computeRequiredInputStyle(changePasswordForm.newPassword)" ng-model="passwordInfo.newPasswordConfirm" autocomplete="new-password" required/>
+						</div>
+					</div>
+					<div class="col-md-3"></div><!--Spacer-->
+				</div>
+				<!-- Save Password Button -->
+				<div class="row">
+					<div class="col-md-3"></div><!-- Spacer -->
+					<div class="col-md-6">
+						<button ng-disabled="passwordSubmitting" type="button" ng-click="savePassword(passwordInfo)" class="btn btn-success btn-block">
+							<span ng-if="!passwordSubmitting">Update Password</span>
+							<span ng-if="passwordSubmitting"><i class="fa fa-refresh fa-spin"></i> Saving</span>
+						</button>
+					</div>
+					<div class="col-md-3"></div><!--Spacer-->
+				</div>
+			</form>
+		</div>
+		<!-- ###################################### Password Change ###################################### -->
+
+
+		<!-- ###################################### Company Info ###################################### -->
+		<div ng-if="tab == 3" class="row fadeInOut">
+			<!-- Company Logo -->
+			<div class="col-md-2">
+				<!-- Logo Image -->
+				<div class="accountLogoContainer"><img class="accountLogo" ng-src="{{ accountLogoSource }}"/></div>
+				<!-- Edit Logo Button (before change) -->
+				<div class="row" ng-if="!allowEditLogo">
+					<div class="col-md-12">
+						<span class="btn btn-block btn-primary btn-file">Change Logo <input ng-model="accountLogoFile" onchange="angular.element(this).scope().previewAccountLogo(this)" type="file" accept="image/*"/></span>
+					</div>
+				</div>
+				<!-- Edit Logo Buttons (after change) -->
+				<div class="row" ng-if="allowEditLogo">
+					<div class="col-md-12"><button type="button" class="btn btn-default btn-block" ng-click="cancelChangeLogo()">Cancel</button></div>
+					<div class="col-md-12"><button type="button" class="btn btn-success btn-block" ng-click="saveAccountLogo()">Save Logo</button></div>
+				</div>
+			</div>
+			<!-- Account Logo -->
+			<!-- Company info -->
+			<div class="col-md-10">
+				<form name="companyForm" ng-model="companyInfo">
+					<!-- Company Name & City -->
+					<div class="row">
+						<div class="col-md-6">
+							<label>Name: </label>
+							<div class="form-group">
+								<input name="companyName" ng-disabled="companySubmitting" type="text" class="form-control" ng-class="computeRequiredInputStyle(companyForm.companyName)" ng-model="companyInfo.name" required/>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label>City:</label>
+							<div class="form-group">
+								<input name="companyCity" ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.city"/>
+							</div>
+						</div>
+					</div>
+
+					<!-- State & Country -->
+					<div class="row">
+						<div class="col-md-6">
+							<label>State:</label>
+							<div class="form-group">
+								<input name="companyState" ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.state"/>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label>Country:</label>
+							<div class="form-group">
+								<input name="companyCountry" ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.country"/>
+							</div>
+						</div>
+					</div>
+
+					<!-- Company Email & Phone -->
+					<div class="row">
+						<div class="col-md-6">
+							<label>Billing Email: </label>
+							<div class="form-group">
+								<input name="companyEmail" ng-disabled="companySubmitting" type="email" class="form-control" ng-model="companyInfo.email"/>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label>Billing Phone: </label>
+							<div class="form-group">
+								<input name="companyPhone" ng-disabled="companySubmitting" type="text" class="form-control" ng-model="companyInfo.phone"/>
+							</div>
+						</div>
+					</div>
+
+					<!-- Edit Company Buttons -->
+					<div class="row">
+						<div class="col-md-9"></div><!-- Spacer -->
+						<div class="col-md-3">
+							<button ng-disabled="companySubmitting || companyForm.$invalid" type="button" ng-click="saveCompany(companyInfo)" class="btn btn-success btn-block">
+								<span ng-if="!companySubmitting">Save Company Info</span>
+								<span ng-if="companySubmitting"><i class="fa fa-refresh fa-spin"></i> Saving</span>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- ###################################### Company Info ###################################### -->
+
+
+		<!-- ###################################### Billing ###################################### -->
+		<div ng-if="tab == 4" class="row fadeInOut">
+			<h3 class="text-center">Billing information will appear here once your trial end approaches</h3>
+			<h3 class="text-center">If you'd like to learn more, feel free to <a href="#/support">contact us</a></h3>
+				
+		</div>
+		<!-- ###################################### Billing ###################################### -->
+
+
+		<!-- ###################################### Inboxes ###################################### -->
+		<div ng-if="tab == 5" class="row fadeInOut">
+
+			<div class="container">
+				<h3>Inboxes</h3>
+				<!-- List Header -->
+				<div class="row listHeader hideInMobile">
+					<div class="col-md-6">Description</div>
+					<div class="col-md-3">Status</div>
+					<div class="col-md-3"></div>
+				</div>
+
+				<!-- Create one row for each inbox -->
+				<div ng-repeat="inbox in accountInboxes" class="row listRow">
+					<div class="col-md-6">
+			            <h4><a ng-href="#/settings/inbox/edit/{{inbox._id}}">{{ inbox.description }}</a></h4>
+					</div>
+					<div class="col-md-3 hideInMobile">
+						<span ng-if="inbox.status == 'active'" class="activeInboxIndicator fadeInOut">ACTIVE</span>
+						<span ng-if="inbox.status == 'inactive'" class="inactiveInboxIndicator fadeInOut">INACTIVE</span>
+					</div>
+					<div class="col-md-3">
+			            <a class="btn btn-primary btn-block" ng-href="#/settings/inbox/edit/{{inbox._id}}">Edit Settings <i class="fa fa-arrow-right"></i></a>
+					</div>
+				</div>
+
+				<!-- List controls -->
+				<div class="row listControls">
+					<div class="col-md-9"></div><!-- Spacer -->
+					<div class="col-md-3" style="padding: 0px;">
+						<a href="#/settings/inbox/new" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Create New Inbox</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ###################################### Inboxes ###################################### -->
+
+
+		<!-- ###################################### Users ###################################### -->
+		<div ng-if="tab == 6" class="row fadeInOut">
+			<div class="container">
+				<h3>Users</h3>
+				<!-- List Header -->
+				<div class="row listHeader hideInMobile">
+					<div class="col-md-6">Name</div>
+					<div class="col-md-3">Role</div>
+					<div class="col-md-3"></div>
+				</div>
+
+				<!-- Create one row for each inbox -->
+				<div ng-repeat="user in accountUsers" ng-if="user.role != 'superuser'" class="row listRow">
+					<div class="col-md-6">
+			            <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+					</div>
+					<div class="col-md-3">
+						<h4>{{ user.role }}</h4>
+					</div>
+					<div class="col-md-3">
+						<h4 ng-if="user._id == currentUser.id" class="text-center">( This is you )</h4>
+			            <a ng-if="user._id != currentUser.id" class="btn btn-primary btn-block" ng-href="#/settings/user/edit/{{user._id}}">Edit User <i class="fa fa-arrow-right"></i></a>
+					</div>
+				</div>
+
+				<!-- List controls -->
+				<div class="row listControls">
+					<div class="col-md-9"></div><!-- Spacer -->
+					<div class="col-md-3" style="padding: 0px;">
+						<a href="#/settings/user/new" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Add New User</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ###################################### Users ###################################### -->
+
+
+	</div>
+</div>
+
+
+
+		

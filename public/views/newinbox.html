@@ -2,7 +2,7 @@
 <div class="container-fluid pageTitle hideInMobile">
 	<div class="row">
 		<div class="col-md-4">
-			<h4><i class="fa fa-arrow-left"></i><a href="#/account"> Your Account</a></h4>
+			<h4><i class="fa fa-arrow-left"></i><a href="#/settings"> Settings</a></h4>
 		</div>
 		<div class="col-md-4">
 			<span ng-include="'views/includes/alerts-title-sm.html'"></span>
@@ -14,21 +14,21 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 class="grayText text-left hideInMobile"><i class="fa fa-inbox mainColor"></i> New Inbox</h2>
-			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-inbox mainColor"></i> New Inbox</h2>
+			<h2 class="grayText text-left hideInMobile"><i class="fa fa-inbox"></i> New Inbox</h2>
+			<h2 class="grayText text-center hideInDesktop"><i class="fa fa-inbox"></i> New Inbox</h2>
 		</div>
 	</div>
 </div>
 
 <div class="container grayContainer">
-	<form ng-model="newInbox">
+	<form name="newInboxForm" ng-model="newInbox">
 		<div class="row">
 
 			<!-- Description -->
 			<div class="col-md-12">
 				<label>Description: </label>
 				<div class="form-group">
-					<input ng-disabled="inboxSubmitting" type="text" class="fadeInOut form-control" ng-model="newInbox.description"/>
+					<input name="description" ng-disabled="inboxSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(newInboxForm.description)" ng-model="newInbox.description" required/>
 				</div>
 			</div>
 
@@ -36,7 +36,7 @@
 			<div class="col-md-12">
 				<label>Public Title: </label>
 				<div class="form-group">
-					<input ng-disabled="inboxSubmitting" type="text" class="fadeInOut form-control" ng-model="newInbox.public_title"/>
+					<input name="publicTitle" ng-disabled="inboxSubmitting" type="text" class="fadeInOut form-control" ng-class="computeRequiredInputStyle(newInboxForm.publicTitle)" ng-model="newInbox.public_title" required/>
 				</div>
 			</div>
 
@@ -45,7 +45,7 @@
 			<!-- Submit Button -->
 			<div class="col-md-4">
 				<div class="buttonContainer">
-					<button ng-disabled="inboxSubmitting" type="button" ng-click="createInbox(newInbox)" class="btn btn-success btn-block">
+					<button ng-disabled="inboxSubmitting || newInboxForm.$invalid" type="button" ng-click="createInbox(newInbox)" class="btn btn-success btn-block">
 						<span ng-if="!inboxSubmitting">Create Inbox</span>
 						<span ng-if="inboxSubmitting"><i class="fa fa-refresh fa-spin"></i> Creating...</span>
 					</button>
@@ -55,7 +55,7 @@
 			<!-- Inbox URL Info Alert-->
 			<div class="col-md-12">
 				<div class="alert alert-info text-center">
-					<i class="fa fa-info-circle"></i> <span> A unique link will be generated for your Inbox after saving</span>
+					<i class="fa fa-info-circle"></i> <span> A unique link will be generated for this Inbox after saving</span>
 				</div>
 			</div>
 

@@ -13,7 +13,7 @@
 		</div>
 		<!-- Otherwise, encourage creating additional inboxes -->
 		<div ng-if="accountInboxes.length == 1"  class="col-md-4 text-right">
-			<h4><a href="#/account/inbox/new">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
+			<h4><a href="#/settings/inbox/new">Create additional inboxes for your account</a> <i class="fa fa-arrow-right"></i></h4>
 		</div>
 	</div>
 </div>
@@ -42,12 +42,10 @@
 <div class="container">
 
 	<!-- If nothing is set up -->
-	<div ng-if="!homeLoading && homeKeywords.length == 0" class="row fadeInOut">
+	<div ng-if="!homeLoading && homeKeywords.length == 0" class="row fadeInOut grayContainer">
 		<div class="col-md-12 text-center" style="padding: 10px 0px 10px 0px;">
-			<h3>Oh no! you don't have any feedback yet</h3>
-			<h3>Get started by adding some phrases or ideas you want to track</h3>
-			<button type="button" data-toggle="modal" data-target="#addKeywordModal" class="btn btn-lg btn-primary"> Get Started</button>
-			<h3 style="margin-top:25px;">Want to import feedback from Glassdoor, Excel or another source? <a href="#/support">Contact us</a></h3>
+			<h3>No feedback found</h3>
+			<h3>Just signed up? Check out our guide on <a href="#/support/gettingstarted"> setting up your feedback form</a></h3></h3>
 		</div>
 	</div>
 
@@ -78,11 +76,10 @@
 	</div>
 </div>
 
-<div ng-if="!homeLoading && homeKeywords.length > 0" class="container fadeInOut">
+<div ng-if="!homeLoading" class="container fadeInOut">
 	<div class="row fadeInOut">
 		<div class="col-md-12 text-center">
-			<h3 class="centerInDesktop" style="margin-top:25px;">Want to import feedback from Glassdoor, Excel or another source? <a href="#/support">Contact us</a></h3>
-			<h3 class="centerInDesktop" style="margin-top:25px;">Also, remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox</h3>
+			<h3 class="centerInDesktop" style="margin-top:25px;">Remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox</h3>
 		</div>
 	</div>
 </div>

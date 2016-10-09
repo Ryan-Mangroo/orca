@@ -205,10 +205,16 @@ function initializeApp() {
 
 		// Account & User related (while authenticated)
 		app.route('/getUserProfile').get(validateRequest(), user.getUserProfile);
-		app.route('/updateUser').post(validateRequest(), user.update);
+		app.route('/updateCurrentUser').post(validateRequest(), user.updateCurrentUser);
 		app.route('/changeUserPassword').post(validateRequest(), user.changePassword);
 		app.route('/updateAccount').post(validateRequest(), account.update);
 		app.route('/getSignedAccountLogoURL').get(validateRequest(), account.getSignedLogoURL);
+		app.route('/getUsers').get(validateRequest(), user.getAll);
+		app.route('/createUser').post(validateRequest(), user.createNew);
+		app.route('/getOneUserInfo').get(validateRequest(), user.getOne);
+		app.route('/updateUser').post(validateRequest(), user.update);
+		app.route('/deleteUser').post(validateRequest(), user.delete);
+		
 
 		// Account related (unauthenticated)
 		app.route('/signup').post(auth.signup);

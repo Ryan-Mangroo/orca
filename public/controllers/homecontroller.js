@@ -99,9 +99,11 @@ function homeController($scope, $location, $route, Homepage) {
 
 	    var currentURL = $location.url();
 	    if(currentURL.indexOf('home') > 0) {
-	    	var selectedInbox = currentURL.slice(6,currentURL.length);
-	    	if(selectedInbox) {
-	    		$scope.inboxID = selectedInbox
+	    	var inboxID = currentURL.slice(6,currentURL.length);
+	    	log.info(inboxID);
+
+	    	if(inboxID) {
+	    		$scope.inboxID = inboxID
 	    	}
 	    }
 	    $scope.loadHomepage();

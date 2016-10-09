@@ -1,6 +1,5 @@
 @media only screen and (min-width : 992px) {
 	/*######################### GLOBAL #########################*/
-
 	.hideInDesktop {
 		display: none;
 	}
@@ -41,7 +40,6 @@
 		height: 30px;
 		width: 30px;
 	}
-
 	/*######################### GLOBAL #########################*/
 
 
@@ -51,50 +49,64 @@
 	    background-color: #2596c3;
 	    padding: 0px;
 	    margin: 0px;
+	    padding-bottom: 0px;
 	    border: none;
 		color: #fff;
 	}
 
 	.headerLogoImage {
-		margin: 5px 0px 0px 5px;
+		margin: 10px 0px 0px 10px;
 		height: 30px;
 	}
 
 	.headerMenu {
 		margin: 0px;
 		padding: 0px;
+		margin-bottom: -10px;
 	}
 
 	.headerMenu li {
+		height: 30px;
 		margin: 0px;
 		padding: 0px;
-		font-size: 16px;
+		font-size: 20px;
+		font-weight: 200;
+	}
+
+	.headerMenu li .fa {
+		color: #fff;
+		text-shadow:
+			2px 2px 1px #2187af,
+			2px 2px 1px #2187af;
 	}
 
 	.headerMenu li a {
-		margin: 0px 0px 0px 10px;
-		padding: 10px;
+		margin: 0px;
+		padding: 13px;
 		border-radius: 0px;
 		color: #fff;
-		border-bottom: 5px solid #2596c3;
+		border-left: 1px solid #2187af;
+		border-bottom: 5px solid #2187af;
 	}
 
 	.headerMenu li a:focus {
-		margin: 0px 0px 0px 10px;
-		padding: 10px;
+		margin: 0px;
+		padding: 13px;
 		border-radius: 0px;
 		color: #fff;
-		background-color: #196583;
-		border-bottom: 5px solid #196583;
+		background-color: #2187af;
+		border-left: 1px solid #2187af;
+		border-bottom: 5px solid #2187af;
 	}
 
 	.headerMenu li a:hover {
-		margin: 0px 0px 0px 10px;
-		padding: 10px;
+		margin: 0px;
+		padding: 13px;
 		border-radius: 0px;
 		color: #f3f5f6;
-		background: none;
-		border-bottom: 5px solid #196583;
+		background-color: #2187af;
+		border-left: 1px solid #2187af;
+		border-bottom: 5px solid #2187af;
 	}
 	/*######################### HEADER #########################*/
 
@@ -154,18 +166,16 @@
 		right: 5px;
 		color: #d9534f;
 	}
-
 	/*######################### HOMEPAGE #########################*/
 
 
 	/*######################### LIST #########################*/
-
 	.listHeader {
 		font-size: 16px;
 		font-weight: 600;
 		padding: 10px;
-		background-color: #2596c3;
-		color: #fff;
+		color: #6f8993;
+		background-color: #f3f5f6;
 	}
 
 	.listRow, .listRowLast {
@@ -181,16 +191,13 @@
 		border-bottom: 2px dotted #e4e9eb;
 	}
 
-	.listRowLast {
-		border-bottom: 2px solid #fbfcfc;
-	}
-
 	.listControls {
+		border-top: 2px solid #fbfcfc;
 		font-size: 16px;
 		font-weight: 600;
-		padding: 0px;
-		background-color: #f3f5f6;
-		color: #fff;
+		padding: 10px 0px 10px 0px;
+		color: #6f8993;
+		background-color: #fff;
 	}
 
 	.inboxSwitcherControl {
@@ -236,12 +243,10 @@
 		color: #fff;
 		background-color: #2596c3;
 	}
-
 	/*######################### MESSAGE LIST #########################*/
 
 
 	/*######################### SINGLE MESSAGE #########################*/
-
 	.singleMessageContent {
 		font-style: italic;
 		padding: 25px;
@@ -265,57 +270,47 @@
 		padding: 10px;
 		margin-bottom: 2px;
 	}
-
-
 	/*######################### SINGLE MESSAGE #########################*/
 
 
 	/*######################### ACCOUNT #########################*/
 	.accountLogo {
-		margin-top: 25px;
 		max-height: 100px;
 		max-width: 100px;
 	}
 
 	.accountLogoContainer {
-		margin-bottom: 55px;
-		height: 140px;
+		margin-bottom: 10px;
 		text-align: center;
-		padding: 10px;
+		padding: 25px;
+		border: 5px solid #f3f5f6;
 		background-color: #fff;
 	}
 
-	.accountSection {
-		margin-top: 20px;
-		margin-bottom: 20px;
+	.accountTabOptionContainer {
+		margin: 10px 0px 20px 0px;
 	}
 
-	.planDetailsContainer {
-		color: #3AB7C6;
-		background-color: #d5eff3;
-		padding: 25px;
+	.accountTabOptionContainer:hover {
+
 	}
 
-	.currentPlanPriceTitle, .currentPlanTitle {
-		font-size: 25px;
+	.accountTabOption {
+		-webkit-transition: .25s;
+	    -moz-transition: .25s;
+	    -ms-transition: .25s;
+	    -o-transition: .25s;
+	    transition: .25s;
+	    color: #56B8DF;
+	    padding: 5px;
+	    margin-left: 5px;
 	}
 
-	.currentPlanPriceMain {
-		position: relative;
-		font-size: 70px;
-	}
-
-	.currentPlanPriceSymbol {
-		position: relative;
-		top: -30px;
+	.accountTabOption:hover {
+		background-color: #56B8DF;
 		color: #fff;
-		font-size: 18px;
+		cursor: pointer;
 	}
-
-	.currentPlanDetailContainer {
-		margin:10px;
-	}
-
 	/*######################### ACCOUNT #########################*/
 
 
@@ -332,7 +327,46 @@
 	.activeInboxIndicator {
 		color: #5cb85c;
 	}
-
 	/*######################### INBOX CONFIGURATION #########################*/
 
+
+	/*######################### FEEDBACK FORM #########################*/
+	.feedbackFormContainer {
+		max-width: 700px;
+		color: #6f8993;
+		background-color: #f3f5f6;
+		padding: 25px 50px 25px 50px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.feedbackFormLogo {
+		margin: 10px;
+		max-width: 400px;
+		max-height: 100px;
+	}
+
+	.feedbackMoodContainer {
+		text-align: center;
+	}
+
+	.feedbackMoodChoiceIcon {
+		border-radius: 20px;
+		border: 1px solid #fff;
+		height: 40px;
+		width: 40px;
+		margin: 5px;
+		-webkit-transition: .25s;
+	    -moz-transition: .25s;
+	    -ms-transition: .25s;
+	    -o-transition: .25s;
+	    transition: .25s;
+	}
+
+	.feedbackMoodChoiceIcon:hover {
+		cursor: pointer;
+		border: 1px solid #2596c3;
+		box-shadow: 0px 0px 5px #2596c3;
+	}
+	/*######################### FEEDBACK FORM #########################*/
 }

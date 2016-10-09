@@ -1,0 +1,15 @@
+{
+    "_id": {
+        "$oid": "57e04cacf36d281f21d6bc46"
+    },
+    "name": "Signup",
+    "from": "Jesse <jesse@workwoo.com>",
+    "replyTo": "Jesse <jesse@workwoo.com>",
+    "subject": "Getting started with WorkWoo",
+    "html": "<style>body{font-family: Arial, Helvetica, sans-serif;}</style><p><img src='http://www.workwoo.com/img/logo.png'/></p><h3>New Feedback has been received</h3><p>Hello,</p><p>There is a new entry in your inbox:</p><p>|NEW_FEEDBACK_MESSAGE|</p><br><h3><a href='|NEW_FEEDBACK_URL|'>View the full details at workwoo.com</a><br> (you'll need to be logged in)</h3>",
+    "priority": "normal",
+    "created_at": "",
+    "updated_at": "",
+    "_created_by": "",
+    "_updated_by": ""
+}
