@@ -24,12 +24,30 @@
 
 	<!-- Section Links -->
 	<div class="col-md-2">
-		<div class="accountTabOptionContainer"><i class="fa fa-user"></i><span class="accountTabOption" ng-click="tab = 1"> Personal Info</span></div>
-		<div class="accountTabOptionContainer"><i class="fa fa-lock"></i><span class="accountTabOption" ng-click="tab = 2"> Change Password</span></div>
-		<div class="accountTabOptionContainer"><i class="fa fa-building"></i><span class="accountTabOption" ng-click="tab = 3"> Company Info</span></div>
-		<div class="accountTabOptionContainer"><i class="fa fa-credit-card"></i><span class="accountTabOption" ng-click="tab = 4"> Billing</span></div>
-		<div class="accountTabOptionContainer"><i class="fa fa-inbox"></i><span class="accountTabOption" ng-click="tab = 5"> Inboxes</span></div>
-		<div class="accountTabOptionContainer"><i class="fa fa-users"></i><span class="accountTabOption" ng-click="tab = 6"> Users</span></div>
+		<div class="accountTabOptionContainer">
+			<i class="fa fa-user"></i>
+			<span ng-class="tab==1?'accountTabOptionActive':'accountTabOption'" ng-click="tab = 1"> Personal Info</span>
+		</div>
+		<div class="accountTabOptionContainer">
+			<i class="fa fa-lock"></i>
+			<span ng-class="tab==2?'accountTabOptionActive':'accountTabOption'" ng-click="tab = 2"> Change Password</span>
+		</div>
+		<div class="accountTabOptionContainer">
+			<i class="fa fa-building"></i>
+			<span ng-class="tab==3?'accountTabOptionActive':'accountTabOption'" ng-click="tab = 3"> Company Info</span>
+		</div>
+		<div class="accountTabOptionContainer">
+			<i class="fa fa-credit-card"></i>
+			<span ng-class="tab==4?'accountTabOptionActive':'accountTabOption'" ng-click="tab = 4"> Billing</span>
+		</div>
+		<div class="accountTabOptionContainer">
+			<i class="fa fa-inbox"></i>
+			<span ng-class="tab==5?'accountTabOptionActive':'accountTabOption'" ng-click="tab = 5"> Inboxes</span>
+		</div>
+		<div class="accountTabOptionContainer">
+			<i class="fa fa-users"></i>
+			<span ng-class="tab==6?'accountTabOptionActive':'accountTabOption'" ng-click="tab = 6"> Users</span>
+		</div>
 	</div>
 
 	<!-- Section Content -->

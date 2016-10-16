@@ -101,20 +101,6 @@
 
 
 	/*######################### HOMEPAGE #########################*/
-	.removeKeywordOverlay {
-		display: none;
-		font-size: 30px;
-		text-align: center;
-		padding-top: 50px;
-		position: absolute;
-		top: 0px;
-		width: 100%;
-		bottom: 0px;
-		color: #fff;
-		background-color: #e4e9eb;
-		opacity: .75
-	}
-
 	.keywordWidget {
 		overflow: hidden;
 		margin-bottom: 25px;
@@ -124,17 +110,14 @@
 	}
 
 	.keywordGauge {
-		margin-top: -50px;
-		height: 155px;
-		margin-bottom: 40px;
+		padding: 0px;
+		margin-top: -20px;
+		max-height: 125px;
 	}
 
-	.keywordWidget .removeKeywordIcon {
-		font-size: 25px;
-		position: absolute;
-		top: 5px;
-		right: 5px;
-		color: #d9534f;
+	.circliful {
+		max-height: 200px;
+		padding: 0px;
 	}
 	/*######################### HOMEPAGE #########################*/
 

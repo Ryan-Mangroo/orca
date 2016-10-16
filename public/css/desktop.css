@@ -112,20 +112,6 @@
 
 
 	/*######################### HOMEPAGE #########################*/
-	.removeKeywordOverlay {
-		display: none;
-		font-size: 30px;
-		text-align: center;
-		padding-top: 50px;
-		position: absolute;
-		top: 0px;
-		width: 100%;
-		bottom: 0px;
-		color: #fff;
-		background-color: #e4e9eb;
-		opacity: .75
-	}
-
 	.keywordWidget {
 		margin-bottom: 25px;
 		position: relative;
@@ -135,36 +121,6 @@
 
 	.keywordGauge {
 		height: 135px;
-	}
-
-	.keywordWidget .removeKeywordIcon {
-		display: none;
-		font-size: 25px;
-		position: absolute;
-		top: 5px;
-		right: 5px;
-		color: #d9534f;
-	}
-
-	.keywordWidget:hover .removeKeywordIcon {
-		display: block;
-		opacity: 1;
-		font-size: 25px;
-		position: absolute;
-		top: 5px;
-		right: 5px;
-		color: #e4e9eb;
-	}
-
-	.keywordWidget:hover .removeKeywordIcon:hover {
-		cursor: pointer;
-		display: block;
-		opacity: 1;
-		font-size: 25px;
-		position: absolute;
-		top: 5px;
-		right: 5px;
-		color: #d9534f;
 	}
 	/*######################### HOMEPAGE #########################*/
 
@@ -291,19 +247,22 @@
 		margin: 10px 0px 20px 0px;
 	}
 
-	.accountTabOptionContainer:hover {
-
-	}
-
-	.accountTabOption {
+	.accountTabOption,
+	.accountTabOptionActive {
 		-webkit-transition: .25s;
 	    -moz-transition: .25s;
 	    -ms-transition: .25s;
 	    -o-transition: .25s;
 	    transition: .25s;
 	    color: #56B8DF;
-	    padding: 5px;
+	    padding: 5px 10px 5px 10px;
 	    margin-left: 5px;
+	    font-size: 16px;
+	}
+
+	.accountTabOptionActive {
+		background-color: #56B8DF;
+		color: #fff;
 	}
 
 	.accountTabOption:hover {

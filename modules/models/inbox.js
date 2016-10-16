@@ -11,6 +11,7 @@ var inboxSchema = new Schema({
 	token: { type: String },
 	image: { type: String },
 	status: { type: String },
+	topKeywords: [{ type: String }],
 	_watchers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 	_account: { type: Schema.Types.ObjectId, ref: 'Account' }
 

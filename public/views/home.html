@@ -43,7 +43,7 @@
 
 	<!-- If nothing is set up -->
 	<div ng-if="!homeLoading && homeKeywords.length == 0" class="row fadeInOut grayContainer">
-		<div class="col-md-12 text-center" style="padding: 10px 0px 10px 0px;">
+		<div class="col-md-12 text-center noSpace">
 			<h3>No feedback found</h3>
 			<h3>Just signed up? Check out our guide on <a href="#/support/gettingstarted"> setting up your feedback form</a></h3></h3>
 		</div>
@@ -53,8 +53,6 @@
 	<div class="row">
 		<div ng-repeat="keyword in homeKeywords track by $index" class="col-md-3 fadeInOut">
 			<div class="keywordWidget">
-				<div class="removeKeywordOverlay" ng-attr-id="keyword_{{$index}}_gauge_overlay"></div>
-				<span title="Remove Keyword" ng-click="removeKeyword($index)" class="fa fa-remove removeKeywordIcon"></span>
 				<div class="keywordGauge" ng-attr-id="keyword_{{$index}}_gauge" ng-init="loadKeywordChart(keyword.title, $index)"></div>
 				<h4 class="text-center"><a ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}">{{ keyword.title }}</a></h4>
 			</div>
@@ -63,64 +61,18 @@
 
 	<!-- Feedback Link -->
 	<div ng-if="!homeLoading && homeKeywords.length > 0" class="row fadeInOut">
-		<div class="col-md-3 text-left">
-			<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addKeywordModal"><i class="fa fa-plus"></i> Add Keyword</button>
-		</div>
-		<div class="col-md-3 text-left">
-			<a ng-href="#/settings/inbox/edit/{{inboxID}}" class="btn btn-default btn-block"><i class="fa fa-cog"></i> Inbox Settings</a>
-		</div>
-		<div class="col-md-3"></div><!-- Spacer -->
-		<div class="col-md-3">
-			<a class="text-right hideInMobile" ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h4> See feedback <span class="fa fa-arrow-right"></span></h4></a>
+		<div class="col-md-12">
+			<a class="text-right" ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h4> See feedback <span class="fa fa-arrow-right"></span></h4></a>
 		</div>
 	</div>
 </div>
 
 <div ng-if="!homeLoading" class="container fadeInOut">
-	<div class="row fadeInOut">
-		<div class="col-md-12 text-center">
-			<h3 class="centerInDesktop" style="margin-top:25px;">Remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox</h3>
-		</div>
-	</div>
-</div>
-
-<!-- Add Keyword modal -->
-<div id="addKeywordModal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-		<!-- Modal content-->
-		<div class="modal-content">
-			<form name="newKeywordInput" id="newKeywordInput" ng-model="newKeywordForm">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h3 class="text-center">New Dashboard Topic</h3>
-				</div>
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-md-2"></div><!-- Spacer -->
-						<div class="col-md-8">
-
-							<input tpye="text" tabindex="1" name="newKeyword" id="newKeyword" placeholder="Keyword or phrase" ng-model="newKeywordForm.keyword" class="form-control" required/>
-							<span>(like "Leadership" or "Office Politics")</span>
-						</div>
-						<div class="col-md-2"></div><!-- Spacer -->
-					</div>
-				</div>
-
-				<!-- Modal Footer -->
-				<div class="modal-footer">
-					<div class="row">
-						<div class="col-md-2"></div><!-- Spacer -->
-						<div class="col-md-4">
-							<button type="button" tabindex="2" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
-						</div>
-						<div class="col-md-4">
-							<button ng-disabled="newKeywordInput.$invalid" tabindex="3" type="submit" class="btn btn-success btn-block" ng-click="saveNewKeyword(newKeywordForm.keyword)">Save</button>
-						</div>
-						<div class="col-md-2"></div><!-- Spacer -->
-					</div>
-				</div>
-			</form>
+	<div class="row" style="margin-top:15px;">
+		<div class="col-md-12 text-center noSpace">
+			<div class="alert alert-info">
+				<i class="fa fa-info-circle"></i> Remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox
+			</div>			
 		</div>
 	</div>
 </div>

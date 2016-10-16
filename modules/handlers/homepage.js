@@ -6,6 +6,7 @@ var utility = require('../../utils/utility');
 var log = require('../../utils/logger');
 
 var natural = require('natural');
+var StopwordsFilter = require('node-stopwords-filter');
 
 var widget = 'homepage';
 log.registerWidget(widget);
@@ -28,63 +29,12 @@ exports.getHomepage = function(req, res) {
 					utility.errorResponseJSON(res, 'Homepage not found');
 				} else {
 
-					// Get all messages from the inbox
-					var options = {
-						accountID: accountID,
-						inboxID: inboxID,
-						sortField: 'created_at',
-						sortOrder: 'desc',
-						anchorFieldValue: null,
-						anchorID: null,
-						searchTerm: null,
-						messagesPerPage: 1,
-						additionalQuery: null
-					};
-
-					Message.search(options, function(error, result){
-						if (error) {
-							log.info('|message.search| Unknown -> ' + error, widget);
-						} else {
-
-							// Two things need to happen:
-							// 1. Training of the clasification model
-							// 2. Storing of the results fo we can get the most frequent keywords
-							var fullResults = [];
-							var NGrams = natural.NGrams;
-
-							for(var i=0; i<result.messages.length; i++) {
-								var filteredContent = result.messages[i].content;
-
-								var gramedContent = NGrams.bigrams(filteredContent)
-								for(var i=0; i<gramedContent.length; i++) {
-									log.info(gramedContent);
-								}
-								fullResults += gramedContent;
-							}
-
-							log.info(fullResults);
-
-							var keywords = [];
-						    TfIdf = natural.TfIdf;
-						    tfidf = new TfIdf();
-						    var limit = 8;
-						    var count = 0;
-							tfidf.addDocument(fullResults);
-							tfidf.listTerms(0).forEach(function(item) {
-								if(count < limit) {
-									keywords.push(item.term);
-									count++
-								}
-							});
-
-							var keywordData = [];	
-							for(var i=0; i<keywords.length; i++) {
-								var singleKeyword = { title: keywords[i].charAt(0).toUpperCase() + keywords[i].slice(1).toLowerCase(), value: 0 };
-								keywordData.push(singleKeyword);
-							}
-							return res.send(JSON.stringify({ result: { keywordData: keywordData, homepageID: homepage._id }}));
-						}
-					});
+					var keywordData = [];	
+					for(var i=0; i<homepage.summaryKeywords.length; i++) {
+						var singleKeyword = { title: homepage.summaryKeywords[i], value: 0 };
+						keywordData.push(singleKeyword);
+					}
+					return res.send(JSON.stringify({ result: { keywordData: keywordData, homepageID: homepage._id }}));
 				}
 			});
 	} catch (error) {
@@ -107,8 +57,8 @@ exports.classifyKeyword = function(req, res) {
 			sortOrder: 'desc',
 			anchorFieldValue: null,
 			anchorID: null,
-			searchTerm: keyword,
-			messagesPerPage: 1,
+			searchTerm: null,
+			messagesPerPage: 10000,
 			additionalQuery: null
 		};
 		Message.search(searchOptions, function(error, result){
@@ -116,49 +66,49 @@ exports.classifyKeyword = function(req, res) {
 				log.error('|homepage.getHomepage| Error getting classification -> ' + keyword, widget);
 				utility.errorResponseJSON(res, 'Error getting classification');
 			} else {
-				var moodValue = 50;
-				var moodCounts = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, };
-				var moodPercentages = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, };
 
+				// Start with the mood as neutral (at 50)
+				var moodValue = 50;
 				if(result.total == 0) {
 					return res.send(JSON.stringify({ result: moodValue }));
 				} else {
+					
+					// Add each message's stemmed & stop-word-filtered content to the training set.
+					var filter = new StopwordsFilter();
 					var classifier = new natural.BayesClassifier();
 					natural.PorterStemmer.attach();
-					// Increment the counts of each of the moods in the result set
 					for(var i=0; i<result.messages.length; i++) {
-						var filteredContent = result.messages[i].content;
+						var filteredContent = filter.filter(result.messages[i].content, 'string');
 						var stemmedContent = filteredContent.tokenizeAndStem();
 						classifier.addDocument(stemmedContent, String(result.messages[i].mood));
-						moodCounts[result.messages[i].mood] = moodCounts[result.messages[i].mood] + 1;
 					}
 
 					classifier.train();
+
+					// Next, classify the given keyword
 					var stemmedKeyword = natural.PorterStemmer.stem(keyword);
 					var keywordClassifications = classifier.getClassifications(stemmedKeyword);
+
+					// Get the sum of all classification scores for the keyword (so we can convert to a percentage)
 					var scoreSum= 0;
 					for(var i=0; i<keywordClassifications.length; i++) {
 						scoreSum += (keywordClassifications[i].value * 100);
 					}
+
+					// Calculate the percentage match for each mood out of 100
+					var moodPercentages = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, };
 					for(var i=0; i<keywordClassifications.length; i++) {
 						var adjustedValue = ((keywordClassifications[i].value * 100) * 100) / scoreSum;
 						moodPercentages[keywordClassifications[i].label] = adjustedValue;
 					}
 
-					/*
-					// Now iterate through the counts to determine the percentage for each mood
-					for(var count in moodCounts) {
-						var value = moodCounts[count];
-						var percentage = (value * 100) / result.total;
-						moodPercentages[count] = percentage;
-					}
-					*/
-
+					// Apply the adjusted values to the starting point of 50, to get the point on the scale.
 					moodValue -= moodPercentages['1']/2, 10;
 					moodValue -= moodPercentages['2']/4, 10;
 					moodValue += moodPercentages['4']/4, 10;
 					moodValue += moodPercentages['5']/2, 10;
 
+					// If the score is zero, change to 5. Just so that red shows a little
 					if(moodValue <= 0) {
 						moodValue = 5;
 					}

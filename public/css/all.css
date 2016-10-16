@@ -269,15 +269,16 @@ textarea {
 /*######################### ALERTS #########################*/
 
 .alert {
-	margin-top: 25px;
-	font-size: 20px;
+	margin: 0px;
 	border-radius: 0px;
 	border: none;
+	padding: 20px;
+	font-size: 22px;
 }
 
 .alert-info {
-	color: #196583;
-	background-color: #96d3eb;
+	color: #2187af;
+	background-color: #c1e5f3;
 }
 
 .alert-success {

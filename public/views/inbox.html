@@ -64,8 +64,10 @@
 <div ng-if="!messagesLoading && messages.length == 0 && !searched" class="container fadeInOut">
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<h3>No feedback found</h3>
-			<h3 ng-if="accountInboxesObject[inboxID].status == 'active'" class="centerInDesktop" style="margin-top:25px;">Remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox</h3>
+			<h3>Uh oh, looks like you don't have any feedback</h3>			
+			<div ng-if="accountInboxesObject[inboxID].status == 'active'" class="alert alert-info">
+				<i class="fa fa-info-circle"></i> Remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox
+			</div>	
 		</div>
 	</div>
 </div>
@@ -73,10 +75,10 @@
 <!-- If the inbox is inactive, show a warning -->
 <div ng-if="!messagesLoading && accountInboxesObject[inboxID].status == 'inactive'" class="container">
 	<div class="row">
-		<div class="col-md-12" style="padding-right:0px; padding-left:0px;">
+		<div class="col-md-12 noSpace" style="margin-bottom:15px;">
 			<div class="alert alert-warning text-center">
 			  <i class="fa fa-info-circle"></i>
-			  <span>This Inbox is inactive. <a ng-href="#/account/inbox/edit/{{accountInboxesObject[inboxID]._id}}">Activate it to enable feedback submission</a></span>
+			  <span>This Inbox is inactive. <a ng-href="#/settings/inbox/edit/{{accountInboxesObject[inboxID]._id}}">Activate it to enable feedback submission</a></span>
 			</div>
 		</div>
 	</div>

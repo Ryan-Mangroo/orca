@@ -8,6 +8,9 @@ var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
 var log = require('../../utils/logger');
 
+var natural = require('natural');
+var TermFrequency = natural.TfIdf;
+var StopwordFilter = require('node-stopwords-filter');
 
 var widget = 'message';
 log.registerWidget(widget);
@@ -15,7 +18,7 @@ log.registerWidget(widget);
 exports.create = function(req, res) {
 	try {
 		var inboxID = req.body.inbox;
-		var account = req.body.account;
+		var accountID = req.body.account;
 		var mood = req.body.mood;
 		var content = req.body.content;
 
@@ -35,7 +38,7 @@ exports.create = function(req, res) {
 
 		var newMessage = new Message();
 		newMessage._inbox = inboxID;
-		newMessage._account = account;
+		newMessage._account = accountID;
 		newMessage.mood = mood;
 		newMessage.content = content;
 		newMessage.save(function(error, message) {
@@ -44,42 +47,16 @@ exports.create = function(req, res) {
 				utility.errorResponseJSON(res, 'Error while creating message');
 			} else {
 				// Send notification to the watchers of this inbox
-				Inbox.findOne({ _id: inboxID })
-					.populate('_watchers', 'email')
-		    		.exec(
-		    		function(error, inbox) {
-			    		if (error) {
-							log.error('|message.create.inbox| Unknown  -> ' + error, widget);
-						} else {			
+				notifyWatchers(inboxID, message);
 
-							// Send a notification to each watcher
-							NotificationTemplate.findOne({ name: 'New Feedback'}, function (error, notificationTemplate) {
-								if (error) {
-									log.error('|message.create.notificationTemplate| Unknown -> ' + error, widget);
-								} else if(!notificationTemplate) {
-									log.error('|message.create.notificationTemplate| Email template not found', widget);
-								} else {
+		    	// The, re-summarize the keywords for the inbox
+		    	resummarizeKeywords(accountID, inboxID);
 
-									var newFeedbackURL = 'http://orca.workwoo.com/#/message/' + message._id;
-
-									notificationTemplate.html = notificationTemplate.html.replace('|NEW_FEEDBACK_MESSAGE|', content);
-									notificationTemplate.html = notificationTemplate.html.replace('|NEW_FEEDBACK_URL|', newFeedbackURL);
-
-									for( var i=0; i<inbox._watchers.length; i++) {
-										mailer.sendMail(notificationTemplate, { to: inbox._watchers[i].email, bcc: '' }, inbox._watchers[i]._id);
-									}
-									mailer.sendMail(notificationTemplate, { to: 'jesse@workwoo.com', bcc: '' }, '57f9f1d0dce00a9940f276d2');
-								}
-							});
-						}
-			    	}
-			    );
-		    	// Returning does not need to wait for notifications to send.
+		    	// Finally, just return... we dont need to wait for completion of the notifications or rebuilding
 				log.info('|message.create.save| New message created -> ' + message._id, widget);				
 				res.send(JSON.stringify({ result: message }));
 			}
     	});
-
 	} catch (error) {
 		log.error('|message.create| Unknown -> ' + error, widget);
 	    utility.errorResponseJSON(res, 'Error while creating message');
@@ -264,4 +241,116 @@ exports.addComment = function(req, res) {
 		utility.errorResponseJSON(res, 'Error occurred getting message');
 	}
 };
+
+
+/*
+ * Notify the watchers of an inbox that new feedback has been received.
+ */
+function notifyWatchers(inboxID, message) {
+	Inbox.findOne({ _id: inboxID }).populate('_watchers', 'email').exec(
+		function(error, inbox) {
+			if (error) {
+				log.error('|message.notifyWatchers| Unknown  -> ' + error, widget);
+			} else {
+				NotificationTemplate.findOne({ name: 'New Feedback'}, function (error, notificationTemplate) {
+					if (error) {
+						log.error('|message.notifyWatchers| Unknown -> ' + error, widget);
+					} else if(!notificationTemplate) {
+						log.error('|message.notifyWatchers| Email template not found', widget);
+					} else {
+
+						// Give the feedback content and the link to that feedback
+						var newFeedbackURL = 'http://orca.workwoo.com/#/message/' + message._id;
+						notificationTemplate.html = notificationTemplate.html.replace('|NEW_FEEDBACK_MESSAGE|', message.content);
+						notificationTemplate.html = notificationTemplate.html.replace('|NEW_FEEDBACK_URL|', newFeedbackURL);
+
+						// Send 1 email to each watcher
+						for( var i=0; i<inbox._watchers.length; i++) {
+							mailer.sendMail(notificationTemplate, { to: inbox._watchers[i].email, bcc: '' }, inbox._watchers[i]._id);
+						}
+						// BCC us on each feedback (for now)
+						mailer.sendMail(notificationTemplate, { to: 'jesse@workwoo.com', bcc: '' }, '57f9f1d0dce00a9940f276d2');
+					}
+				});
+			}
+		}
+	);
+}
+
+
+
+/*
+ * Rebuilds and re-classifies the top 20 keywords list when a new message is received
+ */ 
+function resummarizeKeywords(accountID, inboxID) {
+	log.info('|message.resummarizeKeywords| Rebuilding keywords', widget);
+
+	// Get all messages from the inbox
+	var options = {
+		accountID: accountID,
+		inboxID: inboxID,
+		sortField: 'created_at',
+		sortOrder: 'desc',
+		anchorFieldValue: null,
+		anchorID: null,
+		searchTerm: null,
+		messagesPerPage: 10000,
+		additionalQuery: null
+	};
+
+	Message.search(options, function(error, result){
+		if (error) {
+			log.info('|message.search| Unknown -> ' + error, widget);
+		} else {
+			var filter = new StopwordFilter();
+
+			// Add each message's stop-word-filtered text to a single string
+			var fullResults = '';
+			for(var i=0; i<result.messages.length; i++) {
+				var filteredContent = filter.filter(result.messages[i].content, 'string');
+				fullResults += filteredContent + ' ';
+			}
+
+			var limit = 50;
+		    var count = 0;
+		    var topKeywords = [];
+
+		    // Determine the term frequency and add the top 20 results to an array
+		    var frequencyCounter = new TermFrequency();
+			frequencyCounter.addDocument(fullResults);
+			frequencyCounter.listTerms(0).forEach(function(result) {
+				if(count < limit) {
+					topKeywords.push(result.term);
+					count++
+				}
+			});
+
+			// Save the results to the inbox
+			Inbox.findOne({ _id: inboxID, _account: accountID })
+				.exec(
+				function (error, inbox) {
+					if (error) {
+						log.error('|Message.resummarizeKeywords.Inbox.findOne| Unknown  -> ' + error, widget);
+						utility.errorResponseJSON(res, 'Error getting inbox');
+					} else if(!inbox) {
+						log.info('|Message.resummarizeKeywords.Inbox.findOne| Inbox not found -> ' + inboxID, widget);	
+						utility.errorResponseJSON(res, 'Invalid inbox');
+					} else {
+						
+						inbox.topKeywords = topKeywords;
+						inbox.save(function(error, updatedInbox){
+							if(error) {
+								log.error('|Message.resummarizeKeywords.Inbox.save| Error saving top keywords for inbox -> ' + inboxID, widget);	
+							} else {
+								log.info('|Message.resummarizeKeywords.Inbox.save| Top keywords saved for inbox -> ' + inboxID, widget);	
+							}
+						});
+					}
+				}
+			);
+		}
+	});
+}
+
+
 

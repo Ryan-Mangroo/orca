@@ -50,7 +50,7 @@
 
 	<body ng-app="App" ng-controller="mainController">
 
-	    <nav style="opacity:.05;" class="navbar headerContainer">
+	    <nav class="navbar headerContainer">
 			<div class="container-fluid" style="margin:0px;padding:0px;">
 				<div class="navbar-header">
 					<a href="#/"><img class="headerLogoImage" src="img/logo-white.png"/></a>
@@ -71,7 +71,7 @@
 	    </nav>
 
 		<!-- Content -->
-		<div style="opacity:.2;" ng-if="authenticated" ng-view></div>
+		<div ng-if="authenticated" ng-view></div>
 
 	</body>
 
