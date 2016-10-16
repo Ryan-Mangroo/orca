@@ -28,7 +28,8 @@
     "complexity": "0.0.3",
     "aws-sdk": "2.5.2",
     "request": "2.75.0",
-    "natural": "*"
+    "natural": "*",
+    "stopWordFilter": "*"
   },
   "author": "Ryan Mangroo",
   "license": "ISC"
