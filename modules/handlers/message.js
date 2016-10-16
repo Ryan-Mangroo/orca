@@ -7,6 +7,8 @@ var Counter = require('../models/counter');
 var validator = require('../../utils/validator');
 var utility = require('../../utils/utility');
 var log = require('../../utils/logger');
+
+
 var widget = 'message';
 log.registerWidget(widget);
 
@@ -131,7 +133,7 @@ exports.search = function(req, res) {
 	    var anchorID = req.query.anchorID;
 	    var searchTerm = req.query.searchTerm;
 	    var additionalQuery = req.query.queryCriteria;
-		var messagesPerPage = 5;
+		var messagesPerPage = 5000;
 		var accountID = req.session.userprofile.account._id;	
 
 		// First, get the record for the inbox, so we can get its ID.

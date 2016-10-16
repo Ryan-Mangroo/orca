@@ -84,7 +84,6 @@ exports.fatal = function(err, widget) {
 exports.object = function(object) {
 	this.info('## OBJECT:');
 	for (var property in object) {
-		this.info('# {"' + property + '": "' + object[property] + '"}');
+		this.info('      {"' + property + '": "' + object[property] + '"}');
 	}
-	this.info('## END OBJECT');
 }
