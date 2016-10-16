@@ -6,7 +6,6 @@ var utility = require('../../utils/utility');
 var log = require('../../utils/logger');
 
 var natural = require('natural');
-var stopWordFilter = require('node-stopwords-filter');
 
 var widget = 'homepage';
 log.registerWidget(widget);
@@ -51,11 +50,10 @@ exports.getHomepage = function(req, res) {
 							// 1. Training of the clasification model
 							// 2. Storing of the results fo we can get the most frequent keywords
 							var fullResults = [];
-							var f = new stopWordFilter();
 							var NGrams = natural.NGrams;
 
 							for(var i=0; i<result.messages.length; i++) {
-								var filteredContent = f.filter(result.messages[i].content, 'string');
+								var filteredContent = result.messages[i].content;
 
 								var gramedContent = NGrams.bigrams(filteredContent)
 								for(var i=0; i<gramedContent.length; i++) {
@@ -126,11 +124,10 @@ exports.classifyKeyword = function(req, res) {
 					return res.send(JSON.stringify({ result: moodValue }));
 				} else {
 					var classifier = new natural.BayesClassifier();
-					var f = new stopWordFilter();
 					natural.PorterStemmer.attach();
 					// Increment the counts of each of the moods in the result set
 					for(var i=0; i<result.messages.length; i++) {
-						var filteredContent = f.filter(result.messages[i].content, 'string');
+						var filteredContent = result.messages[i].content;
 						var stemmedContent = filteredContent.tokenizeAndStem();
 						classifier.addDocument(stemmedContent, String(result.messages[i].mood));
 						moodCounts[result.messages[i].mood] = moodCounts[result.messages[i].mood] + 1;
