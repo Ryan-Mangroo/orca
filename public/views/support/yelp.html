@@ -1,0 +1,70 @@
+<!-- Control Bar -->
+<div class="container-fluid pageTitle hideInMobile">
+	<div class="row">
+		<div class="col-md-12">
+			<h4><i class="fa fa-arrow-left"></i><a href="#/support"> Support & Help</a></h4>
+		</div>
+	</div>
+</div>
+
+<!-- Page Title -->
+<div class="container fadeInOut">
+	<div class="row">
+		<div class="col-md-6">
+			<h2 class="grayText text-left">
+				<span> Import from Yelp</span>
+			</h2>
+		</div>
+		<div class="col-md-6">
+			<h2 class="grayText text-right">
+				<img style="max-height:40px;" src="../img/support/yelp.jpg"/>
+			</h2>
+		</div>
+	</div>
+</div>
+
+<!-- Content -->
+<div class="container fadeInOut grayContainer">
+	<div class="row">
+		<div class="col-md-12">
+			<form id="supportForm" name="supportForm" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" action="https://workwoo.wufoo.com/forms/z1an3wu30v3n8zs/#public">
+				<!-- Required for Wufoo -->
+				<input type="hidden" id="idstamp" name="idstamp" value="k8ZxgxKqejuGfleKVjP9X5EYkYcl5YuzDJBfVPEwMyA="/>
+
+				<!-- Auto populated variables -->
+				<input id="Field1" ng-value="currentUser.email" name="Field1" type="hidden"/>
+				<input id="Field2" ng-value="currentUser.account.name" name="Field2" type="hidden"/>
+				<input id="Field3" ng-value="currentUser.account._id" name="Field3" type="hidden"/>
+				<input id="Field5" value="yelp" name="Field5" type="hidden" maxlength="255"/>
+
+				<!-- URL -->
+				<div class="row">
+					<div class="col-md-12">
+						<label>Your company's full name on Yelp:</label>
+						<div class="form-group">
+							<input tabindex="1" name="Field4" type="text" class="form-control" ng-class="computeRequiredInputStyle(supportForm.Field4)" required/>
+						</div>
+					</div>
+				</div>
+
+				<!-- Submit button -->
+				<div class="row">
+					<div class="col-md-8"></div><!-- Spacer -->
+					<div class="col-md-4">
+						<div class="buttonContainer">
+							<button ng-disabled="supportForm.$invalid" type="submit" class="btn btn-primary btn-block" type="submit">Submit</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+<form id="form13" name="form13" class="wufoo topLabel page" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" novalidate action="https://workwoo.wufoo.com/forms/z1an3wu30v3n8zs/#public">
+
+
+
+

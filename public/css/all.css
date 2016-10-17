@@ -12,6 +12,10 @@ p {
 	padding-top: 10px;
 }
 
+.bold {
+	font-weight: bold;
+}
+
 .grayContainer {
 	background-color:#f3f5f6;
 	padding: 25px;

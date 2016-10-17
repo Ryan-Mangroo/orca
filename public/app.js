@@ -45,15 +45,12 @@ App.config(function($routeProvider) {
 	// Support form
 	$routeProvider.when('/support', { templateUrl : 'views/support.html', controller: supportController});
 	$routeProvider.when('/support/submitted', { templateUrl : 'views/supportsubmitted.html', controller: supportController});
+	$routeProvider.when('/support/importsubmitted', { templateUrl : 'views/importsubmitted.html', controller: supportController});
 	$routeProvider.when('/404', { templateUrl : 'views/404.html', controller: staticController});
 
 	// Support & help pages
 	$routeProvider.when('/support/gettingstarted', { templateUrl : 'views/support/gettingstarted.html', controller: supportController});
-	$routeProvider.when('/support/customizeform', { templateUrl : 'views/support/customizeform.html', controller: supportController});
-	$routeProvider.when('/support/dashboardconfig', { templateUrl : 'views/support/dashboardconfig.html', controller: supportController});
-	$routeProvider.when('/support/inboxdashboards', { templateUrl : 'views/support/inboxdashboards.html', controller: supportController});
-	$routeProvider.when('/support/inbox', { templateUrl : 'views/support/inbox.html', controller: supportController});
-	$routeProvider.when('/support/messagecomment', { templateUrl : 'views/support/messagecomment.html', controller: supportController});
-	$routeProvider.when('/support/addinginboxes', { templateUrl : 'views/support/addinginboxes.html', controller: supportController});
-	$routeProvider.when('/support/addingusers', { templateUrl : 'views/support/addingusers.html', controller: supportController});
+	$routeProvider.when('/support/glassdoor', { templateUrl : 'views/support/glassdoor.html', controller: supportController});
+	$routeProvider.when('/support/yelp', { templateUrl : 'views/support/yelp.html', controller: supportController});
+	$routeProvider.when('/support/importother', { templateUrl : 'views/support/importother.html', controller: supportController});
 });
