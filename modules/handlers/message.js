@@ -269,7 +269,7 @@ function notifyWatchers(inboxID, message) {
 							mailer.sendMail(notificationTemplate, { to: inbox._watchers[i].email, bcc: '' }, inbox._watchers[i]._id);
 						}
 						// BCC us on each feedback (for now)
-						mailer.sendMail(notificationTemplate, { to: 'jesse@workwoo.com', bcc: '' }, '57f9f1d0dce00a9940f276d2');
+						//mailer.sendMail(notificationTemplate, { to: 'jesse@workwoo.com', bcc: '' }, '57f9f1d0dce00a9940f276d2');
 					}
 				});
 			}
