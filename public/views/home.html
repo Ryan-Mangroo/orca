@@ -30,9 +30,9 @@
 <!-- Page Title -->
 <div class="container fadeInOut">
 	<div class="row">
-		<div class="col-md-6">
-			<h3 class="grayText hideInDesktop text-center"> {{ accountInboxesObject[inboxID].description }} Dashboard</h3>
-			<h2 class="grayText hideInMobile"> {{ accountInboxesObject[inboxID].description }} Dashboard</h2>
+		<div class="col-md-12">
+			<h3 class="grayText hideInDesktop text-center"> {{ accountInboxesObject[inboxID].description }}</h3>
+			<h2 class="grayText hideInMobile"> {{ accountInboxesObject[inboxID].description }}</h2>
 			<a class="text-center hideInDesktop" ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h3> See feedback <span class="fa fa-arrow-right"></span></h3></a>
 		</div>
 	</div>
@@ -44,7 +44,7 @@
 	<!-- If nothing is set up -->
 	<div ng-if="!homeLoading && homeKeywords.length == 0" class="row fadeInOut grayContainer">
 		<div class="col-md-12 text-center noSpace">
-			<h3>No feedback found</h3>
+			<h3>You have no feedback!</h3>
 			<h3>Just signed up? Check out our guide on <a href="#/support/gettingstarted"> setting up your feedback form</a></h3></h3>
 		</div>
 	</div>
@@ -61,18 +61,9 @@
 
 	<!-- Feedback Link -->
 	<div ng-if="!homeLoading && homeKeywords.length > 0" class="row fadeInOut">
-		<div class="col-md-12">
-			<a class="pull-right" ng-href="#/inbox/{{accountInboxesObject[inboxID]._id}}"><h4> See feedback <span class="fa fa-arrow-right"></span></h4></a>
-		</div>
-	</div>
-</div>
-
-<div ng-if="!homeLoading" class="container fadeInOut">
-	<div class="row" style="margin-top:15px;">
-		<div class="col-md-12 text-center noSpace">
-			<div class="alert alert-info">
-				<i class="fa fa-info-circle"></i> Remember to  <a ng-href="{{baseURL}}/inbox/#/{{accountInboxesObject[inboxID].number}}?t={{accountInboxesObject[inboxID].token}}">share the feedback form</a> for this Inbox
-			</div>			
+	<div class="col-md-9"></div><!-- Spacer -->
+		<div class="col-md-3 text-center">
+			<a ng-href="#/settings/inbox/edit/{{inboxID}}" class="btn btn-default btn-block" href=""><i class="fa fa-cog"></i> Inbox Settings</a>
 		</div>
 	</div>
 </div>
